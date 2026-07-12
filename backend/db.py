@@ -129,6 +129,18 @@ CREATE TABLE IF NOT EXISTS api_keys (
   created_at TIMESTAMPTZ DEFAULT now(),
   last_used TIMESTAMPTZ
 );
+CREATE TABLE IF NOT EXISTS data_sources (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  type TEXT NOT NULL,
+  label TEXT NOT NULL,
+  secret_enc BYTEA NOT NULL,
+  table_index JSONB,
+  meta JSONB,
+  is_active BOOLEAN NOT NULL DEFAULT false,
+  last_connected_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
 """
 
 
@@ -140,6 +152,7 @@ def init_db() -> None:
         c.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS db_type TEXT;")
         c.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS db_connection_string TEXT;")
         c.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS db_table_name TEXT;")
+        c.execute("CREATE INDEX IF NOT EXISTS data_sources_user_idx ON data_sources(user_id);")
 
 
 def reset_db() -> None:
@@ -147,7 +160,7 @@ def reset_db() -> None:
     with _cur() as c:
         c.execute(
             "DROP TABLE IF EXISTS users, dashboards, saved_components, saved_insights, "
-            "activity_log, team_members, api_keys CASCADE;"
+            "activity_log, team_members, api_keys, data_sources CASCADE;"
         )
     init_db()
 

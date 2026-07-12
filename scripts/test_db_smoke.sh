@@ -61,20 +61,22 @@ RES=$(curl -sf --max-time 10 -X POST "$BASE/db/test" \
   && ok "DB connection test passed" \
   || nok "DB connection test failed"
 
-# ── 3. DB list tables ────────────────────────────────────────────────────────
+# ── 3. DB test connection — hard gate, response shape ────────────────────────
+# (formerly "POST /api/db/tables", which was removed; /api/db/tables listing
+#  is gone for good, so this re-uses the surviving /api/db/test endpoint as
+#  the early "can we reach and use this Postgres" check, and — unlike section
+#  2's soft check — exits the whole script early on failure since nothing
+#  after this point can work without DB connectivity.)
 echo ""
-echo "── 3. POST /api/db/tables ──"
-RES=$(curl -sf --max-time 10 -X POST "$BASE/db/tables" \
+echo "── 3. POST /api/db/test (hard gate for \$DB_URL) ──"
+RES=$(curl -sf --max-time 10 -X POST "$BASE/db/test" \
   -H "Content-Type: application/json" \
-  -d "{\"conn_string\": \"$DB_URL\"}") || { nok "List tables failed"; exit 1; }
+  -d "{\"conn_string\": \"$DB_URL\"}") || { nok "DB test connection failed"; exit 1; }
 echo "$RES" | python3 -c "
 import sys,json
 d = json.load(sys.stdin)
-tables = [t['table_name'] for t in d.get('tables',[])]
-print(f'  → {len(tables)} tables found')
-assert len(tables) > 0, 'No tables'
-assert '$TABLE' in tables, 'Expected table missing'
-" && ok "Tables listed (${TABLE} present)" || nok "Tables missing"
+assert d.get('ok') is True, f'DB test did not report ok: {d}'
+" && ok "DB reachable and usable ($DB_URL)" || nok "DB test response malformed"
 
 # ── 4. Signup with DB credentials ────────────────────────────────────────────
 echo ""
@@ -141,7 +143,13 @@ echo "$RES" | python3 -c "
 import sys,json
 d = json.load(sys.stdin)
 assert d['source_type'] == 'database'
-assert d['dataset_name'] == '$TABLE'
+# Post-refactor, the database branch auto-indexes the whole schema rather than
+# a single named table, so dataset_name is a summary like '3 tables', not the
+# table name itself. Just assert it's a non-empty, table-count-shaped string.
+name = d['dataset_name']
+assert name and isinstance(name, str), f'dataset_name should be a non-empty string, got {name!r}'
+assert 'table' in name.lower(), f'dataset_name should describe table count (e.g. \"3 tables\"), got {name!r}'
+print(f'  → dataset_name: {name!r}')
 assert d['profile'] is not None
 assert len(d['suggested_queries']) > 0
 " && ok "Session created with profile" || nok "Session/profile incomplete"
@@ -189,15 +197,20 @@ dr = d['draft']
 print(f'  → Refined: {dr.get(\"title\",\"?\")} ({dr.get(\"type\",\"?\")})')
 " && ok "Refine produced a draft" || nok "Refine draft missing"
 
-# ── 10. Edge: no key mode ────────────────────────────────────────────────────
+# ── 10. /api/session without table_name now auto-selects tables ─────────────
 echo ""
-echo "── 10. Edge: session without table_name ──"
-RES=$(curl -sf --max-time 5 -X POST "$BASE/session" \
+echo "── 10. POST /api/session without table_name (auto table selection) ──"
+RES=$(curl -sf --max-time 60 -X POST "$BASE/session" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN" \
-  -d '{"source_type": "database", "conn_string": "'"$DB_URL"'", "table_name": ""}' 2>&1) \
-  && nok "Empty table_name should fail" \
-  || ok "Empty table_name rejected correctly"
+  -d '{"source_type": "database", "conn_string": "'"$DB_URL"'"}') \
+  || { nok "Session without table_name failed"; exit 1; }
+echo "$RES" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d['source_type'] == 'database'
+assert d['profile'] is not None
+" && ok "Session created without a table_name (auto table selection)" || nok "Auto table selection session malformed"
 
 # ── 11. Edge: bad connection string ──────────────────────────────────────────
 echo ""
@@ -261,6 +274,63 @@ assert d.get('status') == 'ready', f\"expected ready, got {d.get('status')}\"
 assert d.get('answer'), 'answer should be non-empty'
 print(f'  → answer: {d[\"answer\"][:80]}')
 " && ok "Chat produced a direct answer" || nok "Chat response missing/malformed"
+
+# ── 16. POST /api/datasources (new saved source, auto table selection) ──────
+echo ""
+echo "── 16. POST /api/datasources ──"
+RES=$(curl -sf --max-time 60 -X POST "$BASE/datasources" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d "{\"type\": \"postgresql\", \"conn_string\": \"$DB_URL\"}") || { nok "Add data source failed"; exit 1; }
+DS_ID=$(echo "$RES" | extract "['id']")
+echo "  → data source id: $DS_ID"
+echo "$RES" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d['type'] == 'postgresql'
+assert d['session_id']
+assert 'conn_string' not in json.dumps(d), 'raw connection string leaked in response'
+" && ok "Data source added, no credentials in response" || nok "Add data source response malformed"
+
+# ── 17. GET /api/datasources — list is masked, exactly one active ───────────
+echo ""
+echo "── 17. GET /api/datasources ──"
+curl -sf --max-time 5 "$BASE/datasources" -H "Authorization: Bearer $TOKEN" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+sources = d['sources']
+assert len(sources) >= 1
+assert all('secret_enc' not in s and 'conn_string' not in json.dumps(s) for s in sources), 'secret leaked'
+active = [s for s in sources if s['is_active']]
+assert len(active) == 1, f'expected exactly one active source, got {len(active)}'
+" && ok "Datasources listed, masked, exactly one active" || nok "Datasources list malformed"
+
+# ── 18. Activate + generate against the auto-selected table(s) ──────────────
+echo ""
+echo "── 18. POST /api/datasources/\$DS_ID/activate, then /api/generate ──"
+RES=$(curl -sf --max-time 30 -X POST "$BASE/datasources/$DS_ID/activate" \
+  -H "Authorization: Bearer $TOKEN") || { nok "Activate failed"; exit 1; }
+SID2=$(echo "$RES" | extract "['session_id']")
+[ -n "$SID2" ] && ok "Reactivated without re-sending credentials" || nok "Activate returned no session_id"
+
+RES=$(curl -sf --max-time 120 -X POST "$BASE/generate" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d "{\"session_id\": \"$SID2\", \"goal\": \"Show me top selling products by quantity\"}") \
+  || { nok "Generate (auto table) failed"; exit 1; }
+echo "$RES" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d['status'] == 'ready'
+assert len(d.get('drafts', [])) > 0
+" && ok "Generated using auto-selected table(s)" || nok "Generate (auto table) produced no drafts"
+
+# ── 19. POST /api/db/tables is gone ──────────────────────────────────────────
+echo ""
+echo "── 19. POST /api/db/tables removed ──"
+CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 -X POST "$BASE/db/tables" \
+  -H "Content-Type: application/json" -d "{\"conn_string\": \"$DB_URL\"}")
+[ "$CODE" = "405" ] && ok "/api/db/tables removed (405 — StaticFiles catch-all only allows GET/HEAD)" || nok "/api/db/tables still responds ($CODE)"
 
 # ── Summary ──────────────────────────────────────────────────────────────────
 echo ""

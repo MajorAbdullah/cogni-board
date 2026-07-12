@@ -55,11 +55,6 @@ class ProfileUpdate(BaseModel):
     name: Optional[str] = None
     company: Optional[str] = None
     ai_prefs: Optional[dict] = None
-    inflectiv_dataset_id: Optional[int] = None
-    inflectiv_dataset_name: Optional[str] = None
-    db_type: Optional[str] = None
-    db_connection_string: Optional[str] = None
-    db_table_name: Optional[str] = None
 
 
 class SettingsUpdate(BaseModel):
@@ -99,6 +94,20 @@ class SessionRequest(BaseModel):
     source_type: str = "inflectiv"
     conn_string: Optional[str] = None
     table_name: Optional[str] = None
+
+
+class DataSourceCreate(BaseModel):
+    model_config = {"extra": "ignore"}
+    type: Literal["postgresql", "inflectiv"]
+    label: Optional[str] = None
+    conn_string: Optional[str] = None
+    global_key: Optional[str] = None
+    dataset_id: Optional[int] = None
+    dataset_name: Optional[str] = None
+
+
+class DataSourceRename(BaseModel):
+    label: str
 
 
 class GenerateRequest(BaseModel):
@@ -212,3 +221,13 @@ class DatasetProfile(BaseModel):
     suggested_charts: list[PlannedChart] = Field(default_factory=list)
     suggested_queries: list[str] = Field(default_factory=list)  # NL prompts the user could ask
     size_estimate: Literal["small", "large"] = "large"
+
+
+class TableDescriptionBatch(BaseModel):
+    model_config = {"extra": "ignore"}
+    descriptions: dict[str, str] = Field(default_factory=dict)  # table_name -> one-line description
+
+
+class TableShortlist(BaseModel):
+    model_config = {"extra": "ignore"}
+    tables: list[str] = Field(default_factory=list)

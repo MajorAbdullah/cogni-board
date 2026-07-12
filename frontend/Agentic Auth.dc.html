@@ -265,20 +265,12 @@
             <sc-if value="{{ isSuSourceDatabase }}" hint-placeholder-val="{{ false }}">
               <div style="padding:16px;border:1px solid var(--violet-border);border-radius:14px;background:var(--violet-bg);">
                 <div style="font-size:13px;font-weight:700;color:var(--ink-900);margin-bottom:3px;">Connect PostgreSQL database</div>
-                <div style="font-size:11.5px;color:var(--ink-500);line-height:1.5;margin-bottom:12px;">Enter your PostgreSQL connection string. The agent will introspect the schema and query tables directly.</div>
-                <div style="display:flex;gap:8px;margin-bottom:10px;">
-                  <input value="{{ su_connString }}" onInput="{{ onSuConnString }}" type="password" placeholder="postgresql://user:pass@host:5432/dbname" style="flex:1;height:42px;padding:0 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);font-family:var(--font-mono);font-size:12px;color:var(--ink-900);outline:none;" />
-                  <sc-if value="{{ suDbTested }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--emerald-ink);background:var(--emerald-bg);padding:4px 10px;border-radius:8px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Connected</span></sc-if>
-                </div>
+                <div style="font-size:11.5px;color:var(--ink-500);line-height:1.5;margin-bottom:12px;">Paste your connection string. The agent automatically finds and queries the right table(s) for every question — no need to know your schema.</div>
                 <div style="display:flex;gap:8px;">
-                  <button onMouseDown="{{ loadSuTables }}" style="height:42px;padding:0 16px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;flex:0 0 auto;">{{ tablesLoadLabel }}</button>
-                  <input value="{{ su_tableName }}" onInput="{{ onSuTableName }}" placeholder="table_name" style="flex:1;height:42px;padding:0 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);font-family:var(--font-mono);font-size:12.5px;color:var(--ink-900);outline:none;" />
+                  <input value="{{ su_connString }}" onInput="{{ onSuConnString }}" type="password" placeholder="postgresql://user:pass@host:5432/dbname" style="flex:1;height:42px;padding:0 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);font-family:var(--font-mono);font-size:12px;color:var(--ink-900);outline:none;" />
+                  <button onMouseDown="{{ testSuConnection }}" style="height:42px;padding:0 16px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;flex:0 0 auto;">{{ dbTestLabel }}</button>
                 </div>
-                <sc-if value="{{ hasSuTables }}" hint-placeholder-val="{{ false }}">
-                  <select value="{{ su_tableName }}" onChange="{{ onSuTableSelect }}" style="width:100%;height:42px;margin-top:10px;padding:0 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);font-family:var(--font-ui);font-size:14px;color:var(--ink-900);outline:none;cursor:pointer;">
-                    <sc-for list="{{ suTableOptions }}" as="opt" hint-placeholder-count="3"><option value="{{ opt.value }}">{{ opt.label }}</option></sc-for>
-                  </select>
-                </sc-if>
+                <sc-if value="{{ suDbTested }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--emerald-ink);background:var(--emerald-bg);padding:4px 10px;border-radius:8px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Connected</span></div></sc-if>
                 <sc-if value="{{ dsError }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;font-size:12px;color:var(--rose);">{{ dsError }}</div></sc-if>
               </div>
             </sc-if>
@@ -398,7 +390,7 @@ class Component extends DCLogic {
       sources: ['csv'], goal: '', goals: [],
       sourceType: 'inflectiv',
       inflectivKey: '', datasetId: '', datasetName: '', datasets: [], dsLoading: false, dsError: '',
-      connString: '', tableName: '', tables: [], tablesLoading: false, dbTested: false,
+      connString: '', dbTested: false, dbTesting: false,
       style: 'Balanced', sensitivity: 'Medium', depth: 'Standard', autoSummary: true, forecast: 'Balanced'
     },
     suError: '',
@@ -451,19 +443,17 @@ class Component extends DCLogic {
       this.setState(s => ({ su: Object.assign({}, s.su, { dsLoading: false, dsError: String(e.message || e) }) }));
     }
   }
-  async loadSuTables() {
+  async testSuConnection() {
     const cs = this.state.su.connString.trim();
     if (!cs) { this.setSu('dsError', 'Enter a connection string first.'); return; }
-    this.setSu('tablesLoading', true); this.setSu('dsError', '');
+    this.setSu('dbTesting', true); this.setSu('dsError', '');
     try {
-      const res = await fetch(BACKEND + '/db/tables', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ conn_string: cs }) });
+      const res = await fetch(BACKEND + '/db/test', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ conn_string: cs }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || ('HTTP ' + res.status));
-      const list = (data.tables || []).filter(t => t.table_name);
-      if (!list.length) throw new Error('No tables found.');
-      this.setState(s => ({ su: Object.assign({}, s.su, { tables: list, tableName: list[0].table_name, tablesLoading: false, dbTested: true, dsError: '' }) }));
+      this.setState(s => ({ su: Object.assign({}, s.su, { dbTesting: false, dbTested: true, dsError: '' }) }));
     } catch (e) {
-      this.setState(s => ({ su: Object.assign({}, s.su, { tablesLoading: false, dsError: String(e.message || e), dbTested: false }) }));
+      this.setState(s => ({ su: Object.assign({}, s.su, { dbTesting: false, dsError: String(e.message || e), dbTested: false }) }));
     }
   }
   pickSuSource(type) { this.setSu('sourceType', type); }
@@ -489,7 +479,7 @@ class Component extends DCLogic {
       inflectiv_key: su.inflectivKey.trim(), inflectiv_dataset_id: parseInt(su.datasetId, 10), inflectiv_dataset_name: su.datasetName,
       db_type: su.sourceType === 'database' ? 'postgresql' : null,
       db_connection_string: su.sourceType === 'database' ? su.connString.trim() : null,
-      db_table_name: su.sourceType === 'database' ? su.tableName.trim() : null,
+      db_table_name: null,
       onboarding: { industry: su.industry, size: su.size, useCase: su.useCase, team: su.team, sources: su.sources, goals: su.goals, goal: su.goal },
       ai_prefs: { style: su.style, sensitivity: su.sensitivity, depth: su.depth, autoSummary: su.autoSummary, forecast: su.forecast }
     };
@@ -690,12 +680,8 @@ class Component extends DCLogic {
       dbBtnFg: su.sourceType === 'database' ? 'var(--violet)' : 'var(--ink-500)',
       dbBtnShadow: su.sourceType === 'database' ? 'var(--shadow-sm)' : 'none',
       su_connString: su.connString, onSuConnString: (e) => this.setSu('connString', e.target.value),
-      su_tableName: su.tableName, onSuTableName: (e) => this.setSu('tableName', e.target.value),
-      onSuTableSelect: (e) => this.setSu('tableName', e.target.value),
       suDbTested: su.dbTested,
-      loadSuTables: () => this.loadSuTables(), tablesLoadLabel: su.tablesLoading ? 'Loading…' : 'Load tables',
-      hasSuTables: su.tables.length > 0,
-      suTableOptions: su.tables.map(t => ({ value: t.table_name, label: t.table_name + (t.row_estimate ? ' · ~' + t.row_estimate + ' rows' : '') })),
+      testSuConnection: () => this.testSuConnection(), dbTestLabel: su.dbTesting ? 'Testing…' : 'Test connection',
       suPwShow: su.password.length > 0, suPwPct: su_pw.pct, suPwColor: su_pw.color, suPwLabel: su_pw.label,
       toggleTerms: () => this.setSu('terms', !su.terms),
       termsBorder: su.terms ? 'var(--violet)' : 'var(--border-strong)', termsBg: su.terms ? 'var(--violet)' : 'transparent', termsCheck: su.terms ? this.check(12) : '',

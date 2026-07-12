@@ -25,6 +25,7 @@ import db
 import db_connector
 import pipeline
 import routes_app
+import routes_datasources
 import sessions
 from auth import optional_user
 from datasource import make_datasource
@@ -32,6 +33,7 @@ from guardrails import READINESS_MESSAGES, classify_readiness
 from inflectiv import InflectivClient, InflectivError
 from profiler import profile_dataset
 from schemas import ChatRequest, DatasetsRequest, GenerateRequest, RefineRequest, SessionRequest
+from table_indexer import build_table_index
 
 app = FastAPI(title="Cogni Board — backend")
 
@@ -44,6 +46,7 @@ app.add_middleware(
 )
 
 app.include_router(routes_app.router)
+app.include_router(routes_datasources.router)
 
 
 @app.middleware("http")
@@ -62,6 +65,10 @@ _DB_READY = False
 @app.on_event("startup")
 def _startup():
     global _DB_READY
+    if not config.DATA_SOURCE_ENCRYPTION_KEY:
+        print("[startup] WARNING: DATA_SOURCE_ENCRYPTION_KEY is not set — saving data "
+              "sources will fail until it's configured. Generate one with: python -c "
+              "\"from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())\"")
     try:
         db.init_db()
         _DB_READY = True
@@ -115,29 +122,25 @@ async def create_session(req: SessionRequest, user: Optional[dict] = Depends(opt
 
     if source_type == "database":
         conn_string = (req.conn_string or "").strip()
-        table_name = (req.table_name or "").strip()
         if not conn_string and user and user.get("db_connection_string"):
             conn_string = user["db_connection_string"]
-            if not table_name:
-                table_name = user.get("db_table_name") or ""
         if not conn_string:
             raise HTTPException(400, "Database connection string is required.")
-        if not table_name:
-            raise HTTPException(400, "Table name is required.")
 
         test_result = db_connector.test_connection(conn_string)
         if not test_result.get("ok"):
             raise HTTPException(400, f"Database connection failed: {test_result.get('error')}")
 
+        light = db_connector.list_tables_light(conn_string)
+        if not light:
+            raise HTTPException(400, "No tables found in the public schema.")
+        table_index = await build_table_index(light)
+
         key = (req.global_key or "").strip() or config.INFLECTIV_FALLBACK_KEY
         sess = sessions.create(global_key=key, source_type="database",
-                               conn_string=conn_string, table_name=table_name)
-        ds = datasource.DatabaseDataSource(conn_string, table_name)
-        try:
-            schema = db_connector.get_table_schema(conn_string, table_name)
-            sess.record_count = schema.get("row_count", 0)
-        except Exception:
-            pass
+                               conn_string=conn_string, table_index=table_index,
+                               dataset_name=f"{len(table_index)} tables")
+        ds = datasource.DatabaseDataSource(conn_string, table_index)
         profile = None
         if config.have_llm():
             try:
@@ -148,7 +151,7 @@ async def create_session(req: SessionRequest, user: Optional[dict] = Depends(opt
         return {
             "session_id": sess.session_id,
             "source_type": "database",
-            "dataset_name": table_name,
+            "dataset_name": sess.dataset_name,
             "profile": profile.model_dump() if profile else None,
             "suggested": [c.model_dump() for c in (profile.suggested_charts if profile else [])],
             "suggested_queries": (profile.suggested_queries if profile else []),
@@ -205,19 +208,6 @@ async def db_test(req: SessionRequest):
     if not result.get("ok"):
         raise HTTPException(400, result.get("error", "Connection failed"))
     return result
-
-
-@app.post("/api/db/tables")
-async def db_tables(req: SessionRequest):
-    """List tables for a database connection."""
-    conn_string = (req.conn_string or "").strip()
-    if not conn_string:
-        raise HTTPException(400, "Connection string is required.")
-    try:
-        tables = db_connector.list_tables(conn_string)
-        return {"tables": tables}
-    except db_connector.DbConnectorError as e:
-        raise HTTPException(400, str(e))
 
 
 def _require_llm() -> None:
