@@ -1,16 +1,21 @@
 """Auth + persistence routes (demo-grade). Mounted under /api by main.py."""
 from __future__ import annotations
 
+import asyncio
+
 from fastapi import APIRouter, Depends, HTTPException
 
 import auth
 import db
+import db_connector
+import datasources_store as store
 from auth import current_user
 from inflectiv import InflectivClient, InflectivError
 from schemas import (
     ComponentSave, DashboardSave, ForgotRequest, LoginRequest, ProfileUpdate,
     ResetRequest, SessionRequest, SettingsUpdate, SignupRequest, TeamInvite, WorkspaceSave,
 )
+from table_indexer import build_table_index
 
 router = APIRouter(prefix="/api")
 
@@ -46,7 +51,37 @@ def login(req: LoginRequest):
     if not user or not auth.verify_pw(user, req.password):
         raise HTTPException(401, "Invalid email or password.")
     db.log_activity(user["id"], "login", user["email"])
+    _migrate_legacy_source(user)
     return {"token": user["api_token"], "user": auth.public_user(user)}
+
+
+def _migrate_legacy_source(user: dict) -> None:
+    """One-time: if this user has legacy flat-column DB/Inflectiv config and no
+    saved data_sources row yet, promote it into the new table so they don't have
+    to re-enter credentials. Runs once, guarded by the existing-rows check."""
+    if store.list_for_user(user["id"]):
+        return
+    if user.get("db_connection_string"):
+        try:
+            _migrate_db_source(user)
+        except Exception as e:
+            print(f"[migrate] db source skipped for user {user['id']}: {e}")
+    elif user.get("inflectiv_key"):
+        store.create(user["id"], "inflectiv",
+                     user.get("inflectiv_dataset_name") or "Inflectiv dataset",
+                     {"key": user["inflectiv_key"], "dataset_id": user.get("inflectiv_dataset_id"),
+                      "dataset_name": user.get("inflectiv_dataset_name")},
+                     {"dataset_name": user.get("inflectiv_dataset_name"), "knowledge_source_count": 0})
+
+
+def _migrate_db_source(user: dict) -> None:
+    conn_string = user["db_connection_string"]
+    light = db_connector.list_tables_light(conn_string)
+    table_index = asyncio.run(build_table_index(light)) if light else []
+    store.create(user["id"], "postgresql", user.get("db_table_name") or "PostgreSQL",
+                 {"conn_string": conn_string},
+                 {"host_masked": auth.mask_conn_string(conn_string), "table_count": len(table_index)},
+                 table_index)
 
 
 @router.post("/auth/forgot")
@@ -74,8 +109,7 @@ def get_me(user: dict = Depends(current_user)):
 @router.patch("/me")
 def update_me(req: ProfileUpdate, user: dict = Depends(current_user)):
     fields, vals = [], []
-    for k in ("name", "company", "inflectiv_dataset_id", "inflectiv_dataset_name",
-              "db_type", "db_connection_string", "db_table_name"):
+    for k in ("name", "company"):
         v = getattr(req, k)
         if v is not None:
             fields.append(f"{k}=%s"); vals.append(v)

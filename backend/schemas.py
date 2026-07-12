@@ -55,11 +55,6 @@ class ProfileUpdate(BaseModel):
     name: Optional[str] = None
     company: Optional[str] = None
     ai_prefs: Optional[dict] = None
-    inflectiv_dataset_id: Optional[int] = None
-    inflectiv_dataset_name: Optional[str] = None
-    db_type: Optional[str] = None
-    db_connection_string: Optional[str] = None
-    db_table_name: Optional[str] = None
 
 
 class SettingsUpdate(BaseModel):
