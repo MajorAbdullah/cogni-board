@@ -52,6 +52,11 @@ DATABASE_URL = os.getenv("DATABASE_URL", "")
 # the target Postgres genuinely lives on localhost/a private network.
 ALLOW_PRIVATE_DB_HOSTS = os.getenv("ALLOW_PRIVATE_DB_HOSTS", "false").strip().lower() == "true"
 
+# --- Saved data-source credential encryption ---
+# Encrypts connection strings / API keys stored in the data_sources table.
+# Generate once: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+DATA_SOURCE_ENCRYPTION_KEY = os.getenv("DATA_SOURCE_ENCRYPTION_KEY", "")
+
 # --- Redis cache ---
 REDIS_URL = os.getenv("REDIS_URL", "")
 
