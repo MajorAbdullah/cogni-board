@@ -103,6 +103,61 @@ def list_tables(conn_string: str) -> list[dict]:
         conn.close()
 
 
+def list_tables_light(conn_string: str) -> list[dict]:
+    """One row per (table, column) plus FK edges and row estimates — assembled
+    into a per-table structure. No sample rows, no per-column stats (those are
+    fetched later, only for the handful of tables a given query actually
+    shortlists) — this runs once per table at connect time and a connected
+    database may have 20-200+ tables."""
+    conn = _connect(conn_string)
+    try:
+        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as c:
+            c.execute(
+                """SELECT c.table_name, c.column_name, c.data_type,
+                          (SELECT reltuples::bigint FROM pg_class
+                           WHERE oid::regclass::text = c.table_name) AS row_estimate
+                   FROM information_schema.columns c
+                   JOIN information_schema.tables t
+                     ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+                   WHERE c.table_schema = 'public' AND t.table_type = 'BASE TABLE'
+                   ORDER BY c.table_name, c.ordinal_position"""
+            )
+            col_rows = [dict(r) for r in c.fetchall()]
+
+            c.execute(
+                """SELECT tc.table_name, kcu.column_name,
+                          ccu.table_name AS ref_table, ccu.column_name AS ref_column
+                   FROM information_schema.table_constraints tc
+                   JOIN information_schema.key_column_usage kcu
+                     ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema
+                   JOIN information_schema.constraint_column_usage ccu
+                     ON ccu.constraint_name = tc.constraint_name AND ccu.table_schema = tc.table_schema
+                   WHERE tc.table_schema = 'public' AND tc.constraint_type = 'FOREIGN KEY'"""
+            )
+            fk_rows = [dict(r) for r in c.fetchall()]
+    finally:
+        conn.close()
+    return _assemble_table_index(col_rows, fk_rows)
+
+
+def _assemble_table_index(col_rows: list[dict], fk_rows: list[dict]) -> list[dict]:
+    """Pure assembly step, split out so it's unit-testable without a live DB."""
+    tables: dict[str, dict] = {}
+    for r in col_rows:
+        t = tables.setdefault(r["table_name"], {
+            "table_name": r["table_name"], "row_estimate": r["row_estimate"] or 0,
+            "columns": [], "foreign_keys": [],
+        })
+        t["columns"].append({"name": r["column_name"], "type": r["data_type"]})
+    for r in fk_rows:
+        t = tables.get(r["table_name"])
+        if t:
+            t["foreign_keys"].append(
+                {"column": r["column_name"], "ref_table": r["ref_table"], "ref_column": r["ref_column"]}
+            )
+    return sorted(tables.values(), key=lambda t: t["table_name"])
+
+
 def get_table_schema(conn_string: str, table_name: str) -> dict:
     conn = _connect(conn_string)
     try:
