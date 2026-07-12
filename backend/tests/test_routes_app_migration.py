@@ -46,3 +46,17 @@ def test_migrate_legacy_source_noop_for_fresh_user(monkeypatch):
     monkeypatch.setattr(routes_app.store, "create", lambda *a, **kw: calls.append(a))
     routes_app._migrate_legacy_source({"id": 1, "db_connection_string": None, "inflectiv_key": None})
     assert calls == []
+
+
+def test_migrate_legacy_source_swallows_db_source_failure(monkeypatch):
+    monkeypatch.setattr(routes_app.store, "list_for_user", lambda uid: [])
+
+    def boom(cs):
+        raise RuntimeError("connection refused")
+
+    monkeypatch.setattr(routes_app.db_connector, "list_tables_light", boom)
+
+    user = {"id": 1, "db_connection_string": "postgresql://unreachable",
+            "db_table_name": "t", "inflectiv_key": None}
+    # Should not raise, even though _migrate_db_source blows up internally.
+    routes_app._migrate_legacy_source(user)
