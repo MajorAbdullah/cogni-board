@@ -212,3 +212,13 @@ class DatasetProfile(BaseModel):
     suggested_charts: list[PlannedChart] = Field(default_factory=list)
     suggested_queries: list[str] = Field(default_factory=list)  # NL prompts the user could ask
     size_estimate: Literal["small", "large"] = "large"
+
+
+class TableDescriptionBatch(BaseModel):
+    model_config = {"extra": "ignore"}
+    descriptions: dict[str, str] = Field(default_factory=dict)  # table_name -> one-line description
+
+
+class TableShortlist(BaseModel):
+    model_config = {"extra": "ignore"}
+    tables: list[str] = Field(default_factory=list)
