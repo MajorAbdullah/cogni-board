@@ -161,22 +161,12 @@
             <sc-if value="{{ isSrcDatabase }}" hint-placeholder-val="{{ false }}">
               <div>
                 <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">PostgreSQL connection string</label>
+                <div style="font-size:11px;color:var(--ink-500);line-height:1.4;margin-bottom:8px;">The agent automatically finds and queries the right table(s) for every question — no need to know your schema.</div>
                 <input value="{{ connDbString }}" onInput="{{ onConnDbString }}" type="password" placeholder="postgresql://user:pass@host:5432/dbname" data-testid="conn-db-input" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:var(--font-mono);font-size:11.5px;color:var(--ink-900);outline:none;margin-bottom:12px;" />
                 <sc-if value="{{ hasConnectErr }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;font-size:11.5px;line-height:1.4;color:var(--rose);background:var(--rose-bg);border-radius:8px;padding:8px 10px;">{{ connectErr }}</div>
                 </sc-if>
-                <button onMouseDown="{{ loadDbTables }}" data-testid="load-tables-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;">{{ loadDbTablesLabel }}</button>
-                <sc-if value="{{ hasDbTables }}" hint-placeholder-val="{{ false }}">
-                  <div style="margin-top:12px;">
-                    <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Choose a table</label>
-                    <select value="{{ connDbTable }}" onChange="{{ onConnDbTable }}" data-testid="table-select" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:var(--font-ui);font-size:13px;color:var(--ink-900);outline:none;margin-bottom:12px;cursor:pointer;">
-                      <sc-for list="{{ connDbTableOptions }}" as="opt" hint-placeholder-count="3">
-                        <option value="{{ opt.value }}">{{ opt.label }}</option>
-                      </sc-for>
-                    </select>
-                    <button onMouseDown="{{ doDbConnect }}" data-testid="connect-table-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;">{{ connectDbBtnLabel }}</button>
-                  </div>
-                </sc-if>
+                <button onMouseDown="{{ doDbConnect }}" data-testid="connect-db-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;">{{ connectDbBtnLabel }}</button>
               </div>
             </sc-if>
           </div>
@@ -515,7 +505,7 @@ class Component extends DCLogic {
   state = {
     connected: false, connecting: false, connectErr: '', connKey: '', connName: '', connectBannerDismissed: false,
     connStage: 'key', connDatasets: [], connDatasetId: '', connLoading: false, showSourcePopover: false,
-    connSourceType: 'inflectiv', connDbString: '', connDbTable: '', connDbTables: [], connDbLoading: false,
+    connSourceType: 'inflectiv', connDbString: '',
     sessionId: null, datasetId: null, datasetName: '', usedBackend: false, suggestedQueries: [], savedFlash: false,
     theme: 'light', goal: '', followup: '', focused: false,
     composerMode: 'graphs', chatMessages: [], chatInput: '', chatThinking: false,
@@ -534,9 +524,9 @@ class Component extends DCLogic {
       try {
         const me = await fetch(BACKEND + '/me', { headers: authHeaders() }).then(r => r.ok ? r.json() : null);
         if (me && me.user) {
-          // Database user — server resolves the saved connection string from the
+          // Database user — server resolves the active saved connection from the
           // authenticated user record; the browser never holds or re-sends the secret.
-          if (me.user.has_db && me.user.db_table_name) {
+          if (me.user.has_db) {
             this.setState({ connected: true, usedBackend: true, datasetName: me.user.db_table_name || '' });
             const data = await fetch(BACKEND + '/session', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ source_type: 'database' }) }).then(r => r.json());
             this.setState({ sessionId: data.session_id, datasetName: data.dataset_name || '', suggestedQueries: data.suggested_queries || [] });
@@ -558,11 +548,11 @@ class Component extends DCLogic {
     try { saved = JSON.parse(localStorage.getItem('ada-conn') || 'null'); } catch (x) {}
     if (!saved) return;
     if (saved.sourceType === 'database') {
-      this.setState({ connected: true, usedBackend: true, datasetName: saved.tableName || '' });
+      this.setState({ connected: true, usedBackend: true });
       try {
-        const res = await fetch(BACKEND + '/session', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ source_type: 'database', conn_string: saved.connString || '', table_name: saved.tableName }) });
+        const res = await fetch(BACKEND + '/session', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ source_type: 'database', conn_string: saved.connString || '' }) });
         const data = await res.json();
-        if (res.ok) this.setState({ sessionId: data.session_id, datasetName: data.dataset_name || saved.tableName || '', suggestedQueries: data.suggested_queries || [] });
+        if (res.ok) this.setState({ sessionId: data.session_id, datasetName: data.dataset_name || '', suggestedQueries: data.suggested_queries || [] });
       } catch (x) {}
       this.loadDashboardFromUrl();
       return;
@@ -1069,7 +1059,6 @@ class Component extends DCLogic {
   setSrcInflectiv() { this.setState({ connSourceType: 'inflectiv', connectErr: '' }); }
   setSrcDatabase() { this.setState({ connSourceType: 'database', connectErr: '' }); }
   onConnDbString(e) { this.setState({ connDbString: e.target.value, connectErr: '' }); }
-  onConnDbTable(e) { this.setState({ connDbTable: e.target.value, connectErr: '' }); }
   async loadDatasets() {
     const key = (this.state.connKey || '').trim();
     this.setState({ connLoading: true, connectErr: '' });
@@ -1099,32 +1088,16 @@ class Component extends DCLogic {
       this.setState({ connecting: false, connectErr: 'Could not connect: ' + (e.message || e) });
     }
   }
-  async loadDbTables() {
-    const cs = (this.state.connDbString || '').trim();
-    this.setState({ connDbLoading: true, connectErr: '' });
-    try {
-      const res = await fetch(BACKEND + '/db/tables', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ conn_string: cs }) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || ('HTTP ' + res.status));
-      const list = (data.tables || []).filter(t => t.table_name);
-      if (!list.length) throw new Error('No tables found.');
-      this.setState({ connDbLoading: false, connDbTables: list, connDbTable: list[0].table_name });
-    } catch (e) {
-      this.setState({ connDbLoading: false, connectErr: 'Could not load tables: ' + (e.message || e) });
-    }
-  }
   async doDbConnect() {
     const cs = (this.state.connDbString || '').trim();
-    const tb = (this.state.connDbTable || '').trim();
     if (!cs) { this.setState({ connectErr: 'Enter a connection string.' }); return; }
-    if (!tb) { this.setState({ connectErr: 'Select a table.' }); return; }
     this.setState({ connecting: true, connectErr: '' });
     try {
-      const res = await fetch(BACKEND + '/session', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ source_type: 'database', conn_string: cs, table_name: tb }) });
+      const res = await fetch(BACKEND + '/session', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ source_type: 'database', conn_string: cs }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || ('HTTP ' + res.status));
-      try { localStorage.setItem('ada-conn', JSON.stringify({ sourceType: 'database', connString: cs, tableName: tb })); } catch (x) {}
-      this.setState({ connected: true, connecting: false, showSourcePopover: false, usedBackend: true, sessionId: data.session_id, datasetName: data.dataset_name || tb, suggestedQueries: data.suggested_queries || [], drafts: [], widgets: [], phase: 'idle', thinkSteps: [] });
+      try { localStorage.setItem('ada-conn', JSON.stringify({ sourceType: 'database', connString: cs })); } catch (x) {}
+      this.setState({ connected: true, connecting: false, showSourcePopover: false, usedBackend: true, sessionId: data.session_id, datasetName: data.dataset_name || '', suggestedQueries: data.suggested_queries || [], drafts: [], widgets: [], phase: 'idle', thinkSteps: [] });
     } catch (e) {
       this.setState({ connecting: false, connectErr: 'Could not connect: ' + (e.message || e) });
     }
@@ -1341,11 +1314,7 @@ class Component extends DCLogic {
       srcDatabaseFg: s.connSourceType === 'database' ? 'var(--violet)' : 'var(--ink-500)',
       srcDatabaseShadow: s.connSourceType === 'database' ? 'var(--shadow-sm)' : 'none',
       connDbString: s.connDbString, onConnDbString: (e) => this.onConnDbString(e),
-      connDbTable: s.connDbTable, onConnDbTable: (e) => this.onConnDbTable(e),
-      connDbTableOptions: s.connDbTables.map(t => ({ value: t.table_name, label: t.table_name + (t.row_estimate ? ' · ~' + t.row_estimate + ' rows' : '') })),
-      hasDbTables: s.connDbTables.length > 0, loadDbTables: () => this.loadDbTables(),
-      loadDbTablesLabel: s.connDbLoading ? 'Loading…' : 'Load tables',
-      doDbConnect: () => this.doDbConnect(), connectDbBtnLabel: s.connecting ? 'Connecting…' : 'Connect table',
+      doDbConnect: () => this.doDbConnect(), connectDbBtnLabel: s.connecting ? 'Connecting…' : 'Connect',
       goal: s.goal,
       followup: s.followup,
       composerMode: s.composerMode,
