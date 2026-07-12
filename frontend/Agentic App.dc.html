@@ -233,6 +233,8 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             </sc-for>
           </div>
 
+          <sc-if value="{{ dsActionError }}" hint-placeholder-val="{{ false }}"><div style="color:var(--rose);font-size:12px;margin-bottom:12px;">{{ dsActionError }}</div></sc-if>
+
           <div style="display:flex;gap:18px;align-items:flex-start;">
             <!-- table -->
             <div style="flex:1;min-width:0;background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
@@ -1250,6 +1252,7 @@ class Component extends DCLogic {
       dsScanned: '· scanned across ' + datasets.length + ' connected dataset' + (datasets.length === 1 ? '' : 's'),
       dsCountLabel: datasets.length + ' dataset' + (datasets.length === 1 ? '' : 's'),
       recForLabel: (datasets[0] && datasets[0].name) || 'your data',
+      dsActionError: s.dsActionError,
       renamingSourceId: s.renamingSourceId, renamingSourceLabel: s.renamingSourceLabel,
       onRenamingSourceLabel: (e) => this.setState({ renamingSourceLabel: e.target.value }),
       cancelRenameSource: () => this.setState({ renamingSourceId: null }),
@@ -1289,7 +1292,7 @@ class Component extends DCLogic {
       insightStyleSeg: ['Concise', 'Balanced', 'Detailed'].map(v => this.seg(v, p.insightStyle, (x) => this.setP('insightStyle', x))),
       toneSeg: ['Casual', 'Executive', 'Technical'].map(v => this.seg(v, p.tone, (x) => this.setP('tone', x))),
       hasDbSource: (s.dsSources || []).some(d => d.type === 'postgresql' && d.is_active),
-      dbTableName: (((s.dsSources || []).find(d => d.type === 'postgresql' && d.is_active) || {}).meta || {}).table_count + ' tables',
+      dbTableName: (() => { const tc = (((s.dsSources || []).find(d => d.type === 'postgresql' && d.is_active) || {}).meta || {}).table_count; return typeof tc === 'number' ? tc + ' tables' : '—'; })(),
       dbConnStringMasked: (((s.dsSources || []).find(d => d.type === 'postgresql' && d.is_active) || {}).meta || {}).host_masked || ''
     };
   }

@@ -42,6 +42,7 @@ def signup(req: SignupRequest):
     db.execute("INSERT INTO team_members (owner_id,email,name,role,status) VALUES (%s,%s,%s,'owner','active')",
                (user["id"], email, req.name))
     db.log_activity(user["id"], "signup", email)
+    _migrate_legacy_source(user)
     return {"token": token, "user": auth.public_user(user)}
 
 
@@ -58,20 +59,27 @@ def login(req: LoginRequest):
 def _migrate_legacy_source(user: dict) -> None:
     """One-time: if this user has legacy flat-column DB/Inflectiv config and no
     saved data_sources row yet, promote it into the new table so they don't have
-    to re-enter credentials. Runs once, guarded by the existing-rows check."""
+    to re-enter credentials. Runs once, guarded by the existing-rows check.
+
+    If both legacy sources are present, both are migrated into separate
+    data_sources rows. store.create() always deactivates every other row for
+    the user before activating the new one, so whichever create() runs LAST
+    wins as active - the Inflectiv branch is created first and the Postgres
+    branch second, so Postgres ends up active when both exist (matching the
+    spec's stated preference)."""
     if store.list_for_user(user["id"]):
         return
-    if user.get("db_connection_string"):
-        try:
-            _migrate_db_source(user)
-        except Exception as e:
-            print(f"[migrate] db source skipped for user {user['id']}: {e}")
-    elif user.get("inflectiv_key"):
+    if user.get("inflectiv_key"):
         store.create(user["id"], "inflectiv",
                      user.get("inflectiv_dataset_name") or "Inflectiv dataset",
                      {"key": user["inflectiv_key"], "dataset_id": user.get("inflectiv_dataset_id"),
                       "dataset_name": user.get("inflectiv_dataset_name")},
                      {"dataset_name": user.get("inflectiv_dataset_name"), "knowledge_source_count": 0})
+    if user.get("db_connection_string"):
+        try:
+            _migrate_db_source(user)
+        except Exception as e:
+            print(f"[migrate] db source skipped for user {user['id']}: {e}")
 
 
 def _migrate_db_source(user: dict) -> None:
