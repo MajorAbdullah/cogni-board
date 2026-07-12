@@ -49,8 +49,24 @@ async def profile_dataset(client: InflectivClient, dataset: dict, emit=None) -> 
             except Exception:
                 pass
 
-    sample = "\n\n".join(c.get("text", "").strip()[:500] for c in chunks[:20]) or "(no sample retrieved)"
     ks = dataset.get("knowledge_source_count", 0)
+    if not chunks:
+        # No probe query returned anything — asking the LLM to profile a dataset from
+        # "(no sample retrieved)" produces a plausible-looking but entirely fabricated
+        # profile (fake suggested_queries included), which misleads the user into
+        # thinking the dataset has real content when it has zero indexed chunks.
+        profile = DatasetProfile(
+            summary="No indexed content found for this dataset yet. It may still be "
+                    "processing on Inflectiv's side, or may not contain any searchable "
+                    "knowledge sources — check the dataset in Inflectiv before asking "
+                    "the agent questions about it."
+        )
+        profile.size_estimate = "small" if ks and ks <= 3 else "large"
+        cache.set_profile(dataset_id, profile)
+        await _emit("Profile ready — no indexed content found", "done")
+        return profile
+
+    sample = "\n\n".join(c.get("text", "").strip()[:500] for c in chunks[:20])
     user = (
         f"Dataset name: {dataset.get('name')!r}\n"
         f"Description: {dataset.get('description') or '(none)'}\n"
