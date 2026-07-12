@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Cogni Board</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .auth-hero {
+      background: linear-gradient(160deg, #E7E7E7 0%, #F4F4F6 50%, #E7E7E7 100%);
+    }
+    [data-theme="dark"] .auth-hero {
+      background: linear-gradient(160deg, #1A1A1A 0%, #0F0F0F 50%, #1A1A1A 100%);
+    }
+    .feature-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    .feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+    .feature-pill svg {
+      width: 16px;
+      height: 16px;
+    }
+    .preview-cards {
+      display: flex;
+      gap: var(--space-4);
+    }
+    .preview-card {
+      flex: 1;
+      padding: var(--space-5);
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+    }
+    .preview-card .label {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      margin-bottom: var(--space-2);
+    }
+    .preview-card .value {
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+    }
+    .preview-card .change {
+      font-size: var(--text-sm);
+      color: #16a34a;
+      font-weight: var(--weight-medium);
+    }
+    .trust-badges {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-12);
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+    .trust-badge svg {
+      width: 16px;
+      height: 16px;
+    }
+    .password-input-wrap {
+      position: relative;
+    }
+    .password-toggle {
+      position: absolute;
+      right: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: var(--space-1);
+    }
+    .remember-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .remember-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+    .remember-row label {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-layout">
+    <!-- Left: Hero -->
+    <div class="auth-hero">
+      <div class="auth-hero-content">
+        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-12);">
+          <div style="width: 40px; height: 40px; background: var(--accent); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div>
+            <div style="font-weight: var(--weight-semibold); font-size: var(--text-lg);">Cogni</div>
+            <div style="font-size: var(--text-xs); color: var(--text-muted); letter-spacing: var(--tracking-wide);">BOARD AI</div>
+          </div>
+        </div>
+
+        <h1>Turn data into decisions with autonomous AI.</h1>
+        <p>Transform spreadsheets, databases, documents, and raw business information into intelligent dashboards — automatically.</p>
+
+        <div class="feature-pills">
+          <span class="feature-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+            Raw Data
+          </span>
+          <span class="feature-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>
+            AI Analysis
+          </span>
+          <span class="feature-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Components
+          </span>
+          <span class="feature-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/></svg>
+            Dashboard
+          </span>
+        </div>
+
+        <div class="preview-cards">
+          <div class="preview-card">
+            <div class="label">Total Revenue</div>
+            <div class="value">$4.82M</div>
+            <div class="change">▲ 12.4%</div>
+          </div>
+          <div class="preview-card">
+            <div class="label">AI Insight</div>
+            <div style="font-size: var(--text-sm); color: var(--text-secondary);">Expansion revenue is accelerating — NRR hit 118%.</div>
+          </div>
+        </div>
+
+        <div class="trust-badges">
+          <span class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Enterprise-grade security
+          </span>
+          <span class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Privacy-first
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Sign In Form -->
+    <div class="auth-form-side">
+      <div class="auth-form-container">
+        <div class="auth-form-card glass">
+          <div class="auth-form-header">
+            <div class="logo">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <h2>Welcome back</h2>
+            <p>Sign in to your Cogni Board workspace.</p>
+          </div>
+
+          <form class="auth-form" onsubmit="return false;">
+            <div class="input-group">
+              <label class="input-label" for="email">Work email</label>
+              <input class="input" type="email" id="email" placeholder="you@company.com" autocomplete="email">
+            </div>
+
+            <div class="input-group">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <label class="input-label" for="password">Password</label>
+                <a href="forgot-password.html" style="font-size: var(--text-sm);">Forgot password?</a>
+              </div>
+              <div class="password-input-wrap">
+                <input class="input" type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+                <button type="button" class="password-toggle" onclick="togglePassword()">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="remember-row">
+              <input type="checkbox" id="remember" checked>
+              <label for="remember">Remember me for 30 days</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" onclick="window.location.href='dashboard.html'">
+              Sign in
+            </button>
+          </form>
+
+          <div class="divider" style="margin: var(--space-6) 0;">or continue with</div>
+
+          <div class="auth-social">
+            <button class="btn btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </button>
+            <button class="btn btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z" fill="#00A4EF"/></svg>
+              Microsoft
+            </button>
+            <button class="btn btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#4A154B"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM17.688 18.956a2.528 2.528 0 0 1 2.522 2.522A2.528 2.528 0 0 1 17.688 24a2.527 2.527 0 0 1-2.523-2.522v-2.522zM17.688 17.688a2.527 2.527 0 0 1-2.523-2.523 2.526 2.526 0 0 1 2.523-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
+              Slack
+            </button>
+            <button class="btn btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              SSO
+            </button>
+          </div>
+
+          <div class="auth-footer">
+            New to Cogni Board? <a href="signup.html">Create account</a>
+          </div>
+        </div>
+
+        <!-- Dark mode toggle -->
+        <button class="btn btn-ghost btn-icon" style="position: fixed; top: var(--space-4); right: var(--space-4);" onclick="toggleTheme()" data-tooltip="Toggle dark mode">
+          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
