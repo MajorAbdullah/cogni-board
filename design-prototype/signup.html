@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Cogni Board</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .signup-card .form-section {
+      margin-bottom: var(--space-6);
+    }
+    .form-section-title {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-3);
+    }
+    .data-source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-3);
+    }
+    .data-source-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+    .data-source-card:hover {
+      border-color: var(--text-muted);
+    }
+    .data-source-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+    }
+    .data-source-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: var(--weight-bold);
+      flex-shrink: 0;
+    }
+    .data-source-name {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+    }
+    .data-source-type {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+    .goal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .style-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-3);
+    }
+    .style-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-5);
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+    .style-option:hover {
+      border-color: var(--text-muted);
+    }
+    .style-option.selected {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+    }
+    .style-option .icon {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .style-option.selected .icon {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+    .style-option .name {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+    }
+    .style-option .desc {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .toggle-info h4 {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      margin-bottom: var(--space-1);
+    }
+    .toggle-info p {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-layout">
+    <!-- Header -->
+    <div class="signup-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        Cogni Board
+      </div>
+      <a href="auth.html" style="font-size: var(--text-sm); font-weight: var(--weight-medium);">Already have an account? Sign in</a>
+    </div>
+
+    <!-- Stepper -->
+    <div class="signup-stepper">
+      <div class="stepper">
+        <div class="step completed">
+          <div class="step-indicator">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="step-label">Account</span>
+        </div>
+        <div class="step-connector completed"></div>
+        <div class="step active">
+          <div class="step-indicator">2</div>
+          <span class="step-label">Company</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-indicator">3</div>
+          <span class="step-label">Data Sources</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-indicator">4</div>
+          <span class="step-label">Goals</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+          <div class="step-indicator">5</div>
+          <span class="step-label">AI Setup</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="signup-content">
+      <div class="signup-card glass">
+        <div class="step-label">Step 2 of 5</div>
+        <h2>Tell us about your company</h2>
+        <p class="subtitle">We use this to tailor AI recommendations to your business.</p>
+
+        <form class="signup-form" onsubmit="return false;">
+          <div class="input-group">
+            <label class="input-label" for="industry">Industry</label>
+            <select class="select" id="industry">
+              <option value="" disabled selected>Select your industry</option>
+              <option>SaaS / Software</option>
+              <option>E-commerce / Retail</option>
+              <option>Financial Services</option>
+              <option>Healthcare</option>
+              <option>Manufacturing</option>
+              <option>Media</option>
+              <option>Logistics</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Company size</label>
+            <div class="chip-group">
+              <span class="chip active" onclick="selectChip(this)">1–10</span>
+              <span class="chip" onclick="selectChip(this)">11–50</span>
+              <span class="chip" onclick="selectChip(this)">51–200</span>
+              <span class="chip" onclick="selectChip(this)">201–1k</span>
+              <span class="chip" onclick="selectChip(this)">1k+</span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Primary use case</label>
+            <div class="chip-group">
+              <span class="chip active" onclick="selectChip(this)">Revenue analytics</span>
+              <span class="chip" onclick="selectChip(this)">Executive reporting</span>
+              <span class="chip" onclick="selectChip(this)">Ops monitoring</span>
+              <span class="chip" onclick="selectChip(this)">Forecasting</span>
+              <span class="chip" onclick="selectChip(this)">Customer insights</span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Team size on Cogni Board</label>
+            <div class="chip-group">
+              <span class="chip active" onclick="selectChip(this)">Just me</span>
+              <span class="chip" onclick="selectChip(this)">2–5</span>
+              <span class="chip" onclick="selectChip(this)">6–20</span>
+              <span class="chip" onclick="selectChip(this)">20+</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="signup-footer">
+      <button class="btn btn-secondary" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back
+      </button>
+      <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+        Continue
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+
+    <!-- Dark mode toggle -->
+    <button class="btn btn-ghost btn-icon" style="position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100;" onclick="toggleTheme()" data-tooltip="Toggle dark mode">
+      <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

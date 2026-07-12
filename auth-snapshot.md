@@ -1,0 +1,56 @@
+- generic [ref=f36e4]:
+  - button [ref=f36e5] [cursor=pointer]
+  - generic [ref=f36e8]:
+    - generic [ref=f36e10]:
+      - generic [ref=f36e17]:
+        - generic [ref=f36e18]: Cogni
+        - generic [ref=f36e19]: BOARD AI
+      - heading "Turn data into decisions with autonomous AI." [level=1] [ref=f36e20]
+      - paragraph [ref=f36e21]: Transform spreadsheets, databases, documents, and raw business information into intelligent dashboards — automatically.
+      - generic [ref=f36e22]:
+        - generic [ref=f36e23]: Raw Data
+        - generic [ref=f36e29]: AI Analysis
+        - generic [ref=f36e34]: Components
+        - generic [ref=f36e39]: Dashboard
+      - generic [ref=f36e45]:
+        - generic [ref=f36e46]:
+          - generic [ref=f36e47]: Total Revenue
+          - generic [ref=f36e48]: $4.82M
+          - generic [ref=f36e49]: ▲ 12.4%
+        - generic [ref=f36e50]:
+          - generic [ref=f36e51]: AI Insight
+          - generic [ref=f36e52]: Expansion revenue is accelerating — NRR hit 118%.
+      - generic [ref=f36e53]:
+        - generic [ref=f36e54]: Enterprise-grade security
+        - generic [ref=f36e57]: Privacy-first
+    - generic [ref=f36e63]:
+      - generic [ref=f36e64]:
+        - heading "Welcome back" [level=2] [ref=f36e70]
+        - paragraph [ref=f36e71]: Sign in to your Cogni Board workspace.
+      - generic [ref=f36e72]:
+        - generic [ref=f36e73]: Work email
+        - textbox "Work email" [ref=f36e74]:
+          - /placeholder: you@company.com
+      - generic [ref=f36e75]:
+        - generic [ref=f36e76]:
+          - generic [ref=f36e77]: Password
+          - button "Forgot password?" [ref=f36e78] [cursor=pointer]
+        - generic [ref=f36e79]:
+          - textbox "Password" [ref=f36e80]:
+            - /placeholder: Enter your password
+          - button [ref=f36e81] [cursor=pointer]
+      - generic [ref=f36e85]:
+        - checkbox "Remember me for 30 days" [ref=f36e86]
+        - generic [ref=f36e87]: Remember me for 30 days
+      - button "Sign in" [ref=f36e88] [cursor=pointer]
+      - generic [ref=f36e89]: or continue with
+      - generic [ref=f36e90]:
+        - button "G Google" [ref=f36e91] [cursor=pointer]:
+          - generic [ref=f36e92]: G
+          - generic [ref=f36e94]: Google
+        - button "Microsoft" [ref=f36e95] [cursor=pointer]
+        - button "Slack" [ref=f36e103] [cursor=pointer]
+        - button "SSO" [ref=f36e111] [cursor=pointer]
+      - generic [ref=f36e117]:
+        - text: New to Cogni Board?
+        - button "Create account" [ref=f36e118] [cursor=pointer]

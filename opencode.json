@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": ["cmd", "/c", "npx", "-y", "@playwright/mcp"],
+      "enabled": true,
+      "env": {
+        "BROWSER": "chromium"
+      }
+    },
+    "figma": {
+      "type": "local",
+      "command": ["cmd", "/c", "npx", "-y", "figma-developer-mcp", "--stdio", "--figma-api-key=%FIGMA_API_KEY%", "--no-telemetry"],
+      "enabled": true
+    }
+  }
+}

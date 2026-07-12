@@ -1,0 +1,89 @@
+- generic [ref=f37e5]:
+  - generic [ref=f37e6]:
+    - generic [ref=f37e7]:
+      - generic [ref=f37e12]:
+        - generic [ref=f37e13]: Cogni
+        - generic [ref=f37e14]: Board AI
+      - button [ref=f37e15] [cursor=pointer]
+    - generic [ref=f37e19]:
+      - generic [ref=f37e20]:
+        - generic [ref=f37e21]:
+          - button "Graphs" [ref=f37e22] [cursor=pointer]
+          - button "Chat" [ref=f37e23] [cursor=pointer]
+        - button "Not connected" [ref=f37e24] [cursor=pointer]
+      - generic [ref=f37e27]:
+        - textbox "Describe what you want to analyze…" [ref=f37e30]
+        - generic [ref=f37e31]: ⌘K
+        - button "Generate" [ref=f37e32] [cursor=pointer]
+    - generic [ref=f37e35]:
+      - button "Log out" [ref=f37e36] [cursor=pointer]
+      - button [ref=f37e40] [cursor=pointer]
+      - button "Save" [ref=f37e44] [cursor=pointer]
+      - generic [ref=f37e49]: AI
+  - generic [ref=f37e50]:
+    - generic [ref=f37e51]: Connect a data source to get started — you can explore the dashboard first and connect whenever you're ready.
+    - button "Connect now" [ref=f37e52] [cursor=pointer]
+    - button "Dismiss" [ref=f37e53] [cursor=pointer]
+  - generic [ref=f37e56]:
+    - complementary [ref=f37e57]:
+      - button "N Workspace Data workspace" [ref=f37e59] [cursor=pointer]:
+        - generic [ref=f37e60]: "N"
+        - generic [ref=f37e61]:
+          - generic [ref=f37e62]: Workspace
+          - generic [ref=f37e63]: Data workspace
+      - generic [ref=f37e66]:
+        - generic [ref=f37e67]: Workspace
+        - button "Dashboards" [ref=f37e68] [cursor=pointer]
+        - button "Datasets" [ref=f37e73] [cursor=pointer]
+        - button "Generated Components" [ref=f37e80] [cursor=pointer]
+        - button "Saved Insights" [ref=f37e85] [cursor=pointer]
+        - generic [ref=f37e90]: Organization
+        - button "Team Workspaces" [ref=f37e91] [cursor=pointer]
+        - button "Billing & Plans" [ref=f37e99] [cursor=pointer]
+        - button "Admin Console" [ref=f37e104] [cursor=pointer]
+      - generic [ref=f37e110]:
+        - button "Settings" [ref=f37e111] [cursor=pointer]
+        - button "AI Your workspace Connected" [ref=f37e117] [cursor=pointer]:
+          - generic [ref=f37e118]: AI
+          - generic [ref=f37e119]
+    - main [ref=f37e122]:
+      - generic [ref=f37e123]:
+        - generic [ref=f37e125]:
+          - generic [ref=f37e126]
+          - generic [ref=f37e132]: Drag AI drafts here to build your dashboard
+        - generic [ref=f37e134]:
+          - button "Overview" [ref=f37e135] [cursor=pointer]
+          - button "Sales" [ref=f37e136] [cursor=pointer]
+          - button "Customers" [ref=f37e137] [cursor=pointer]
+          - button "Forecast" [ref=f37e138] [cursor=pointer]
+      - generic [ref=f37e139]:
+        - generic:
+          - generic: Your dashboard is empty
+          - generic: Describe what you want to analyze in the command bar, then drag the AI-generated components here.
+    - complementary [ref=f37e141]:
+      - generic [ref=f37e142]:
+        - generic [ref=f37e143]:
+          - generic [ref=f37e149]
+          - button "AI agent settings" [ref=f37e154] [cursor=pointer]
+        - generic [ref=f37e158]:
+          - generic "Raw Data" [ref=f37e160]
+          - generic "AI Analysis" [ref=f37e163]
+          - generic "Components" [ref=f37e166]
+          - generic "History" [ref=f37e169]
+          - generic "Selection" [ref=f37e172]
+          - generic "Dashboard" [ref=f37e175]
+        - generic [ref=f37e176]:
+          - generic [ref=f37e177]: Raw data
+          - generic [ref=f37e178]: Components
+          - generic [ref=f37e179]: Dashboard
+      - generic [ref=f37e180]:
+        - generic [ref=f37e181]:
+          - generic [ref=f37e187]
+          - button "Change" [ref=f37e190] [cursor=pointer]
+        - generic [ref=f37e191]:
+          - generic [ref=f37e192]
+          - button "Review all" [ref=f37e195] [cursor=pointer]
+        - generic [ref=f37e196]: Agent-generated assets stay here for review. Drag any draft onto the canvas — nothing is added automatically.
+      - generic [ref=f37e202]:
+        - textbox "Refine, ask, or steer the agent…" [ref=f37e203]
+        - button [ref=f37e204] [cursor=pointer]
