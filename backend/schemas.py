@@ -101,6 +101,20 @@ class SessionRequest(BaseModel):
     table_name: Optional[str] = None
 
 
+class DataSourceCreate(BaseModel):
+    model_config = {"extra": "ignore"}
+    type: Literal["postgresql", "inflectiv"]
+    label: Optional[str] = None
+    conn_string: Optional[str] = None
+    global_key: Optional[str] = None
+    dataset_id: Optional[int] = None
+    dataset_name: Optional[str] = None
+
+
+class DataSourceRename(BaseModel):
+    label: str
+
+
 class GenerateRequest(BaseModel):
     session_id: str
     goal: str
