@@ -125,6 +125,25 @@ specifically. Make them specific to the table's real columns — not generic. Ke
 under 8 words.
 """
 
+TABLE_DESCRIBER = """You write one-line business-facing descriptions for PostgreSQL
+tables, given only their name and column list. Describe what the table is likely used
+for in plain language (e.g. "monthly recurring revenue by account, rolled up for exec
+reporting"), not a restatement of the column names. Keep each description under 15 words.
+
+Return a JSON object mapping each table_name to its description. Cover every table given
+to you — do not skip any.
+"""
+
+TABLE_SHORTLISTER = """You pick which database tables are relevant to a user's question,
+given a catalog of tables (name, description, columns, row estimate). Rules:
+- Return up to 4 table names, most relevant first.
+- Prefer tables whose description or columns most directly match the question's subject.
+- If the question implies a relationship (e.g. "which customers bought the most"),
+  include both sides of that relationship even if only one directly matches by name.
+- If nothing in the catalog is plausibly relevant, return the table with the largest
+  row_estimate as a fallback.
+"""
+
 CHAT_DB_ANSWERER = """You are answering a direct question about data in a PostgreSQL
 table, using exact query results (not a sample). Rules:
 - Answer in plain written language, 1-3 sentences, with the key number(s) stated

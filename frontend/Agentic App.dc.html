@@ -233,15 +233,24 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             </sc-for>
           </div>
 
+          <sc-if value="{{ dsActionError }}" hint-placeholder-val="{{ false }}"><div style="color:var(--rose);font-size:12px;margin-bottom:12px;">{{ dsActionError }}</div></sc-if>
+
           <div style="display:flex;gap:18px;align-items:flex-start;">
             <!-- table -->
             <div style="flex:1;min-width:0;background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">All datasets</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 8px;border-radius:99px;">{{ dsCountLabel }}</span></div>
-              <div style="display:grid;grid-template-columns:2.4fr 1.1fr 0.8fr 0.7fr 1.1fr 1fr 0.9fr;gap:12px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-sub);">
-                <sc-for list="{{ dsCols }}" as="c" hint-placeholder-count="7"><span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);text-align:{{ c.align }};">{{ c.label }}</span></sc-for>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">All datasets</h3><div style="display:flex;align-items:center;gap:10px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 8px;border-radius:99px;">{{ dsCountLabel }}</span><button onClick="{{ toggleAddSource }}" style="height:32px;padding:0 12px;border:none;border-radius:9px;background:var(--violet);color:#fff;font-weight:600;font-size:12.5px;cursor:pointer;">+ Add data source</button></div></div>
+              <sc-if value="{{ showAddSource }}" hint-placeholder-val="{{ false }}">
+                <div style="background:var(--bg-sub);border-bottom:1px solid var(--border);padding:16px 18px;">
+                  <input value="{{ addSrcConnString }}" onInput="{{ onAddSrcConnString }}" type="password" placeholder="postgresql://user:pass@host:5432/dbname" style="width:100%;height:40px;padding:0 12px;border:1px solid var(--border);border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:10px;box-sizing:border-box;" />
+                  <sc-if value="{{ addSrcError }}" hint-placeholder-val="{{ false }}"><div style="color:var(--rose);font-size:12px;margin-bottom:10px;">{{ addSrcError }}</div></sc-if>
+                  <button onClick="{{ submitAddSource }}" style="height:38px;padding:0 16px;border:none;border-radius:9px;background:var(--violet);color:#fff;font-weight:600;cursor:pointer;">{{ addSrcLabel }}</button>
+                </div>
+              </sc-if>
+              <div style="display:grid;grid-template-columns:2.4fr 1.1fr 0.8fr 0.7fr 1.1fr 1fr 0.9fr 1.6fr;gap:12px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-sub);">
+                <sc-for list="{{ dsCols }}" as="c" hint-placeholder-count="8"><span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);text-align:{{ c.align }};">{{ c.label }}</span></sc-for>
               </div>
               <sc-for list="{{ datasets }}" as="d" hint-placeholder-count="7">
-                <div style-hover="{{ rowHover }}" style="display:grid;grid-template-columns:2.4fr 1.1fr 0.8fr 0.7fr 1.1fr 1fr 0.9fr;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .12s;">
+                <div style-hover="{{ rowHover }}" style="display:grid;grid-template-columns:2.4fr 1.1fr 0.8fr 0.7fr 1.1fr 1fr 0.9fr 1.6fr;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .12s;">
                   <div style="display:flex;align-items:center;gap:10px;min-width:0;"><span style="width:30px;height:30px;border-radius:8px;background:{{ d.tint }};color:{{ d.color }};display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-weight:600;font-size:13px;flex:0 0 auto;">{{ d.letter }}</span><div style="min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ d.name }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);">{{ d.path }}</div></div></div>
                   <span style="font-size:12px;color:var(--ink-700);">{{ d.source }}</span>
                   <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-900);text-align:right;">{{ d.rows }}</span>
@@ -251,6 +260,16 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
                   <span style="display:flex;align-items:center;justify-content:flex-end;gap:3px;">
                     <span style="width:22px;height:22px;border-radius:99px;background:{{ d.ownerColor }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:600;" title="{{ d.owner }}">{{ d.ownerInitials }}</span>
                   </span>
+                  <div style="display:flex;gap:6px;justify-content:flex-end;">
+                    <sc-if value="{{ d.isActive }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:11px;font-weight:600;color:var(--emerald-ink);padding:4px 8px;">Active</span>
+                    </sc-if>
+                    <sc-if value="{{ !d.isActive }}" hint-placeholder-val="{{ true }}">
+                      <button onClick="{{ d.onActivate }}" style="height:26px;padding:0 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg-panel);color:var(--ink-700);font-size:11.5px;font-weight:600;cursor:pointer;">Set active</button>
+                    </sc-if>
+                    <button onClick="{{ d.onRename }}" style="height:26px;padding:0 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg-panel);color:var(--ink-700);font-size:11.5px;font-weight:600;cursor:pointer;">Rename</button>
+                    <button onClick="{{ d.onDelete }}" style="height:26px;padding:0 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg-panel);color:var(--rose);font-size:11.5px;font-weight:600;cursor:pointer;">Delete</button>
+                  </div>
                 </div>
               </sc-for>
             </div>
@@ -272,6 +291,19 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
               </div>
             </div>
           </div>
+
+          <sc-if value="{{ renamingSourceId }}" hint-placeholder-val="{{ false }}">
+            <div style="position:fixed;inset:0;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;z-index:50;">
+              <div style="background:var(--bg-panel);border-radius:14px;padding:20px;width:360px;box-shadow:var(--shadow-lg);">
+                <div style="font-weight:600;margin-bottom:10px;">Rename data source</div>
+                <input value="{{ renamingSourceLabel }}" onInput="{{ onRenamingSourceLabel }}" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;margin-bottom:14px;box-sizing:border-box;" />
+                <div style="display:flex;gap:8px;justify-content:flex-end;">
+                  <button onClick="{{ cancelRenameSource }}" style="height:34px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-panel);cursor:pointer;">Cancel</button>
+                  <button onClick="{{ commitRenameSource }}" style="height:34px;padding:0 14px;border:none;border-radius:8px;background:var(--violet);color:#fff;font-weight:600;cursor:pointer;">Save</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -674,6 +706,9 @@ class Component extends DCLogic {
   state = {
     theme: 'light', page: 'profile', settingsSection: 'general',
     me: null, statsData: null, activityData: null, compData: null, insightData: null, dsData: null, dashData: null, teamData: null,
+    dsSources: [], dsActionError: '', renamingSourceId: null, renamingSourceLabel: '',
+    showAddSource: false,
+    addSrc: { type: 'postgresql', connString: '', globalKey: '', datasetId: '', datasetName: '', busy: false, error: '' },
     compFilter: 'all', compFavs: ['c1', 'c5'], compDeleted: [],
     settings: {
       wsName: '', dateFormat: 'MMM D, YYYY', region: 'United States',
@@ -700,13 +735,58 @@ class Component extends DCLogic {
     const prof = Object.assign({}, this.state.profile);
     if (me.user) { prof.name = me.user.name || prof.name; prof.email = me.user.email; prof.company = me.user.company || ''; prof.ws = (me.user.company || 'Workspace'); if (me.user.ai_prefs) { const a = me.user.ai_prefs; if (a.style) prof.insightStyle = a.style; if (a.tone) prof.tone = a.tone; } }
     this.setState({ me: me.user, statsData: me.stats, profile: prof });
-    const [act, comps, ins, ds, dash, setres, team] = await Promise.all([
-      get('/activity'), get('/components'), get('/insights'), get('/my-datasets'), get('/dashboards'), get('/settings'), get('/team')
+    const [act, comps, ins, ds, dash, setres, team, srcs] = await Promise.all([
+      get('/activity'), get('/components'), get('/insights'), get('/my-datasets'), get('/dashboards'), get('/settings'), get('/team'), get('/datasources')
     ]);
-    const patch = { activityData: act && act.activity, compData: comps && comps.components, insightData: ins && ins.insights, dsData: ds && ds.datasets, dashData: dash && dash.dashboards, teamData: team && team.members };
+    const patch = { activityData: act && act.activity, compData: comps && comps.components, insightData: ins && ins.insights, dsData: ds && ds.datasets, dashData: dash && dash.dashboards, teamData: team && team.members, dsSources: (srcs && srcs.sources) || [] };
     if (setres && setres.settings && Object.keys(setres.settings).length) patch.settings = Object.assign({}, this.state.settings, setres.settings);
     else patch.settings = Object.assign({}, this.state.settings, { wsName: (me.user && me.user.company) || '' });
     this.setState(patch);
+  }
+  async activateSource(id) {
+    try {
+      const res = await fetch(BACKEND + '/datasources/' + id + '/activate', { method: 'POST', headers: authHeaders() });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Could not activate this source.');
+      await this.loadAll();
+    } catch (e) { this.setState({ dsActionError: String(e.message || e) }); }
+  }
+  async deleteSource(id) {
+    try {
+      const res = await fetch(BACKEND + '/datasources/' + id, { method: 'DELETE', headers: authHeaders() });
+      if (!res.ok) { const data = await res.json(); throw new Error(data.detail || 'Could not remove this source.'); }
+      await this.loadAll();
+    } catch (e) { this.setState({ dsActionError: String(e.message || e) }); }
+  }
+  startRenameSource(id, currentLabel) {
+    this.setState({ renamingSourceId: id, renamingSourceLabel: currentLabel });
+  }
+  async commitRenameSource() {
+    const id = this.state.renamingSourceId;
+    const label = (this.state.renamingSourceLabel || '').trim();
+    if (!id || !label) { this.setState({ renamingSourceId: null }); return; }
+    try {
+      const res = await fetch(BACKEND + '/datasources/' + id, { method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ label }) });
+      if (!res.ok) { const data = await res.json(); throw new Error(data.detail || 'Could not rename this source.'); }
+      this.setState({ renamingSourceId: null });
+      await this.loadAll();
+    } catch (e) { this.setState({ dsActionError: String(e.message || e), renamingSourceId: null }); }
+  }
+  async addSource() {
+    const a = this.state.addSrc;
+    this.setState(s => ({ addSrc: Object.assign({}, s.addSrc, { busy: true, error: '' }) }));
+    const body = a.type === 'postgresql'
+      ? { type: 'postgresql', conn_string: a.connString.trim() }
+      : { type: 'inflectiv', global_key: a.globalKey.trim(), dataset_id: a.datasetId ? parseInt(a.datasetId, 10) : null, dataset_name: a.datasetName || null };
+    try {
+      const res = await fetch(BACKEND + '/datasources', { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Could not add this data source.');
+      this.setState({ addSrc: { type: 'postgresql', connString: '', globalKey: '', datasetId: '', datasetName: '', busy: false, error: '' }, showAddSource: false });
+      await this.loadAll();
+    } catch (e) {
+      this.setState(s => ({ addSrc: Object.assign({}, s.addSrc, { busy: false, error: String(e.message || e) }) }));
+    }
   }
   saveSettings() { try { fetch(BACKEND + '/settings', { method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ settings: this.state.settings }) }); } catch (x) {} }
   saveProfile() { const p = this.state.profile; try { fetch(BACKEND + '/me', { method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ name: p.name, company: p.company, ai_prefs: { style: p.insightStyle, tone: p.tone } }) }); } catch (x) {} }
@@ -901,29 +981,32 @@ class Component extends DCLogic {
     };
     const dsCols = [
       { label: 'Dataset', align: 'left' }, { label: 'Source', align: 'left' }, { label: 'Rows', align: 'right' },
-      { label: 'Cols', align: 'right' }, { label: 'Updated', align: 'right' }, { label: 'Status', align: 'left' }, { label: 'Owner', align: 'right' }
+      { label: 'Cols', align: 'right' }, { label: 'Updated', align: 'right' }, { label: 'Status', align: 'left' }, { label: 'Owner', align: 'right' },
+      { label: 'Actions', align: 'right' }
     ];
     const ownerName = (s.me && s.me.name) || 'You';
-    const rawDatasets = [
-      ...((s.dsData && s.dsData.length)
-        ? s.dsData.map(d => ({
-            name: d.name || d.api_name || 'Untitled', path: d.api_name || '', source: 'Inflectiv',
-            rows: String(d.knowledge_source_count != null ? d.knowledge_source_count : '—'), cols: String(d.vector_count || '—'),
-            updated: timeAgo(d.updated_at || d.created_at), status: 'Synced',
-            letter: (d.name || 'D')[0].toUpperCase(), color: 'var(--violet)', tint: 'var(--violet-bg)', owner: ownerName, oc: '#6E56CF'
-          }))
-        : []),
-      ...((s.me && s.me.has_db && s.me.db_table_name)
-        ? [{
-            name: s.me.db_table_name, path: s.me.db_type || 'postgresql', source: 'PostgreSQL',
-            rows: '—', cols: '—',
-            updated: 'just now', status: 'Ready',
-            letter: (s.me.db_table_name || 'D')[0].toUpperCase(), color: 'var(--emerald)', tint: 'var(--emerald-bg)', owner: ownerName, oc: '#0E9F6E'
-          }]
-        : [])
-    ];
+    const rawDatasets = (s.dsSources || []).map(d => {
+      const isPg = d.type === 'postgresql';
+      const meta = d.meta || {};
+      return {
+        id: d.id,
+        name: d.label, path: isPg ? (meta.host_masked || '') : (meta.dataset_name || ''),
+        source: isPg ? 'PostgreSQL' : 'Inflectiv',
+        rows: isPg ? String(meta.table_count != null ? meta.table_count + ' tables' : '—') : String(meta.knowledge_source_count != null ? meta.knowledge_source_count : '—'),
+        cols: '—',
+        updated: d.last_connected_at ? timeAgo(d.last_connected_at) : 'never',
+        status: d.is_active ? 'Active' : 'Saved',
+        letter: (d.label || 'D')[0].toUpperCase(),
+        color: isPg ? 'var(--emerald)' : 'var(--violet)', tint: isPg ? 'var(--emerald-bg)' : 'var(--violet-bg)',
+        owner: ownerName, oc: isPg ? '#0E9F6E' : '#6E56CF',
+        isActive: d.is_active,
+        onActivate: () => this.activateSource(d.id),
+        onRename: () => this.startRenameSource(d.id, d.label),
+        onDelete: () => this.deleteSource(d.id)
+      };
+    });
     const datasets = rawDatasets.map(d => Object.assign({}, d, {
-      statusStyle: statusStyle(ST[d.status] || ST.Synced), statusDot: (ST[d.status] || ST.Synced).dot,
+      statusStyle: statusStyle(d.isActive ? ST.Ready : ST.Synced), statusDot: (d.isActive ? ST.Ready : ST.Synced).dot,
       ownerColor: d.oc, ownerInitials: (d.owner || 'Y').split(' ').map(w => w[0]).join('').slice(0, 2)
     }));
     const _hasDb = s.me && s.me.has_db && s.me.db_table_name;
@@ -1169,6 +1252,17 @@ class Component extends DCLogic {
       dsScanned: '· scanned across ' + datasets.length + ' connected dataset' + (datasets.length === 1 ? '' : 's'),
       dsCountLabel: datasets.length + ' dataset' + (datasets.length === 1 ? '' : 's'),
       recForLabel: (datasets[0] && datasets[0].name) || 'your data',
+      dsActionError: s.dsActionError,
+      renamingSourceId: s.renamingSourceId, renamingSourceLabel: s.renamingSourceLabel,
+      onRenamingSourceLabel: (e) => this.setState({ renamingSourceLabel: e.target.value }),
+      cancelRenameSource: () => this.setState({ renamingSourceId: null }),
+      commitRenameSource: () => this.commitRenameSource(),
+      showAddSource: s.showAddSource,
+      toggleAddSource: () => this.setState({ showAddSource: !s.showAddSource }),
+      addSrcConnString: s.addSrc.connString, onAddSrcConnString: (e) => this.setState(st => ({ addSrc: Object.assign({}, st.addSrc, { connString: e.target.value }) })),
+      addSrcError: s.addSrc.error,
+      submitAddSource: () => this.addSource(),
+      addSrcLabel: s.addSrc.busy ? 'Connecting…' : 'Connect',
       rowHover: { background: 'var(--bg-sub)' }, recHover: { borderColor: 'var(--violet-border)', background: 'var(--violet-bg)' },
       primaryHover: { filter: 'brightness(1.08)' },
       isInsights: s.page === 'insights',
@@ -1197,9 +1291,9 @@ class Component extends DCLogic {
       wsOptions: [((s.me && s.me.company) || 'Your workspace')].map(v => ({ v })),
       insightStyleSeg: ['Concise', 'Balanced', 'Detailed'].map(v => this.seg(v, p.insightStyle, (x) => this.setP('insightStyle', x))),
       toneSeg: ['Casual', 'Executive', 'Technical'].map(v => this.seg(v, p.tone, (x) => this.setP('tone', x))),
-      hasDbSource: s.me && s.me.has_db && s.me.db_table_name,
-      dbTableName: (s.me && s.me.db_table_name) || '',
-      dbConnStringMasked: (s.me && s.me.db_host_masked) || ''
+      hasDbSource: (s.dsSources || []).some(d => d.type === 'postgresql' && d.is_active),
+      dbTableName: (() => { const tc = (((s.dsSources || []).find(d => d.type === 'postgresql' && d.is_active) || {}).meta || {}).table_count; return typeof tc === 'number' ? tc + ' tables' : '—'; })(),
+      dbConnStringMasked: (((s.dsSources || []).find(d => d.type === 'postgresql' && d.is_active) || {}).meta || {}).host_masked || ''
     };
   }
 }

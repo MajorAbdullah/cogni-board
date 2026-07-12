@@ -9,3 +9,7 @@ Instructions for Claude Code when working in this repository.
 This is a hackathon submission (AMD Developer Hackathon: ACT II) — GitHub's contributor graph is derived from commit trailers, and this project must show sole/team authorship only, not AI-tool attribution.
 
 This overrides the default Claude Code commit-message convention for this repository specifically.
+
+## Pipeline 
+
+Always merge other branches into development first through PR and then create PR from development to main.
