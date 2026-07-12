@@ -145,7 +145,7 @@ def _assemble_table_index(col_rows: list[dict], fk_rows: list[dict]) -> list[dic
     tables: dict[str, dict] = {}
     for r in col_rows:
         t = tables.setdefault(r["table_name"], {
-            "table_name": r["table_name"], "row_estimate": r["row_estimate"] or 0,
+            "table_name": r["table_name"], "row_estimate": max(r["row_estimate"] or 0, 0),
             "columns": [], "foreign_keys": [],
         })
         t["columns"].append({"name": r["column_name"], "type": r["data_type"]})

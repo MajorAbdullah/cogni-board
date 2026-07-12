@@ -24,3 +24,11 @@ def test_assemble_table_index_handles_null_row_estimate():
     col_rows = [{"table_name": "t", "column_name": "id", "data_type": "integer", "row_estimate": None}]
     result = _assemble_table_index(col_rows, [])
     assert result[0]["row_estimate"] == 0
+
+
+def test_assemble_table_index_clamps_unanalyzed_negative_row_estimate():
+    # Postgres uses reltuples == -1 as a "never ANALYZEd" sentinel for a table
+    # that may well be populated. It must not flow through as a negative count.
+    col_rows = [{"table_name": "t", "column_name": "id", "data_type": "integer", "row_estimate": -1}]
+    result = _assemble_table_index(col_rows, [])
+    assert result[0]["row_estimate"] == 0

@@ -61,20 +61,22 @@ RES=$(curl -sf --max-time 10 -X POST "$BASE/db/test" \
   && ok "DB connection test passed" \
   || nok "DB connection test failed"
 
-# ── 3. DB list tables ────────────────────────────────────────────────────────
+# ── 3. DB test connection — hard gate, response shape ────────────────────────
+# (formerly "POST /api/db/tables", which was removed; /api/db/tables listing
+#  is gone for good, so this re-uses the surviving /api/db/test endpoint as
+#  the early "can we reach and use this Postgres" check, and — unlike section
+#  2's soft check — exits the whole script early on failure since nothing
+#  after this point can work without DB connectivity.)
 echo ""
-echo "── 3. POST /api/db/tables ──"
-RES=$(curl -sf --max-time 10 -X POST "$BASE/db/tables" \
+echo "── 3. POST /api/db/test (hard gate for \$DB_URL) ──"
+RES=$(curl -sf --max-time 10 -X POST "$BASE/db/test" \
   -H "Content-Type: application/json" \
-  -d "{\"conn_string\": \"$DB_URL\"}") || { nok "List tables failed"; exit 1; }
+  -d "{\"conn_string\": \"$DB_URL\"}") || { nok "DB test connection failed"; exit 1; }
 echo "$RES" | python3 -c "
 import sys,json
 d = json.load(sys.stdin)
-tables = [t['table_name'] for t in d.get('tables',[])]
-print(f'  → {len(tables)} tables found')
-assert len(tables) > 0, 'No tables'
-assert '$TABLE' in tables, 'Expected table missing'
-" && ok "Tables listed (${TABLE} present)" || nok "Tables missing"
+assert d.get('ok') is True, f'DB test did not report ok: {d}'
+" && ok "DB reachable and usable ($DB_URL)" || nok "DB test response malformed"
 
 # ── 4. Signup with DB credentials ────────────────────────────────────────────
 echo ""
@@ -141,7 +143,13 @@ echo "$RES" | python3 -c "
 import sys,json
 d = json.load(sys.stdin)
 assert d['source_type'] == 'database'
-assert d['dataset_name'] == '$TABLE'
+# Post-refactor, the database branch auto-indexes the whole schema rather than
+# a single named table, so dataset_name is a summary like '3 tables', not the
+# table name itself. Just assert it's a non-empty, table-count-shaped string.
+name = d['dataset_name']
+assert name and isinstance(name, str), f'dataset_name should be a non-empty string, got {name!r}'
+assert 'table' in name.lower(), f'dataset_name should describe table count (e.g. \"3 tables\"), got {name!r}'
+print(f'  → dataset_name: {name!r}')
 assert d['profile'] is not None
 assert len(d['suggested_queries']) > 0
 " && ok "Session created with profile" || nok "Session/profile incomplete"
