@@ -9,82 +9,81 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./design-system.css?v2">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.5l2.2 5.6L20 10.3l-5.8 2.2L12 18l-2.2-5.5L4 10.3l5.8-2.2z' fill='%238B5CF6'/%3E%3Ccircle cx='18.5' cy='5.5' r='1.7' fill='%238B5CF6' opacity='.85'/%3E%3C/svg%3E">
 <style>
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;height:100%;}
-body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+/* Legacy token aliases for dc-runtime template bindings */
 :root{
- --bg-app:#F4F3EF; --bg-panel:#FFFFFF; --bg-sub:#FAF9F6; --bg-inset:#F2F1EC;
- --border:#E7E5DE; --border-strong:#D9D6CD;
- --ink-900:#1B1A17; --ink-700:#46443D; --ink-500:#78766C; --ink-400:#A4A299;
- --violet:#6E56CF; --violet-bg:#F1EEFB; --violet-border:#DDD6F5;
- --emerald:#0E9F6E; --emerald-ink:#067A52; --emerald-bg:#E8FAF1;
- --amber:#D97706; --amber-ink:#B45309; --amber-bg:#FCF4E5;
- --rose:#E0455C; --rose-bg:#FCEDEE;
+ --bg-app:var(--bg-primary); --bg-panel:var(--bg-secondary); --bg-sub:var(--bg-tertiary); --bg-inset:var(--bg-tertiary);
+  --ink-900:var(--text-primary); --ink-700:var(--text-secondary); --ink-500:var(--text-muted); --ink-400:var(--text-muted);
+ --violet:var(--accent); --violet-bg:var(--accent-bg); --violet-border:var(--accent-border);
+ --emerald:var(--success); --emerald-ink:var(--success-ink); --emerald-bg:var(--success-bg);
+ --amber:var(--warning); --amber-ink:var(--warning-ink); --amber-bg:var(--warning-bg);
+ --rose:var(--error); --rose-bg:var(--error-bg);
  --teal:#0E9F9A; --blue:#3B6FE0;
- --shadow-sm:0 1px 2px rgba(28,27,24,.05);
- --shadow-md:0 6px 20px -6px rgba(28,27,24,.12);
- --shadow-lg:0 18px 44px -12px rgba(28,27,24,.20);
- --grid-dot:rgba(120,118,108,.16);
 }
 [data-theme="dark"]{
- --bg-app:#0D0D10; --bg-panel:#16161A; --bg-sub:#121215; --bg-inset:#1D1D22;
- --border:#26262D; --border-strong:#34343C;
- --ink-900:#ECECEF; --ink-700:#B6B6C0; --ink-500:#83838E; --ink-400:#5F5F69;
- --violet:#9A8BF2; --violet-bg:#201D33; --violet-border:#332C52;
- --emerald:#34D399; --emerald-ink:#34D399; --emerald-bg:#0F2620;
- --amber:#FBBF24; --amber-ink:#FBBF24; --amber-bg:#2A2012;
- --rose:#F4707F; --rose-bg:#2C171B;
+  --bg-app:var(--bg-primary); --bg-panel:var(--bg-secondary); --bg-sub:var(--bg-tertiary); --bg-inset:var(--bg-tertiary);
+  --ink-900:var(--text-primary); --ink-700:var(--text-secondary); --ink-500:var(--text-muted); --ink-400:var(--text-muted);
+ --violet:var(--accent); --violet-bg:var(--accent-bg); --violet-border:var(--accent-border);
+ --emerald:var(--success); --emerald-ink:var(--success-ink); --emerald-bg:var(--success-bg);
+ --amber:var(--warning); --amber-ink:var(--warning-ink); --amber-bg:var(--warning-bg);
+ --rose:var(--error); --rose-bg:var(--error-bg);
  --teal:#2DD4CE; --blue:#6E9BFF;
- --shadow-sm:0 1px 2px rgba(0,0,0,.4);
- --shadow-md:0 8px 24px -8px rgba(0,0,0,.6);
- --shadow-lg:0 22px 50px -14px rgba(0,0,0,.7);
- --grid-dot:rgba(200,200,210,.10);
 }
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(110,86,207,.28)}50%{box-shadow:0 0 0 5px rgba(110,86,207,0)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,99,74,.28)}50%{box-shadow:0 0 0 5px rgba(255,99,74,0)}}
 @keyframes barGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-thumb{background:rgba(130,128,118,.30);border-radius:9px;border:3px solid transparent;background-clip:content-box}
-::-webkit-scrollbar-thumb:hover{background:rgba(130,128,118,.5);background-clip:content-box}
-::-webkit-scrollbar-track{background:transparent}
 </style>
 </helmet>
 
-<div data-theme="{{ theme }}" style="height:100vh;width:100%;overflow:auto;background:var(--bg-app);color:var(--ink-900);font-family:'Hanken Grotesk',system-ui,sans-serif;">
+<div data-theme="{{ theme }}" style="height:100vh;width:100%;overflow:auto;background:var(--bg-app);color:var(--ink-900);font-family:var(--font-ui);">
 <div style="height:100%;min-width:1280px;display:flex;flex-direction:column;background:var(--bg-app);overflow:hidden;">
 
   <!-- ============ TOP BAR ============ -->
-  <div style="height:56px;flex:0 0 auto;display:flex;align-items:center;gap:16px;padding:0 16px;background:var(--bg-panel);border-bottom:1px solid var(--border);position:relative;z-index:40;">
+  <div style="height:56px;flex:0 0 auto;display:flex;align-items:center;gap:16px;padding:0 24px;background:var(--bg-secondary);border-bottom:1px solid var(--border);position:relative;z-index:40;">
 
     <!-- brand -->
     <div style="display:flex;align-items:center;gap:11px;flex:0 0 auto;">
-      <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(150deg,var(--violet),#4D38B0);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);">
+      <div style="width:30px;height:30px;border-radius:9px;background:var(--brand-gradient);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l2.2 5.6L20 10.3l-5.8 2.2L12 18l-2.2-5.5L4 10.3l5.8-2.2z" fill="#fff"/><circle cx="18.5" cy="5.5" r="1.7" fill="#fff" opacity=".85"/></svg>
       </div>
       <div style="display:flex;flex-direction:column;line-height:1;">
-        <span style="font-family:'Newsreader',serif;font-weight:600;font-size:16px;letter-spacing:-.01em;">Cogni</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.18em;color:var(--ink-400);text-transform:uppercase;margin-top:2px;">Board AI</span>
+        <span style="font-family:var(--font-serif);font-weight:600;font-size:16px;letter-spacing:-.01em;">Cogni</span>
+        <span style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:.18em;color:var(--ink-400);text-transform:uppercase;margin-top:2px;">Board AI</span>
       </div>
       <button onClick="{{ toggleSidebar }}" style-hover="{{ ghostHover }}" style="margin-left:6px;width:28px;height:28px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--ink-500);display:flex;align-items:center;justify-content:center;cursor:pointer;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.5 6h17M3.5 12h17M3.5 18h17"/></svg>
       </button>
     </div>
 
-    <!-- COMMAND BAR -->
-    <div style="flex:1;display:flex;justify-content:center;min-width:0;position:relative;">
-      <div style="width:100%;max-width:720px;position:relative;">
+    <div style="flex:1;"></div>
+
+    <!-- right controls -->
+    <div style="display:flex;align-items:center;gap:6px;flex:0 0 auto;">
+      <button onMouseDown="{{ onLogout }}" title="Log out" style-hover="{{ ghostHover }}" style="width:32px;height:32px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--ink-500);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+      </button>
+      <button onClick="{{ toggleTheme }}" style-hover="{{ ghostHover }}" style="width:32px;height:32px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--ink-500);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+        {{ themeIcon }}
+      </button>
+      <div style="width:1px;height:22px;background:var(--border);margin:0 4px;"></div>
+      <button onMouseDown="{{ saveDashboard }}" style-hover="{{ primaryHover }}" style="display:flex;align-items:center;gap:7px;height:32px;padding:0 13px;border:none;border-radius:9px;background:var(--ink-900);color:var(--bg-panel);font-family:var(--font-ui);font-weight:600;font-size:12.5px;cursor:pointer;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+        {{ saveLabel }}
+      </button>
+      <div style="width:30px;height:30px;border-radius:99px;background:linear-gradient(135deg,#E8A87C,#C17B5B);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:12px;margin-left:2px;box-shadow:var(--shadow-sm);">AI</div>
+    </div>
+  </div>
+
+  <!-- ============ COMMAND BAR ============ -->
+  <div style="flex:0 0 auto;display:flex;justify-content:center;padding:10px 24px;background:var(--bg-secondary);border-bottom:1px solid var(--border);position:relative;z-index:39;">
+    <div style="width:100%;max-width:720px;position:relative;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
           <div style="display:flex;gap:3px;background:var(--bg-inset);padding:3px;border-radius:9px;">
-            <button onMouseDown="{{ setComposerModeGraphs }}" data-testid="mode-graphs" style="height:26px;padding:0 11px;border:none;border-radius:7px;background:{{ modeGraphsBg }};color:{{ modeGraphsFg }};font:600 12px 'Hanken Grotesk',sans-serif;cursor:pointer;">Graphs</button>
-            <button onMouseDown="{{ setComposerModeChat }}" data-testid="mode-chat" style="height:26px;padding:0 11px;border:none;border-radius:7px;background:{{ modeChatBg }};color:{{ modeChatFg }};font:600 12px 'Hanken Grotesk',sans-serif;cursor:pointer;">Chat</button>
+            <button onMouseDown="{{ setComposerModeGraphs }}" data-testid="mode-graphs" style="height:26px;padding:0 11px;border:none;border-radius:7px;background:{{ modeGraphsBg }};color:{{ modeGraphsFg }};font:600 12px var(--font-family);cursor:pointer;">Graphs</button>
+            <button onMouseDown="{{ setComposerModeChat }}" data-testid="mode-chat" style="height:26px;padding:0 11px;border:none;border-radius:7px;background:{{ modeChatBg }};color:{{ modeChatFg }};font:600 12px var(--font-family);cursor:pointer;">Chat</button>
           </div>
-          <button onMouseDown="{{ toggleSourcePopover }}" data-testid="source-pill" style="display:flex;align-items:center;gap:6px;height:26px;padding:0 10px;border:1px solid var(--border);border-radius:99px;background:var(--bg-panel);color:var(--ink-700);font:600 11.5px 'Hanken Grotesk',sans-serif;cursor:pointer;">
+          <button onMouseDown="{{ toggleSourcePopover }}" data-testid="source-pill" style="display:flex;align-items:center;gap:6px;height:26px;padding:0 10px;border:1px solid var(--border);border-radius:99px;background:var(--bg-panel);color:var(--ink-700);font:600 11.5px var(--font-family);cursor:pointer;">
             <span style="width:6px;height:6px;border-radius:99px;background:{{ sourceDotColor }};"></span>{{ sourceLabel }}
           </button>
         </div>
@@ -92,9 +91,9 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
         <sc-if value="{{ isGraphsMode }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:center;gap:10px;height:38px;padding:0 8px 0 13px;background:var(--bg-sub);border:1px solid {{ cmdBorder }};border-radius:11px;box-shadow:{{ cmdShadow }};transition:border-color .18s,box-shadow .18s;">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;color:var(--violet);"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7z" fill="currentColor"/></svg>
-            <input value="{{ goal }}" onInput="{{ onGoalInput }}" onKeyDown="{{ onGoalKey }}" onFocus="{{ onGoalFocus }}" onBlur="{{ onGoalBlur }}" placeholder="Describe what you want to analyze…" style="flex:1;border:none;outline:none;background:transparent;font-family:'Hanken Grotesk',sans-serif;font-size:14px;color:var(--ink-900);min-width:0;" />
-            <kbd style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--bg-panel);flex:0 0 auto;">⌘K</kbd>
-            <button onMouseDown="{{ onGenerate }}" style-hover="{{ primaryHover }}" style="flex:0 0 auto;display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;border:none;border-radius:8px;background:var(--violet);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;box-shadow:var(--shadow-sm);">
+            <input value="{{ goal }}" onInput="{{ onGoalInput }}" onKeyDown="{{ onGoalKey }}" onFocus="{{ onGoalFocus }}" onBlur="{{ onGoalBlur }}" placeholder="Describe what you want to analyze…" style="flex:1;border:none;outline:none;background:transparent;font-family:var(--font-ui);font-size:14px;color:var(--ink-900);min-width:0;" />
+            <kbd style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--bg-panel);flex:0 0 auto;">⌘K</kbd>
+            <button onMouseDown="{{ onGenerate }}" style-hover="{{ primaryHover }}" style="flex:0 0 auto;display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;border:none;border-radius:8px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:12.5px;cursor:pointer;box-shadow:var(--shadow-sm);">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13H11l-1 9 8.5-11H12z" fill="currentColor" stroke="none"/></svg>
               Generate
             </button>
@@ -103,7 +102,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <!-- examples popover -->
           <sc-if value="{{ showExamples }}" hint-placeholder-val="{{ false }}">
             <div style="position:absolute;top:46px;left:0;right:0;background:var(--bg-panel);border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow-lg);padding:8px;z-index:60;animation:fadeUp .16s ease;">
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400);padding:6px 8px 8px;">{{ exampleHeading }}</div>
+              <div style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400);padding:6px 8px 8px;">{{ exampleHeading }}</div>
               <sc-for list="{{ examples }}" as="ex" hint-placeholder-count="5">
                 <button onMouseDown="{{ ex.onPick }}" style-hover="{{ exHover }}" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:9px 10px;border:none;border-radius:9px;background:transparent;cursor:pointer;color:var(--ink-700);">
                   <span style="width:26px;height:26px;border-radius:7px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ ex.icon }}</span>
@@ -123,29 +122,29 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
         <sc-if value="{{ showSourcePopover }}" hint-placeholder-val="{{ false }}">
           <div style="position:absolute;top:70px;left:0;width:360px;background:var(--bg-panel);border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow-lg);padding:16px;z-index:70;animation:fadeUp .16s ease;" data-testid="source-popover">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-              <span style="font-family:'Newsreader',serif;font-weight:600;font-size:15px;color:var(--ink-900);">Data source</span>
+              <span style="font-family:var(--font-serif);font-weight:600;font-size:15px;color:var(--ink-900);">Data source</span>
               <button onMouseDown="{{ closeSourcePopover }}" title="Close" style="width:24px;height:24px;border:1px solid var(--border);border-radius:7px;background:var(--bg-panel);color:var(--ink-500);cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
             </div>
             <div style="display:flex;gap:4px;background:var(--bg-inset);padding:4px;border-radius:11px;margin-bottom:14px;">
-              <button onMouseDown="{{ setSrcInflectiv }}" style="flex:1;height:32px;border:none;border-radius:8px;background:{{ srcInflectivBg }};color:{{ srcInflectivFg }};font:600 12.5px 'Hanken Grotesk',sans-serif;cursor:pointer;box-shadow:{{ srcInflectivShadow }};">Inflectiv</button>
-              <button onMouseDown="{{ setSrcDatabase }}" style="flex:1;height:32px;border:none;border-radius:8px;background:{{ srcDatabaseBg }};color:{{ srcDatabaseFg }};font:600 12.5px 'Hanken Grotesk',sans-serif;cursor:pointer;box-shadow:{{ srcDatabaseShadow }};">PostgreSQL</button>
+              <button onMouseDown="{{ setSrcInflectiv }}" style="flex:1;height:32px;border:none;border-radius:8px;background:{{ srcInflectivBg }};color:{{ srcInflectivFg }};font:600 12.5px var(--font-family);cursor:pointer;box-shadow:{{ srcInflectivShadow }};">Inflectiv</button>
+              <button onMouseDown="{{ setSrcDatabase }}" style="flex:1;height:32px;border:none;border-radius:8px;background:{{ srcDatabaseBg }};color:{{ srcDatabaseFg }};font:600 12.5px var(--font-family);cursor:pointer;box-shadow:{{ srcDatabaseShadow }};">PostgreSQL</button>
             </div>
 
             <sc-if value="{{ isSrcInflectiv }}" hint-placeholder-val="{{ true }}">
               <sc-if value="{{ connStageKey }}" hint-placeholder-val="{{ false }}">
                 <div>
                   <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Global API key</label>
-                  <input value="{{ connKey }}" onInput="{{ onConnKey }}" type="password" placeholder="inf_global_…" data-testid="conn-key-input" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-900);outline:none;margin-bottom:12px;" />
+                  <input value="{{ connKey }}" onInput="{{ onConnKey }}" type="password" placeholder="inf_global_…" data-testid="conn-key-input" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:var(--font-mono);font-size:12px;color:var(--ink-900);outline:none;margin-bottom:12px;" />
                   <sc-if value="{{ hasConnectErr }}" hint-placeholder-val="{{ false }}">
                     <div style="margin-bottom:10px;font-size:11.5px;line-height:1.4;color:var(--rose);background:var(--rose-bg);border-radius:8px;padding:8px 10px;">{{ connectErr }}</div>
                   </sc-if>
-                  <button onMouseDown="{{ loadDatasets }}" data-testid="load-datasets-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;">{{ loadBtnLabel }}</button>
+                  <button onMouseDown="{{ loadDatasets }}" data-testid="load-datasets-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;">{{ loadBtnLabel }}</button>
                 </div>
               </sc-if>
               <sc-if value="{{ connStageSelect }}" hint-placeholder-val="{{ false }}">
                 <div>
                   <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Choose a dataset</label>
-                  <select value="{{ connDatasetId }}" onChange="{{ onConnDataset }}" data-testid="dataset-select" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:'Hanken Grotesk',sans-serif;font-size:13px;color:var(--ink-900);outline:none;margin-bottom:12px;cursor:pointer;">
+                  <select value="{{ connDatasetId }}" onChange="{{ onConnDataset }}" data-testid="dataset-select" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:var(--font-ui);font-size:13px;color:var(--ink-900);outline:none;margin-bottom:12px;cursor:pointer;">
                     <sc-for list="{{ connDatasetOptions }}" as="opt" hint-placeholder-count="3">
                       <option value="{{ opt.value }}">{{ opt.label }}</option>
                     </sc-for>
@@ -153,8 +152,8 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
                   <sc-if value="{{ hasConnectErr }}" hint-placeholder-val="{{ false }}">
                     <div style="margin-bottom:10px;font-size:11.5px;line-height:1.4;color:var(--rose);background:var(--rose-bg);border-radius:8px;padding:8px 10px;">{{ connectErr }}</div>
                   </sc-if>
-                  <button onMouseDown="{{ doConnect }}" data-testid="connect-dataset-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;">{{ connectBtnLabel }}</button>
-                  <button onMouseDown="{{ connBack }}" style="width:100%;height:34px;margin-top:6px;border:none;border-radius:9px;background:transparent;color:var(--ink-500);font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:12px;cursor:pointer;">← Use a different key</button>
+                  <button onMouseDown="{{ doConnect }}" data-testid="connect-dataset-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;">{{ connectBtnLabel }}</button>
+                  <button onMouseDown="{{ connBack }}" style="width:100%;height:34px;margin-top:6px;border:none;border-radius:9px;background:transparent;color:var(--ink-500);font-family:var(--font-ui);font-weight:600;font-size:12px;cursor:pointer;">← Use a different key</button>
                 </div>
               </sc-if>
             </sc-if>
@@ -162,20 +161,20 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             <sc-if value="{{ isSrcDatabase }}" hint-placeholder-val="{{ false }}">
               <div>
                 <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">PostgreSQL connection string</label>
-                <input value="{{ connDbString }}" onInput="{{ onConnDbString }}" type="password" placeholder="postgresql://user:pass@host:5432/dbname" data-testid="conn-db-input" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-900);outline:none;margin-bottom:12px;" />
+                <input value="{{ connDbString }}" onInput="{{ onConnDbString }}" type="password" placeholder="postgresql://user:pass@host:5432/dbname" data-testid="conn-db-input" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:var(--font-mono);font-size:11.5px;color:var(--ink-900);outline:none;margin-bottom:12px;" />
                 <sc-if value="{{ hasConnectErr }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-bottom:10px;font-size:11.5px;line-height:1.4;color:var(--rose);background:var(--rose-bg);border-radius:8px;padding:8px 10px;">{{ connectErr }}</div>
                 </sc-if>
-                <button onMouseDown="{{ loadDbTables }}" data-testid="load-tables-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;">{{ loadDbTablesLabel }}</button>
+                <button onMouseDown="{{ loadDbTables }}" data-testid="load-tables-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;">{{ loadDbTablesLabel }}</button>
                 <sc-if value="{{ hasDbTables }}" hint-placeholder-val="{{ false }}">
                   <div style="margin-top:12px;">
                     <label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Choose a table</label>
-                    <select value="{{ connDbTable }}" onChange="{{ onConnDbTable }}" data-testid="table-select" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:'Hanken Grotesk',sans-serif;font-size:13px;color:var(--ink-900);outline:none;margin-bottom:12px;cursor:pointer;">
+                    <select value="{{ connDbTable }}" onChange="{{ onConnDbTable }}" data-testid="table-select" style="width:100%;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg-sub);font-family:var(--font-ui);font-size:13px;color:var(--ink-900);outline:none;margin-bottom:12px;cursor:pointer;">
                       <sc-for list="{{ connDbTableOptions }}" as="opt" hint-placeholder-count="3">
                         <option value="{{ opt.value }}">{{ opt.label }}</option>
                       </sc-for>
                     </select>
-                    <button onMouseDown="{{ doDbConnect }}" data-testid="connect-table-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;">{{ connectDbBtnLabel }}</button>
+                    <button onMouseDown="{{ doDbConnect }}" data-testid="connect-table-btn" style-hover="{{ primaryHover }}" style="width:100%;height:40px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;">{{ connectDbBtnLabel }}</button>
                   </div>
                 </sc-if>
               </div>
@@ -185,28 +184,11 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       </div>
     </div>
 
-    <!-- right controls -->
-    <div style="display:flex;align-items:center;gap:6px;flex:0 0 auto;">
-      <button onMouseDown="{{ onLogout }}" title="Log out" style-hover="{{ ghostHover }}" style="width:32px;height:32px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--ink-500);display:flex;align-items:center;justify-content:center;cursor:pointer;">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
-      </button>
-      <button onClick="{{ toggleTheme }}" style-hover="{{ ghostHover }}" style="width:32px;height:32px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--ink-500);display:flex;align-items:center;justify-content:center;cursor:pointer;">
-        {{ themeIcon }}
-      </button>
-      <div style="width:1px;height:22px;background:var(--border);margin:0 4px;"></div>
-      <button onMouseDown="{{ saveDashboard }}" style-hover="{{ primaryHover }}" style="display:flex;align-items:center;gap:7px;height:32px;padding:0 13px;border:none;border-radius:9px;background:var(--ink-900);color:var(--bg-panel);font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
-        {{ saveLabel }}
-      </button>
-      <div style="width:30px;height:30px;border-radius:99px;background:linear-gradient(135deg,#E8A87C,#C17B5B);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:12px;margin-left:2px;box-shadow:var(--shadow-sm);">AI</div>
-    </div>
-  </div>
-
   <!-- ============ CONNECT BANNER ============ -->
   <sc-if value="{{ showConnectBanner }}" hint-placeholder-val="{{ false }}">
     <div style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:12px;padding:9px 16px;background:var(--violet-bg);border-bottom:1px solid var(--violet-border);" data-testid="connect-banner">
       <span style="font-size:12.5px;font-weight:600;color:var(--violet);">Connect a data source to get started — you can explore the dashboard first and connect whenever you're ready.</span>
-      <button onMouseDown="{{ openConnectFromBanner }}" data-testid="connect-banner-cta" style="height:26px;padding:0 12px;border:none;border-radius:7px;background:var(--violet);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:11.5px;cursor:pointer;">Connect now</button>
+      <button onMouseDown="{{ openConnectFromBanner }}" data-testid="connect-banner-cta" style="height:26px;padding:0 12px;border:none;border-radius:7px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:11.5px;cursor:pointer;">Connect now</button>
       <button onMouseDown="{{ dismissConnectBanner }}" title="Dismiss" data-testid="connect-banner-dismiss" style="width:22px;height:22px;border:none;border-radius:6px;background:transparent;color:var(--violet);cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
   </sc-if>
@@ -216,7 +198,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
     <!-- ===== LEFT SIDEBAR ===== -->
     <sc-if value="{{ sidebarOpen }}" hint-placeholder-val="{{ true }}">
-      <aside style="width:244px;flex:0 0 auto;background:var(--bg-sub);border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:0;">
+      <aside style="width:244px;flex:0 0 auto;background:var(--bg-secondary);border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:0;">
         <!-- workspace switcher -->
         <div style="padding:12px 12px 10px;">
           <button onMouseDown="{{ toggleSourcePopover }}" title="Change data source" style-hover="{{ wsHover }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);cursor:pointer;box-shadow:var(--shadow-sm);">
@@ -230,7 +212,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
         </div>
 
         <div style="flex:1;overflow-y:auto;padding:2px 10px 10px;">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:8px 8px 6px;">Workspace</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:8px 8px 6px;">Workspace</div>
           <sc-for list="{{ navMain }}" as="n" hint-placeholder-count="4">
             <button onClick="{{ n.onClick }}" style-hover="{{ n.hoverStyle }}" style="{{ n.rowStyle }}">
               <span style="display:flex;color:{{ n.iconColor }};flex:0 0 auto;">{{ n.icon }}</span>
@@ -239,7 +221,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             </button>
           </sc-for>
 
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:16px 8px 6px;">Organization</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:16px 8px 6px;">Organization</div>
           <sc-for list="{{ navOrg }}" as="n" hint-placeholder-count="3">
             <button onClick="{{ n.onClick }}" style-hover="{{ n.hoverStyle }}" style="{{ n.rowStyle }}">
               <span style="display:flex;color:{{ n.iconColor }};flex:0 0 auto;">{{ n.icon }}</span>
@@ -263,13 +245,13 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
     </sc-if>
 
     <!-- ===== CENTER WORKSPACE ===== -->
-    <main style="flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;">
+    <main class="dashboard-canvas" style="padding:0;flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;">
       <!-- toolbar -->
       <div style="flex:0 0 auto;background:var(--bg-app);border-bottom:1px solid var(--border);padding:12px 20px 0;">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
           <div style="min-width:0;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:22px;letter-spacing:-.015em;color:var(--ink-900);white-space:nowrap;">{{ boardTitle }}</h1>
+              <h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:22px;letter-spacing:-.015em;color:var(--ink-900);white-space:nowrap;">{{ boardTitle }}</h1>
               <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--emerald-ink);background:var(--emerald-bg);padding:3px 8px;border-radius:99px;"><span style="width:6px;height:6px;border-radius:99px;background:var(--emerald);animation:pulse 1.8s infinite;"></span>Live</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-400);"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
             </div>
@@ -327,14 +309,14 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             <div style="width:52px;height:52px;border-radius:14px;background:var(--bg-panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6v6H4zM14 4h6v6h-6zM14 14h6v6h-6zM4 14h6v6H4z"/></svg>
             </div>
-            <div style="font-family:'Newsreader',serif;font-size:17px;color:var(--ink-700);">Your dashboard is empty</div>
+            <div style="font-family:var(--font-serif);font-size:17px;color:var(--ink-700);">Your dashboard is empty</div>
             <div style="font-size:12.5px;max-width:340px;line-height:1.5;">Describe what you want to analyze in the command bar, then drag the AI-generated components here.</div>
             <sc-if value="{{ hasSuggestions }}" hint-placeholder-val="{{ false }}">
               <div style="margin-top:6px;display:flex;flex-direction:column;align-items:center;gap:9px;pointer-events:auto;">
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400);">Recommended for this dataset</div>
+                <div style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400);">Recommended for this dataset</div>
                 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:480px;">
                   <sc-for list="{{ examples }}" as="ex" hint-placeholder-count="5">
-                    <button onMouseDown="{{ ex.onPick }}" style-hover="{{ recChipHover }}" style="display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;border:1px solid var(--border);background:var(--bg-panel);color:var(--ink-700);font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;box-shadow:var(--shadow-sm);">
+                    <button onMouseDown="{{ ex.onPick }}" style-hover="{{ recChipHover }}" style="display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;border:1px solid var(--border);background:var(--bg-panel);color:var(--ink-700);font-family:var(--font-ui);font-weight:600;font-size:12.5px;cursor:pointer;box-shadow:var(--shadow-sm);">
                       <span style="display:inline-flex;color:var(--violet);">{{ ex.icon }}</span>{{ ex.text }}
                     </button>
                   </sc-for>
@@ -356,18 +338,18 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
     <!-- ===== AI AGENT PANEL ===== -->
     <sc-if value="{{ aiOpen }}" hint-placeholder-val="{{ true }}">
-      <aside style="width:372px;flex:0 0 auto;background:var(--bg-panel);border-left:1px solid var(--border);display:flex;flex-direction:column;min-height:0;">
+      <aside class="dashboard-agent" style="width:372px;flex:0 0 auto;background:var(--bg-secondary);border-left:1px solid var(--border);display:flex;flex-direction:column;min-height:0;">
         <!-- header -->
         <div style="padding:14px 16px 12px;border-bottom:1px solid var(--border);">
           <div style="display:flex;align-items:center;gap:11px;">
-            <div style="position:relative;width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,var(--violet),#4D38B0);display:flex;align-items:center;justify-content:center;flex:0 0 auto;animation:glowPulse 2.6s infinite;">
+            <div style="position:relative;width:34px;height:34px;border-radius:10px;background:var(--brand-gradient);display:flex;align-items:center;justify-content:center;flex:0 0 auto;animation:glowPulse 2.6s infinite;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 00-3 3 3 3 0 00-2 5.2A3 3 0 009 17h6a3 3 0 002-5.8A3 3 0 0015 6a3 3 0 00-3-3z"/><path d="M12 8v9M9 12h6"/></svg>
               <span style="position:absolute;bottom:-2px;right:-2px;width:11px;height:11px;border-radius:99px;background:var(--emerald);border:2px solid var(--bg-panel);"></span>
             </div>
             <div style="flex:1;min-width:0;">
               <div style="display:flex;align-items:center;gap:7px;">
-                <span style="font-family:'Newsreader',serif;font-weight:600;font-size:15.5px;color:var(--ink-900);">AI Agent</span>
-                <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--violet);background:var(--violet-bg);padding:2px 6px;border-radius:5px;">live</span>
+                <span style="font-family:var(--font-serif);font-weight:600;font-size:15.5px;color:var(--ink-900);">AI Agent</span>
+                <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--violet);background:var(--violet-bg);padding:2px 6px;border-radius:5px;">live</span>
               </div>
               <div style="font-size:11px;color:var(--ink-500);margin-top:1px;">{{ agentStatus }}</div>
             </div>
@@ -383,7 +365,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
               </div>
             </sc-for>
           </div>
-          <div style="display:flex;justify-content:space-between;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.04em;color:var(--ink-400);text-transform:uppercase;">
+          <div style="display:flex;justify-content:space-between;margin-top:6px;font-family:var(--font-mono);font-size:8.5px;letter-spacing:.04em;color:var(--ink-400);text-transform:uppercase;">
             <span>Raw data</span><span style="color:var(--violet);">Components</span><span>Dashboard</span>
           </div>
         </div>
@@ -395,10 +377,10 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:11px;background:var(--bg-sub);margin-bottom:14px;">
             <span style="width:30px;height:30px;border-radius:8px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
             <div style="flex:1;min-width:0;">
-              <div style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-400);">Data source</div>
+              <div style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-400);">Data source</div>
               <div style="font-size:12.5px;font-weight:600;color:var(--ink-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ dataSourceLabel }}</div>
             </div>
-            <button onMouseDown="{{ toggleSourcePopover }}" style-hover="{{ iconBtnHover }}" style="height:28px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-panel);color:var(--ink-700);font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:11.5px;cursor:pointer;flex:0 0 auto;">Change</button>
+            <button onMouseDown="{{ toggleSourcePopover }}" style-hover="{{ iconBtnHover }}" style="height:28px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-panel);color:var(--ink-700);font-family:var(--font-ui);font-weight:600;font-size:11.5px;cursor:pointer;flex:0 0 auto;">Change</button>
           </div>
 
           <!-- goal echo / thinking -->
@@ -407,15 +389,15 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
               <div style="display:flex;align-items:flex-start;gap:9px;">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="color:var(--violet);flex:0 0 auto;margin-top:2px;"><path d="M12 3l1.5 4L18 8.5 14 10l-2 4-2-4-4-1.5L10 7z" fill="currentColor"/></svg>
                 <div style="flex:1;min-width:0;">
-                  <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:3px;">Analyzing goal</div>
-                  <div style="font-family:'Newsreader',serif;font-size:14.5px;line-height:1.35;color:var(--ink-900);">{{ goal }}</div>
+                  <div style="font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:3px;">Analyzing goal</div>
+                  <div style="font-family:var(--font-serif);font-size:14.5px;line-height:1.35;color:var(--ink-900);">{{ goal }}</div>
                 </div>
               </div>
               <div style="margin-top:12px;display:flex;flex-direction:column;gap:9px;">
                 <sc-for list="{{ thinkSteps }}" as="ts" hint-placeholder-count="3">
                   <div style="display:flex;align-items:center;gap:9px;animation:fadeUp .25s ease;">
                     <span style="flex:0 0 auto;width:16px;height:16px;display:flex;align-items:center;justify-content:center;">{{ ts.mark }}</span>
-                    <span style="font-size:12px;color:{{ ts.color }};font-family:'IBM Plex Mono',monospace;letter-spacing:-.01em;">{{ ts.t }}</span>
+                    <span style="font-size:12px;color:{{ ts.color }};font-family:var(--font-mono);letter-spacing:-.01em;">{{ ts.t }}</span>
                   </div>
                 </sc-for>
               </div>
@@ -425,8 +407,8 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <!-- drafts header -->
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;">
             <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-family:'Newsreader',serif;font-weight:600;font-size:15px;color:var(--ink-900);">Component Drafts</span>
-              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 7px;border-radius:99px;">{{ draftCount }}</span>
+              <span style="font-family:var(--font-serif);font-weight:600;font-size:15px;color:var(--ink-900);">Component Drafts</span>
+              <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 7px;border-radius:99px;">{{ draftCount }}</span>
             </div>
             <button onMouseDown="{{ goComponents }}" style-hover="{{ linkHover }}" style="border:none;background:transparent;color:var(--violet);font-weight:600;font-size:12px;cursor:pointer;padding:2px 4px;">Review all</button>
           </div>
@@ -443,10 +425,10 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
                 <div style="position:relative;height:96px;background:var(--bg-inset);border-bottom:1px solid var(--border);overflow:hidden;padding:11px 12px;">
                   {{ d.thumb }}
                   <div style="position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:5px;background:var(--bg-panel);border:1px solid var(--border);border-radius:99px;padding:2px 4px 2px 7px;box-shadow:var(--shadow-sm);">
-                    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:{{ d.confColor }};">{{ d.confLabel }}</span>
+                    <span style="font-family:var(--font-mono);font-size:10px;font-weight:600;color:{{ d.confColor }};">{{ d.confLabel }}</span>
                     {{ d.ring }}
                   </div>
-                  <span style="position:absolute;top:8px;left:8px;display:flex;align-items:center;gap:5px;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;padding:2px 7px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.04em;box-shadow:var(--shadow-sm);">{{ d.typeIcon }}{{ d.typeLabel }}</span>
+                  <span style="position:absolute;top:8px;left:8px;display:flex;align-items:center;gap:5px;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;padding:2px 7px;font-family:var(--font-mono);font-size:9.5px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.04em;box-shadow:var(--shadow-sm);">{{ d.typeIcon }}{{ d.typeLabel }}</span>
                 </div>
                 <!-- meta -->
                 <div style="padding:11px 12px 12px;">
@@ -454,14 +436,14 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
                     <span style="font-weight:600;font-size:13.5px;color:var(--ink-900);line-height:1.25;">{{ d.title }}</span>
                     <button onClick="{{ d.onFav }}" style="flex:0 0 auto;width:24px;height:24px;border:none;border-radius:6px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:{{ d.favColor }};">{{ d.favIcon }}</button>
                   </div>
-                  <div style="display:flex;align-items:center;gap:6px;margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);">
+                  <div style="display:flex;align-items:center;gap:6px;margin-top:5px;font-family:var(--font-mono);font-size:10px;color:var(--ink-400);">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/></svg>
                     <span>{{ d.source }}</span><span>·</span><span>{{ d.time }}</span>
                     <span style="margin-left:auto;">{{ d.groundChip }}</span>
                   </div>
                   {{ d.provenance }}
                   <div style="display:flex;align-items:center;gap:5px;margin-top:11px;">
-                    <button onClick="{{ d.onAdd }}" style-hover="{{ primaryHover }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:30px;border:none;border-radius:8px;background:var(--violet);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:12px;cursor:pointer;">
+                    <button onClick="{{ d.onAdd }}" style-hover="{{ primaryHover }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:30px;border:none;border-radius:8px;background:var(--violet);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:12px;cursor:pointer;">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add to dashboard
                     </button>
                     <button title="Edit" style-hover="{{ iconBtnHover }}" style="width:30px;height:30px;flex:0 0 auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-panel);color:var(--ink-500);cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></button>
@@ -477,7 +459,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
         <!-- agent input -->
         <div style="padding:12px 14px;border-top:1px solid var(--border);background:var(--bg-sub);">
           <div style="display:flex;align-items:center;gap:9px;height:38px;padding:0 8px 0 12px;background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;">
-            <input value="{{ followup }}" onInput="{{ onFollowInput }}" onKeyDown="{{ onFollowKey }}" placeholder="Refine, ask, or steer the agent…" style="flex:1;border:none;outline:none;background:transparent;font-family:'Hanken Grotesk',sans-serif;font-size:13px;color:var(--ink-900);min-width:0;" />
+            <input value="{{ followup }}" onInput="{{ onFollowInput }}" onKeyDown="{{ onFollowKey }}" placeholder="Refine, ask, or steer the agent…" style="flex:1;border:none;outline:none;background:transparent;font-family:var(--font-ui);font-size:13px;color:var(--ink-900);min-width:0;" />
             <button onMouseDown="{{ onFollowSend }}" style-hover="{{ primaryHover }}" style="width:28px;height:28px;border:none;border-radius:7px;background:var(--violet);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
@@ -497,12 +479,12 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
               </div>
             </sc-for>
             <sc-if value="{{ chatThinking }}" hint-placeholder-val="{{ false }}">
-              <div style="align-self:flex-start;font-size:12px;color:var(--ink-500);font-family:'IBM Plex Mono',monospace;" data-testid="chat-thinking">Thinking…</div>
+              <div style="align-self:flex-start;font-size:12px;color:var(--ink-500);font-family:var(--font-mono);" data-testid="chat-thinking">Thinking…</div>
             </sc-if>
           </div>
           <div style="padding:12px 14px;border-top:1px solid var(--border);background:var(--bg-sub);">
             <div style="display:flex;align-items:center;gap:9px;height:38px;padding:0 8px 0 12px;background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;">
-              <input value="{{ chatInput }}" onInput="{{ onChatInput }}" onKeyDown="{{ onChatKey }}" placeholder="Ask about your data…" data-testid="chat-input" style="flex:1;border:none;outline:none;background:transparent;font-family:'Hanken Grotesk',sans-serif;font-size:13px;color:var(--ink-900);min-width:0;" />
+              <input value="{{ chatInput }}" onInput="{{ onChatInput }}" onKeyDown="{{ onChatKey }}" placeholder="Ask about your data…" data-testid="chat-input" style="flex:1;border:none;outline:none;background:transparent;font-family:var(--font-ui);font-size:13px;color:var(--ink-900);min-width:0;" />
               <button onMouseDown="{{ onChatSend }}" data-testid="chat-send" style-hover="{{ primaryHover }}" style="width:28px;height:28px;border:none;border-radius:7px;background:var(--violet);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
             </div>
           </div>
@@ -513,11 +495,11 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
     <!-- collapsed AI rail -->
     <sc-if value="{{ aiClosed }}" hint-placeholder-val="{{ false }}">
       <aside style="width:54px;flex:0 0 auto;background:var(--bg-panel);border-left:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:10px;">
-        <button onClick="{{ toggleAi }}" style="position:relative;width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,var(--violet),#4D38B0);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:glowPulse 2.6s infinite;">
+        <button onClick="{{ toggleAi }}" style="position:relative;width:34px;height:34px;border-radius:10px;background:var(--brand-gradient);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:glowPulse 2.6s infinite;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 00-3 3 3 3 0 00-2 5.2A3 3 0 009 17h6a3 3 0 002-5.8A3 3 0 0015 6a3 3 0 00-3-3z"/><path d="M12 8v9M9 12h6"/></svg>
           <span style="position:absolute;top:-3px;right:-3px;min-width:16px;height:16px;border-radius:99px;background:var(--emerald);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg-panel);">{{ draftCount }}</span>
         </button>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-400);writing-mode:vertical-rl;letter-spacing:.1em;margin-top:6px;">AGENT</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--ink-400);writing-mode:vertical-rl;letter-spacing:.1em;margin-top:6px;">AGENT</div>
       </aside>
     </sc-if>
   </div>
@@ -666,7 +648,7 @@ class Component extends DCLogic {
     }
     return d;
   }
-  fonts() { return { serif: "'Newsreader',Georgia,serif", sans: "'Hanken Grotesk',system-ui,sans-serif", mono: "'IBM Plex Mono',monospace" }; }
+  fonts() { return { serif: "var(--font-family)", sans: "var(--font-family)", mono: "var(--font-mono)" }; }
   noData(o, mini) {
     const f = this.fonts();
     const icon = h('svg', { width: mini ? 18 : 22, height: mini ? 18 : 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M4 19V5M4 19h16M8 16v-4M12 16V8M16 16v-6' }));
@@ -951,11 +933,11 @@ class Component extends DCLogic {
     const grounded = w.grounded !== false;
     const tip = 'Sources behind this chart:\n\n' + srcs.map(s => '[' + (s.score || 0).toFixed(2) + '] ' + (s.text || '').slice(0, 220)).join('\n\n');
     return h('div', { title: tip, style: { flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: 7, marginTop: 10, paddingTop: 9, borderTop: '1px solid var(--border)', cursor: 'help' } },
-      h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 4, font: "600 9px 'IBM Plex Mono',monospace", letterSpacing: '.04em', textTransform: 'uppercase', color: grounded ? 'var(--emerald-ink)' : 'var(--amber-ink)', background: grounded ? 'var(--emerald-bg)' : 'var(--amber-bg)', padding: '2px 7px', borderRadius: 6 } }, grounded ? 'Grounded' : 'Estimated'),
-      h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 5, font: "500 10.5px 'Hanken Grotesk',sans-serif", color: 'var(--ink-500)' } },
+      h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 4, font: "600 9px var(--font-mono)", letterSpacing: '.04em', textTransform: 'uppercase', color: grounded ? 'var(--emerald-ink)' : 'var(--amber-ink)', background: grounded ? 'var(--emerald-bg)' : 'var(--amber-bg)', padding: '2px 7px', borderRadius: 6 } }, grounded ? 'Grounded' : 'Estimated'),
+      h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 5, font: "500 10.5px var(--font-family)", color: 'var(--ink-500)' } },
         h('svg', { width: 11, height: 11, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z' }), h('path', { d: 'M14 3v5h5' })),
         srcs.length + ' source' + (srcs.length === 1 ? '' : 's')),
-      h('span', { style: { marginLeft: 'auto', font: "500 10px 'Hanken Grotesk',sans-serif", color: 'var(--violet)' } }, 'hover to cite'));
+      h('span', { style: { marginLeft: 'auto', font: "500 10px var(--font-family)", color: 'var(--violet)' } }, 'hover to cite'));
   }
 
   buildPreview(o, mini) {
@@ -1204,13 +1186,13 @@ class Component extends DCLogic {
       iconColor: active ? 'var(--violet)' : 'var(--ink-500)',
       rowStyle: this.navRow(active),
       hoverStyle: { background: active ? 'var(--violet-bg)' : 'var(--bg-inset)' },
-      badgeStyle: 'font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;font-weight:500;color:' + (active ? 'var(--violet)' : 'var(--ink-400)') + ';background:' + (active ? 'var(--bg-panel)' : 'var(--bg-inset)') + ';padding:1px 7px;border-radius:99px;',
+      badgeStyle: 'font-family:var(--font-mono);font-size:10.5px;font-weight:500;color:' + (active ? 'var(--violet)' : 'var(--ink-400)') + ';background:' + (active ? 'var(--bg-panel)' : 'var(--bg-inset)') + ';padding:1px 7px;border-radius:99px;',
       onClick: ({ datasets: 'datasets', components: 'components', insights: 'insights', teams: 'team', billing: 'billing', admin: 'admin', settings: 'settings' })[id] ? () => { window.location.href = 'Agentic App.dc.html#' + ({ datasets: 'datasets', components: 'components', insights: 'insights', teams: 'team', billing: 'billing', admin: 'admin', settings: 'settings' })[id]; } : () => this.setState({ activeNav: id })
     };
   }
   mkTab(id, label) {
     const active = this.state.activeTab === id;
-    const base = 'padding:7px 13px;border:none;border-radius:8px 8px 0 0;background:transparent;font-family:\'Hanken Grotesk\',sans-serif;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;';
+    const base = 'padding:7px 13px;border:none;border-radius:8px 8px 0 0;background:transparent;font-family:var(--font-ui);font-size:13px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;';
     const style = active ? base + 'color:var(--ink-900);font-weight:600;border-bottom-color:var(--violet);' : base + 'color:var(--ink-500);font-weight:500;';
     return { id, label, style, onClick: () => this.setState({ activeTab: id }) };
   }
@@ -1253,15 +1235,15 @@ class Component extends DCLogic {
       const confColor = d.confidence >= 90 ? 'var(--emerald-ink)' : d.confidence >= 80 ? 'var(--violet)' : 'var(--amber-ink)';
       const srcs = d.sources || [];
       const grounded = d.grounded !== false;
-      const groundChip = srcs.length ? h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 4, font: "600 9.5px 'IBM Plex Mono',monospace", letterSpacing: '.04em', textTransform: 'uppercase', color: grounded ? 'var(--emerald-ink)' : 'var(--amber-ink)', background: grounded ? 'var(--emerald-bg)' : 'var(--amber-bg)', padding: '2px 7px', borderRadius: 6 } }, grounded ? 'Grounded' : 'Estimated') : null;
+      const groundChip = srcs.length ? h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 4, font: "600 9.5px var(--font-mono)", letterSpacing: '.04em', textTransform: 'uppercase', color: grounded ? 'var(--emerald-ink)' : 'var(--amber-ink)', background: grounded ? 'var(--emerald-bg)' : 'var(--amber-bg)', padding: '2px 7px', borderRadius: 6 } }, grounded ? 'Grounded' : 'Estimated') : null;
       const provenance = srcs.length ? h('details', { style: { marginTop: 10, borderTop: '1px solid var(--border)', paddingTop: 9 } },
-        h('summary', { style: { cursor: 'pointer', listStyle: 'none', display: 'flex', alignItems: 'center', gap: 6, font: "600 11px 'IBM Plex Mono',monospace", color: 'var(--violet)' } },
+        h('summary', { style: { cursor: 'pointer', listStyle: 'none', display: 'flex', alignItems: 'center', gap: 6, font: "600 11px var(--font-mono)", color: 'var(--violet)' } },
           h('svg', { width: 12, height: 12, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M9 6l6 6-6 6' })),
           'See ' + srcs.length + ' source' + (srcs.length === 1 ? '' : 's')),
         h('div', { style: { marginTop: 8, display: 'flex', flexDirection: 'column', gap: 7 } }, srcs.map((sc, i) =>
           h('div', { key: i, style: { display: 'flex', gap: 7, alignItems: 'flex-start' } },
-            h('span', { style: { flex: '0 0 auto', font: "600 9.5px 'IBM Plex Mono',monospace", color: 'var(--violet)', background: 'var(--violet-bg)', padding: '2px 5px', borderRadius: 5 } }, (sc.score || 0).toFixed(2)),
-            h('span', { style: { font: "400 11px/1.45 'Hanken Grotesk',sans-serif", color: 'var(--ink-500)' } }, (sc.text || '').slice(0, 180) + ((sc.text || '').length > 180 ? '…' : '')))))) : null;
+            h('span', { style: { flex: '0 0 auto', font: "600 9.5px var(--font-mono)", color: 'var(--violet)', background: 'var(--violet-bg)', padding: '2px 5px', borderRadius: 5 } }, (sc.score || 0).toFixed(2)),
+            h('span', { style: { font: "400 11px/1.45 var(--font-family)", color: 'var(--ink-500)' } }, (sc.text || '').slice(0, 180) + ((sc.text || '').length > 180 ? '…' : '')))))) : null;
       return {
         id: d.id, title: d.title, source: d.source, time: d.time,
         thumb: this.buildPreview(d, true),

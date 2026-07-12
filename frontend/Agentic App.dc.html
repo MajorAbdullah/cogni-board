@@ -9,62 +9,44 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./design-system.css?v2">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.5l2.2 5.6L20 10.3l-5.8 2.2L12 18l-2.2-5.5L4 10.3l5.8-2.2z' fill='%238B5CF6'/%3E%3Ccircle cx='18.5' cy='5.5' r='1.7' fill='%238B5CF6' opacity='.85'/%3E%3C/svg%3E">
 <style>
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;height:100%;}
-body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+/* Legacy token aliases for dc-runtime template bindings */
 :root{
- --bg-app:#F4F3EF; --bg-panel:#FFFFFF; --bg-sub:#FAF9F6; --bg-inset:#F2F1EC;
- --border:#E7E5DE; --border-strong:#D9D6CD;
- --ink-900:#1B1A17; --ink-700:#46443D; --ink-500:#78766C; --ink-400:#A4A299;
- --violet:#6E56CF; --violet-bg:#F1EEFB; --violet-border:#DDD6F5;
- --emerald:#0E9F6E; --emerald-ink:#067A52; --emerald-bg:#E8FAF1;
- --amber:#D97706; --amber-ink:#B45309; --amber-bg:#FCF4E5;
- --rose:#E0455C; --rose-ink:#C2334A; --rose-bg:#FCEDEE;
+ --bg-app:var(--bg-primary); --bg-panel:var(--bg-secondary); --bg-sub:var(--bg-tertiary); --bg-inset:var(--bg-tertiary);
+  --ink-900:var(--text-primary); --ink-700:var(--text-secondary); --ink-500:var(--text-muted); --ink-400:var(--text-muted);
+ --violet:var(--accent); --violet-bg:var(--accent-bg); --violet-border:var(--accent-border);
+ --emerald:var(--success); --emerald-ink:var(--success-ink); --emerald-bg:var(--success-bg);
+ --amber:var(--warning); --amber-ink:var(--warning-ink); --amber-bg:var(--warning-bg);
+ --rose:var(--error); --rose-ink:var(--error); --rose-bg:var(--error-bg);
  --teal:#0E9F9A; --blue:#3B6FE0;
- --shadow-sm:0 1px 2px rgba(28,27,24,.05);
- --shadow-md:0 6px 20px -6px rgba(28,27,24,.12);
- --shadow-lg:0 18px 44px -12px rgba(28,27,24,.20);
- --grid-dot:rgba(120,118,108,.16);
 }
 [data-theme="dark"]{
- --bg-app:#0D0D10; --bg-panel:#16161A; --bg-sub:#121215; --bg-inset:#1D1D22;
- --border:#26262D; --border-strong:#34343C;
- --ink-900:#ECECEF; --ink-700:#B6B6C0; --ink-500:#83838E; --ink-400:#5F5F69;
- --violet:#9A8BF2; --violet-bg:#201D33; --violet-border:#332C52;
- --emerald:#34D399; --emerald-ink:#34D399; --emerald-bg:#0F2620;
- --amber:#FBBF24; --amber-ink:#FBBF24; --amber-bg:#2A2012;
- --rose:#F4707F; --rose-ink:#F4707F; --rose-bg:#2C171B;
+  --bg-app:var(--bg-primary); --bg-panel:var(--bg-secondary); --bg-sub:var(--bg-tertiary); --bg-inset:var(--bg-tertiary);
+  --ink-900:var(--text-primary); --ink-700:var(--text-secondary); --ink-500:var(--text-muted); --ink-400:var(--text-muted);
+ --violet:var(--accent); --violet-bg:var(--accent-bg); --violet-border:var(--accent-border);
+ --emerald:var(--success); --emerald-ink:var(--success-ink); --emerald-bg:var(--success-bg);
+ --amber:var(--warning); --amber-ink:var(--warning-ink); --amber-bg:var(--warning-bg);
+ --rose:var(--error); --rose-ink:var(--error); --rose-bg:var(--error-bg);
  --teal:#2DD4CE; --blue:#6E9BFF;
- --shadow-sm:0 1px 2px rgba(0,0,0,.4);
- --shadow-md:0 8px 24px -8px rgba(0,0,0,.6);
- --shadow-lg:0 22px 50px -14px rgba(0,0,0,.7);
- --grid-dot:rgba(200,200,210,.10);
 }
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-thumb{background:rgba(130,128,118,.3);border-radius:9px;border:3px solid transparent;background-clip:content-box}
-::-webkit-scrollbar-track{background:transparent}
 </style>
 </helmet>
 
-<div data-theme="{{ theme }}" style="height:100vh;width:100%;overflow:auto;background:var(--bg-app);color:var(--ink-900);font-family:'Hanken Grotesk',system-ui,sans-serif;">
+<div data-theme="{{ theme }}" style="height:100vh;width:100%;overflow:auto;background:var(--bg-app);color:var(--ink-900);font-family:var(--font-ui);">
 <div style="height:100%;min-width:1180px;display:flex;flex-direction:column;overflow:hidden;">
 
   <!-- TOP BAR -->
-  <div style="height:56px;flex:0 0 auto;display:flex;align-items:center;gap:16px;padding:0 16px;background:var(--bg-panel);border-bottom:1px solid var(--border);z-index:30;">
+  <div style="height:56px;flex:0 0 auto;display:flex;align-items:center;gap:16px;padding:0 24px;background:var(--bg-secondary);border-bottom:1px solid var(--border);z-index:30;">
     <div style="display:flex;align-items:center;gap:11px;width:228px;flex:0 0 auto;">
-      <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(150deg,var(--violet),#4D38B0);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l2.2 5.6L20 10.3l-5.8 2.2L12 18l-2.2-5.5L4 10.3l5.8-2.2z" fill="#fff"/><circle cx="18.5" cy="5.5" r="1.7" fill="#fff" opacity=".85"/></svg></div>
-      <div style="display:flex;flex-direction:column;line-height:1;"><span style="font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Cogni</span><span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.18em;color:var(--ink-400);text-transform:uppercase;margin-top:2px;">Board AI</span></div>
+      <div style="width:30px;height:30px;border-radius:9px;background:var(--brand-gradient);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l2.2 5.6L20 10.3l-5.8 2.2L12 18l-2.2-5.5L4 10.3l5.8-2.2z" fill="#fff"/><circle cx="18.5" cy="5.5" r="1.7" fill="#fff" opacity=".85"/></svg></div>
+      <div style="display:flex;flex-direction:column;line-height:1;"><span style="font-family:var(--font-serif);font-weight:600;font-size:16px;">Cogni</span><span style="font-family:var(--font-mono);font-size:8.5px;letter-spacing:.18em;color:var(--ink-400);text-transform:uppercase;margin-top:2px;">Board AI</span></div>
     </div>
     <div style="flex:1;max-width:440px;display:flex;align-items:center;gap:9px;height:36px;padding:0 12px;background:var(--bg-sub);border:1px solid var(--border);border-radius:10px;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-400)" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
-      <input placeholder="Search dashboards, datasets, people…" style="flex:1;border:none;outline:none;background:transparent;font:13.5px 'Hanken Grotesk',sans-serif;color:var(--ink-900);" />
-      <kbd style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--bg-panel);">⌘K</kbd>
+      <input placeholder="Search dashboards, datasets, people…" style="flex:1;border:none;outline:none;background:transparent;font:13.5px var(--font-family);color:var(--ink-900);" />
+      <kbd style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--bg-panel);">⌘K</kbd>
     </div>
     <div style="flex:1;"></div>
     <div style="display:flex;align-items:center;gap:6px;flex:0 0 auto;">
@@ -78,7 +60,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
   <!-- BODY -->
   <div style="flex:1;display:flex;min-height:0;">
     <!-- SIDEBAR -->
-    <aside style="width:228px;flex:0 0 auto;background:var(--bg-sub);border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:0;">
+    <aside style="width:228px;flex:0 0 auto;background:var(--bg-secondary);border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:0;">
       <div style="padding:12px 12px 6px;">
         <button onClick="{{ goProfile }}" style-hover="{{ wsHover }}" style="width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);cursor:pointer;box-shadow:var(--shadow-sm);">
           <span style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#1B1A17,#46443D);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:0 0 auto;">N</span>
@@ -87,9 +69,9 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
         </button>
       </div>
       <div style="flex:1;overflow-y:auto;padding:6px 10px 10px;">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:8px 8px 6px;">Workspace</div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:8px 8px 6px;">Workspace</div>
         <sc-for list="{{ navMain }}" as="n" hint-placeholder-count="4"><button onClick="{{ n.onClick }}" style-hover="{{ n.hoverStyle }}" style="{{ n.rowStyle }}"><span style="display:flex;color:{{ n.iconColor }};flex:0 0 auto;">{{ n.icon }}</span><span style="flex:1;text-align:left;font-size:13px;font-weight:{{ n.weight }};">{{ n.label }}</span><sc-if value="{{ n.count }}" hint-placeholder-val="{{ true }}"><span style="{{ n.badgeStyle }}">{{ n.count }}</span></sc-if></button></sc-for>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:16px 8px 6px;">Organization</div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-400);padding:16px 8px 6px;">Organization</div>
         <sc-for list="{{ navOrg }}" as="n" hint-placeholder-count="3"><button onClick="{{ n.onClick }}" style-hover="{{ n.hoverStyle }}" style="{{ n.rowStyle }}"><span style="display:flex;color:{{ n.iconColor }};flex:0 0 auto;">{{ n.icon }}</span><span style="flex:1;text-align:left;font-size:13px;font-weight:{{ n.weight }};">{{ n.label }}</span><sc-if value="{{ n.count }}" hint-placeholder-val="{{ false }}"><span style="{{ n.badgeStyle }}">{{ n.count }}</span></sc-if></button></sc-for>
       </div>
       <div style="padding:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:4px;">
@@ -105,7 +87,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ true }}">
         <div style="padding:26px 30px 60px;max-width:1080px;">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;">
-            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Account</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Profile &amp; Preferences</h1></div>
+            <div><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Account</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Profile &amp; Preferences</h1></div>
             <button onMouseDown="{{ onLogout }}" style-hover="{{ ghostHover }}" style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);color:var(--ink-700);font-weight:600;font-size:13px;cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Log out</button>
           </div>
 
@@ -118,13 +100,13 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:18px;">
               <!-- profile header card -->
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-                <div style="height:84px;background:linear-gradient(120deg,#3E2E96,#6E56CF 70%,#9A8BF2);"></div>
+                <div style="height:84px;background:linear-gradient(120deg,#CC4A35,#FF634A 70%,#FF8A6E);"></div>
                 <div style="padding:0 24px 22px;">
                   <div style="display:flex;align-items:flex-end;gap:18px;margin-top:-34px;">
-                    <div style="width:84px;height:84px;border-radius:22px;background:linear-gradient(135deg,#E8A87C,#C17B5B);border:4px solid var(--bg-panel);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Newsreader',serif;font-weight:600;font-size:34px;flex:0 0 auto;">{{ userInitials }}</div>
+                    <div style="width:84px;height:84px;border-radius:22px;background:linear-gradient(135deg,#E8A87C,#C17B5B);border:4px solid var(--bg-panel);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-serif);font-weight:600;font-size:34px;flex:0 0 auto;">{{ userInitials }}</div>
                     <div style="flex:1;min-width:0;padding-bottom:4px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;">
                       <div>
-                        <div style="display:flex;align-items:center;gap:9px;"><span style="font-family:'Newsreader',serif;font-weight:600;font-size:21px;">{{ userName }}</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--violet);background:var(--violet-bg);border:1px solid var(--violet-border);padding:2px 9px;border-radius:99px;">{{ userRoleText }}</span></div>
+                        <div style="display:flex;align-items:center;gap:9px;"><span style="font-family:var(--font-serif);font-weight:600;font-size:21px;">{{ userName }}</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--violet);background:var(--violet-bg);border:1px solid var(--violet-border);padding:2px 9px;border-radius:99px;">{{ userRoleText }}</span></div>
                         <div style="font-size:13px;color:var(--ink-500);margin-top:3px;">{{ userSubtitle }}</div>
                       </div>
                     </div>
@@ -137,7 +119,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <!-- account details -->
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:22px 24px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Account details</h3><span style="font-size:11.5px;color:var(--emerald-ink);display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Auto-saved</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;"><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">Account details</h3><span style="font-size:11.5px;color:var(--emerald-ink);display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Auto-saved</span></div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                   <div><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Full name</label><input value="{{ p_name }}" onInput="{{ onPName }}" style-focus="{{ inputFocus }}" style="{{ inputStyle }}" /></div>
                   <div><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Department</label><input value="{{ p_dept }}" onInput="{{ onPDept }}" style-focus="{{ inputFocus }}" style="{{ inputStyle }}" /></div>
@@ -150,30 +132,30 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
               <!-- Data source -->
               <sc-if value="{{ hasDbSource }}" hint-placeholder-val="{{ false }}">
                 <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:22px 24px;">
-                  <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;"><span style="width:28px;height:28px;border-radius:8px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Connected database</h3></div>
+                  <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;"><span style="width:28px;height:28px;border-radius:8px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">Connected database</h3></div>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                     <div><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Type</label><div style="font-size:13.5px;color:var(--ink-900);font-weight:600;">PostgreSQL</div></div>
-                    <div><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Table</label><div style="font-size:13.5px;color:var(--ink-900);font-family:'IBM Plex Mono',monospace;">{{ dbTableName }}</div></div>
-                    <div style="grid-column:span 2;"><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Connection string</label><div style="font-size:12px;color:var(--ink-700);font-family:'IBM Plex Mono',monospace;word-break:break-all;">{{ dbConnStringMasked }}</div></div>
+                    <div><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Table</label><div style="font-size:13.5px;color:var(--ink-900);font-family:var(--font-mono);">{{ dbTableName }}</div></div>
+                    <div style="grid-column:span 2;"><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:6px;">Connection string</label><div style="font-size:12px;color:var(--ink-700);font-family:var(--font-mono);word-break:break-all;">{{ dbConnStringMasked }}</div></div>
                   </div>
                 </div>
               </sc-if>
 
               <!-- AI preferences -->
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:22px 24px;">
-                <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;"><span style="width:28px;height:28px;border-radius:8px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ aiPrefIcon }}</span><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">AI preferences</h3></div>
+                <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;"><span style="width:28px;height:28px;border-radius:8px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ aiPrefIcon }}</span><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">AI preferences</h3></div>
                 <div style="display:flex;flex-direction:column;gap:20px;">
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
                     <div><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:9px;">Preferred insight style</label>{{ insightStyleSegEl }}</div>
                     <div><label style="display:block;font-size:12px;font-weight:600;color:var(--ink-700);margin-bottom:9px;">Executive summary tone</label>{{ toneSegEl }}</div>
                   </div>
                   <div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><label style="font-size:12px;font-weight:600;color:var(--ink-700);">AI confidence threshold</label><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--violet);">{{ p_conf }}%</span></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><label style="font-size:12px;font-weight:600;color:var(--ink-700);">AI confidence threshold</label><span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--violet);">{{ p_conf }}%</span></div>
                     <input type="range" min="50" max="99" value="{{ p_conf }}" onInput="{{ onPConf }}" style="width:100%;accent-color:var(--violet);height:5px;cursor:pointer;" />
                     <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-400);margin-top:5px;"><span>Show more suggestions</span><span>Only high-certainty</span></div>
                   </div>
                   <div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><label style="font-size:12px;font-weight:600;color:var(--ink-700);">Forecast aggressiveness</label><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--violet);">{{ forecastLabel }}</span></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><label style="font-size:12px;font-weight:600;color:var(--ink-700);">Forecast aggressiveness</label><span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--violet);">{{ forecastLabel }}</span></div>
                     <input type="range" min="0" max="100" value="{{ p_forecast }}" onInput="{{ onPForecast }}" style="width:100%;accent-color:var(--violet);height:5px;cursor:pointer;" />
                     <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-400);margin-top:5px;"><span>Conservative</span><span>Balanced</span><span>Aggressive</span></div>
                   </div>
@@ -182,12 +164,12 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <!-- productivity -->
               <div>
-                <h3 style="margin:0 0 12px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Productivity</h3>
+                <h3 style="margin:0 0 12px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Productivity</h3>
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
                   <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
                     <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);padding:15px 16px;">
-                      <div style="display:flex;align-items:center;justify-content:space-between;"><span style="width:30px;height:30px;border-radius:8px;background:{{ st.tint }};color:{{ st.color }};display:flex;align-items:center;justify-content:center;">{{ st.icon }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--emerald-ink);">{{ st.delta }}</span></div>
-                      <div style="font-family:'Newsreader',serif;font-size:27px;color:var(--ink-900);margin-top:12px;letter-spacing:-.01em;">{{ st.value }}</div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;"><span style="width:30px;height:30px;border-radius:8px;background:{{ st.tint }};color:{{ st.color }};display:flex;align-items:center;justify-content:center;">{{ st.icon }}</span><span style="font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--emerald-ink);">{{ st.delta }}</span></div>
+                      <div style="font-family:var(--font-serif);font-size:27px;color:var(--ink-900);margin-top:12px;letter-spacing:-.01em;">{{ st.value }}</div>
                       <div style="font-size:11.5px;color:var(--ink-500);margin-top:1px;">{{ st.label }}</div>
                     </div>
                   </sc-for>
@@ -196,12 +178,12 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <!-- activity -->
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:22px 24px;">
-                <h3 style="margin:0 0 16px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Recent activity</h3>
+                <h3 style="margin:0 0 16px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Recent activity</h3>
                 <div style="display:flex;flex-direction:column;">
                   <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
                     <div style="display:flex;gap:13px;padding-bottom:18px;position:relative;">
                       <div style="display:flex;flex-direction:column;align-items:center;flex:0 0 auto;"><span style="width:30px;height:30px;border-radius:8px;background:{{ a.tint }};color:{{ a.color }};display:flex;align-items:center;justify-content:center;z-index:1;">{{ a.icon }}</span><sc-if value="{{ a.line }}" hint-placeholder-val="{{ true }}"><span style="width:1.5px;flex:1;background:var(--border);margin:3px 0;"></span></sc-if></div>
-                      <div style="flex:1;min-width:0;padding-top:5px;"><div style="font-size:13.5px;color:var(--ink-900);"><span style="font-weight:600;">{{ a.action }}</span> {{ a.target }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-400);margin-top:2px;">{{ a.time }}</div></div>
+                      <div style="flex:1;min-width:0;padding-top:5px;"><div style="font-size:13.5px;color:var(--ink-900);"><span style="font-weight:600;">{{ a.action }}</span> {{ a.target }}</div><div style="font-family:var(--font-mono);font-size:10.5px;color:var(--ink-400);margin-top:2px;">{{ a.time }}</div></div>
                     </div>
                   </sc-for>
                 </div>
@@ -215,18 +197,18 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <sc-if value="{{ isDatasets }}" hint-placeholder-val="{{ false }}">
         <div style="padding:26px 30px 60px;">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;">
-            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Workspace</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Dataset Management</h1></div>
+            <div><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Workspace</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Dataset Management</h1></div>
             <div style="display:flex;gap:8px;">
               <button onMouseDown="{{ goBuilder }}" style-hover="{{ primaryHover }}" style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-weight:600;font-size:13px;cursor:pointer;box-shadow:var(--shadow-sm);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Open builder</button>
             </div>
           </div>
 
           <!-- AI data health -->
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="width:24px;height:24px;border-radius:7px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ healthIcon }}</span><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:15px;">AI data health</h3><span style="font-size:11.5px;color:var(--ink-500);">{{ dsScanned }}</span></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="width:24px;height:24px;border-radius:7px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ healthIcon }}</span><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:15px;">AI data health</h3><span style="font-size:11.5px;color:var(--ink-500);">{{ dsScanned }}</span></div>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
             <sc-for list="{{ health }}" as="hh" hint-placeholder-count="4">
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);padding:15px 16px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="width:30px;height:30px;border-radius:8px;background:{{ hh.tint }};color:{{ hh.color }};display:flex;align-items:center;justify-content:center;">{{ hh.icon }}</span><span style="font-family:'Newsreader',serif;font-size:23px;color:var(--ink-900);">{{ hh.value }}</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="width:30px;height:30px;border-radius:8px;background:{{ hh.tint }};color:{{ hh.color }};display:flex;align-items:center;justify-content:center;">{{ hh.icon }}</span><span style="font-family:var(--font-serif);font-size:23px;color:var(--ink-900);">{{ hh.value }}</span></div>
                 <div style="font-size:12.5px;font-weight:600;color:var(--ink-900);margin-top:11px;">{{ hh.label }}</div>
                 <div style="font-size:11px;color:var(--ink-500);margin-top:2px;line-height:1.4;">{{ hh.note }}</div>
               </div>
@@ -236,17 +218,17 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <div style="display:flex;gap:18px;align-items:flex-start;">
             <!-- table -->
             <div style="flex:1;min-width:0;background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">All datasets</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 8px;border-radius:99px;">{{ dsCountLabel }}</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">All datasets</h3><span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 8px;border-radius:99px;">{{ dsCountLabel }}</span></div>
               <div style="display:grid;grid-template-columns:2.4fr 1.1fr 0.8fr 0.7fr 1.1fr 1fr 0.9fr;gap:12px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-sub);">
-                <sc-for list="{{ dsCols }}" as="c" hint-placeholder-count="7"><span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);text-align:{{ c.align }};">{{ c.label }}</span></sc-for>
+                <sc-for list="{{ dsCols }}" as="c" hint-placeholder-count="7"><span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);text-align:{{ c.align }};">{{ c.label }}</span></sc-for>
               </div>
               <sc-for list="{{ datasets }}" as="d" hint-placeholder-count="7">
                 <div style-hover="{{ rowHover }}" style="display:grid;grid-template-columns:2.4fr 1.1fr 0.8fr 0.7fr 1.1fr 1fr 0.9fr;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .12s;">
-                  <div style="display:flex;align-items:center;gap:10px;min-width:0;"><span style="width:30px;height:30px;border-radius:8px;background:{{ d.tint }};color:{{ d.color }};display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-weight:600;font-size:13px;flex:0 0 auto;">{{ d.letter }}</span><div style="min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ d.name }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);">{{ d.path }}</div></div></div>
+                  <div style="display:flex;align-items:center;gap:10px;min-width:0;"><span style="width:30px;height:30px;border-radius:8px;background:{{ d.tint }};color:{{ d.color }};display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-weight:600;font-size:13px;flex:0 0 auto;">{{ d.letter }}</span><div style="min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ d.name }}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);">{{ d.path }}</div></div></div>
                   <span style="font-size:12px;color:var(--ink-700);">{{ d.source }}</span>
-                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-900);text-align:right;">{{ d.rows }}</span>
-                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-700);text-align:right;">{{ d.cols }}</span>
-                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);text-align:right;">{{ d.updated }}</span>
+                  <span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-900);text-align:right;">{{ d.rows }}</span>
+                  <span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-700);text-align:right;">{{ d.cols }}</span>
+                  <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-500);text-align:right;">{{ d.updated }}</span>
                   <span style="display:flex;justify-content:flex-start;"><span style="{{ d.statusStyle }}"><span style="width:5px;height:5px;border-radius:99px;background:{{ d.statusDot }};"></span>{{ d.status }}</span></span>
                   <span style="display:flex;align-items:center;justify-content:flex-end;gap:3px;">
                     <span style="width:22px;height:22px;border-radius:99px;background:{{ d.ownerColor }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:600;" title="{{ d.owner }}">{{ d.ownerInitials }}</span>
@@ -258,15 +240,15 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             <!-- AI recommendations -->
             <div style="width:316px;flex:0 0 auto;background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
               <div style="padding:15px 17px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--violet-bg),transparent);">
-                <div style="display:flex;align-items:center;gap:8px;"><span style="width:26px;height:26px;border-radius:7px;background:var(--violet);color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7z" fill="currentColor"/></svg></span><span style="font-family:'Newsreader',serif;font-weight:600;font-size:15px;">Suggested dashboards</span></div>
-                <div style="font-size:11.5px;color:var(--ink-500);margin-top:5px;">For <span style="font-family:'IBM Plex Mono',monospace;color:var(--ink-700);">{{ recForLabel }}</span></div>
+                <div style="display:flex;align-items:center;gap:8px;"><span style="width:26px;height:26px;border-radius:7px;background:var(--violet);color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7z" fill="currentColor"/></svg></span><span style="font-family:var(--font-serif);font-weight:600;font-size:15px;">Suggested dashboards</span></div>
+                <div style="font-size:11.5px;color:var(--ink-500);margin-top:5px;">For <span style="font-family:var(--font-mono);color:var(--ink-700);">{{ recForLabel }}</span></div>
               </div>
               <div style="padding:12px;display:flex;flex-direction:column;gap:9px;">
                 <sc-for list="{{ recommendations }}" as="r" hint-placeholder-count="4">
                   <button onMouseDown="{{ goBuilder }}" style-hover="{{ recHover }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:var(--bg-panel);cursor:pointer;text-align:left;transition:all .12s;">
                     <span style="width:32px;height:32px;border-radius:9px;background:{{ r.tint }};color:{{ r.color }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ r.icon }}</span>
                     <span style="flex:1;min-width:0;"><span style="display:block;font-size:13px;font-weight:600;color:var(--ink-900);">{{ r.title }}</span><span style="display:block;font-size:11px;color:var(--ink-500);margin-top:1px;">{{ r.meta }}</span></span>
-                    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:var(--emerald-ink);">{{ r.conf }}</span>
+                    <span style="font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--emerald-ink);">{{ r.conf }}</span>
                   </button>
                 </sc-for>
               </div>
@@ -279,7 +261,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <sc-if value="{{ isComponents }}" hint-placeholder-val="{{ false }}">
         <div style="padding:26px 30px 60px;">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;">
-            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Workspace</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Generated Components</h1></div>
+            <div><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Workspace</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Generated Components</h1></div>
             <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:12.5px;color:var(--ink-500);">{{ compCount }} AI-generated assets</span></div>
           </div>
 
@@ -300,15 +282,15 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
               <div style-hover="{{ compCardHover }}" style="border:1px solid var(--border);border-radius:15px;background:var(--bg-panel);box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .16s,border-color .16s,transform .12s;">
                 <div style="position:relative;height:108px;background:var(--bg-inset);border-bottom:1px solid var(--border);padding:13px 15px;overflow:hidden;">
                   {{ c.thumb }}
-                  <span style="position:absolute;top:9px;left:9px;display:inline-flex;align-items:center;gap:5px;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;padding:2px 8px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.04em;box-shadow:var(--shadow-sm);">{{ c.typeLabel }}</span>
-                  <span style="position:absolute;top:9px;right:9px;display:inline-flex;align-items:center;gap:4px;background:var(--bg-panel);border:1px solid var(--border);border-radius:99px;padding:2px 8px;box-shadow:var(--shadow-sm);"><span style="width:6px;height:6px;border-radius:99px;background:{{ c.confDot }};"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:{{ c.confColor }};">{{ c.conf }}%</span></span>
+                  <span style="position:absolute;top:9px;left:9px;display:inline-flex;align-items:center;gap:5px;background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;padding:2px 8px;font-family:var(--font-mono);font-size:9.5px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.04em;box-shadow:var(--shadow-sm);">{{ c.typeLabel }}</span>
+                  <span style="position:absolute;top:9px;right:9px;display:inline-flex;align-items:center;gap:4px;background:var(--bg-panel);border:1px solid var(--border);border-radius:99px;padding:2px 8px;box-shadow:var(--shadow-sm);"><span style="width:6px;height:6px;border-radius:99px;background:{{ c.confDot }};"></span><span style="font-family:var(--font-mono);font-size:10px;font-weight:600;color:{{ c.confColor }};">{{ c.conf }}%</span></span>
                 </div>
                 <div style="padding:13px 15px 14px;">
                   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
                     <span style="font-weight:600;font-size:14px;color:var(--ink-900);line-height:1.25;">{{ c.title }}</span>
                     <button onClick="{{ c.onFav }}" style="flex:0 0 auto;width:26px;height:26px;border:none;border-radius:7px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:{{ c.favColor }};">{{ c.favIcon }}</button>
                   </div>
-                  <div style="display:flex;align-items:center;gap:6px;margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);"><span>{{ c.source }}</span><span>·</span><span>{{ c.time }}</span></div>
+                  <div style="display:flex;align-items:center;gap:6px;margin-top:5px;font-family:var(--font-mono);font-size:10px;color:var(--ink-400);"><span>{{ c.source }}</span><span>·</span><span>{{ c.time }}</span></div>
                   <p style="margin:9px 0 0;font-size:12px;color:var(--ink-500);line-height:1.45;min-height:34px;">{{ c.summary }}</p>
                   <div style="display:flex;align-items:center;gap:5px;margin-top:12px;">
                     <button onMouseDown="{{ goBuilder }}" style-hover="{{ primaryHover }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:32px;border:none;border-radius:8px;background:var(--violet);color:#fff;font-weight:600;font-size:12px;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Open in builder</button>
@@ -325,7 +307,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <sc-if value="{{ isTeam }}" hint-placeholder-val="{{ false }}">
         <div style="padding:26px 30px 60px;">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;">
-            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Organization</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Team Workspace</h1></div>
+            <div><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Organization</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Team Workspace</h1></div>
             <div style="display:flex;gap:8px;">
               <button onMouseDown="{{ inviteMember }}" style-hover="{{ primaryHover }}" style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-weight:600;font-size:13px;cursor:pointer;box-shadow:var(--shadow-sm);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M9.5 9a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM19 8v6M22 11h-6"/></svg>Invite members</button>
             </div>
@@ -335,7 +317,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             <sc-for list="{{ teamStats }}" as="st" hint-placeholder-count="4">
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);padding:15px 16px;">
                 <div style="display:flex;align-items:center;gap:9px;"><span style="width:28px;height:28px;border-radius:8px;background:{{ st.tint }};color:{{ st.color }};display:flex;align-items:center;justify-content:center;">{{ st.icon }}</span><span style="font-size:11.5px;color:var(--ink-500);">{{ st.label }}</span></div>
-                <div style="font-family:'Newsreader',serif;font-size:27px;color:var(--ink-900);margin-top:10px;">{{ st.value }}</div>
+                <div style="font-family:var(--font-serif);font-size:27px;color:var(--ink-900);margin-top:10px;">{{ st.value }}</div>
               </div>
             </sc-for>
           </div>
@@ -343,17 +325,17 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <div style="display:flex;gap:18px;align-items:flex-start;">
             <!-- directory -->
             <div style="flex:1;min-width:0;background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Team directory</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 8px;border-radius:99px;">{{ memberCountLabel }}</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">Team directory</h3><span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-500);background:var(--bg-inset);padding:2px 8px;border-radius:99px;">{{ memberCountLabel }}</span></div>
               <div style="display:grid;grid-template-columns:2.2fr 1.2fr 1fr 1fr 1fr;gap:12px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-sub);">
-                <sc-for list="{{ teamCols }}" as="c" hint-placeholder-count="5"><span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);">{{ c }}</span></sc-for>
+                <sc-for list="{{ teamCols }}" as="c" hint-placeholder-count="5"><span style="font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);">{{ c }}</span></sc-for>
               </div>
               <sc-for list="{{ members }}" as="m" hint-placeholder-count="6">
                 <div style-hover="{{ rowHover }}" style="display:grid;grid-template-columns:2.2fr 1.2fr 1fr 1fr 1fr;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:center;transition:background .12s;">
-                  <div style="display:flex;align-items:center;gap:11px;min-width:0;"><span style="width:32px;height:32px;border-radius:99px;background:{{ m.color }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex:0 0 auto;">{{ m.initials }}</span><div style="min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);">{{ m.name }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);">{{ m.email }}</div></div></div>
+                  <div style="display:flex;align-items:center;gap:11px;min-width:0;"><span style="width:32px;height:32px;border-radius:99px;background:{{ m.color }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex:0 0 auto;">{{ m.initials }}</span><div style="min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);">{{ m.name }}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);">{{ m.email }}</div></div></div>
                   <span style="font-size:12.5px;color:var(--ink-700);">{{ m.dept }}</span>
                   <span style="display:flex;"><span style="{{ m.roleStyle }}">{{ m.role }}</span></span>
                   <span style="display:flex;"><span style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;color:{{ m.statusColor }};"><span style="width:6px;height:6px;border-radius:99px;background:{{ m.statusDot }};"></span>{{ m.status }}</span></span>
-                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);">{{ m.last }}</span>
+                  <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-500);">{{ m.last }}</span>
                 </div>
               </sc-for>
             </div>
@@ -361,23 +343,23 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             <!-- shared resources -->
             <div style="width:300px;flex:0 0 auto;display:flex;flex-direction:column;gap:16px;">
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:16px 17px;">
-                <h3 style="margin:0 0 12px;font-family:'Newsreader',serif;font-weight:600;font-size:15px;">Shared resources</h3>
+                <h3 style="margin:0 0 12px;font-family:var(--font-serif);font-weight:600;font-size:15px;">Shared resources</h3>
                 <div style="display:flex;flex-direction:column;gap:8px;">
                   <sc-for list="{{ sharedRes }}" as="r" hint-placeholder-count="4">
                     <div style="display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;background:var(--bg-sub);">
                       <span style="width:30px;height:30px;border-radius:8px;background:{{ r.tint }};color:{{ r.color }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ r.icon }}</span>
                       <span style="flex:1;font-size:13px;font-weight:500;color:var(--ink-700);">{{ r.label }}</span>
-                      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ink-900);">{{ r.count }}</span>
+                      <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--ink-900);">{{ r.count }}</span>
                     </div>
                   </sc-for>
                 </div>
               </div>
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:16px 17px;">
-                <h3 style="margin:0 0 4px;font-family:'Newsreader',serif;font-weight:600;font-size:15px;">Permissions matrix</h3>
+                <h3 style="margin:0 0 4px;font-family:var(--font-serif);font-weight:600;font-size:15px;">Permissions matrix</h3>
                 <p style="margin:0 0 12px;font-size:11.5px;color:var(--ink-500);">Access by role</p>
                 <div style="display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:6px;align-items:center;">
                   <span></span>
-                  <sc-for list="{{ permRoles }}" as="pr" hint-placeholder-count="4"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;text-align:center;color:var(--ink-500);text-transform:uppercase;">{{ pr }}</span></sc-for>
+                  <sc-for list="{{ permRoles }}" as="pr" hint-placeholder-count="4"><span style="font-family:var(--font-mono);font-size:9px;text-align:center;color:var(--ink-500);text-transform:uppercase;">{{ pr }}</span></sc-for>
                   <sc-for list="{{ permRows }}" as="row" hint-placeholder-count="5">
                     <span style="font-size:11px;color:var(--ink-700);">{{ row.cap }}</span>
                     <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="4"><span style="display:flex;justify-content:center;">{{ cell }}</span></sc-for>
@@ -392,23 +374,23 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <!-- ============ BILLING ============ -->
       <sc-if value="{{ isBilling }}" hint-placeholder-val="{{ false }}">
         <div style="padding:26px 30px 60px;max-width:1120px;">
-          <div style="margin-bottom:20px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Organization</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Billing &amp; Subscription</h1></div>
+          <div style="margin-bottom:20px;"><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Organization</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Billing &amp; Subscription</h1></div>
 
           <!-- overview -->
           <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:24px;">
             <div style="display:flex;align-items:stretch;">
               <div style="flex:1;padding:22px 24px;border-right:1px solid var(--border);">
                 <div style="display:flex;align-items:center;gap:9px;"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--violet);background:var(--violet-bg);border:1px solid var(--violet-border);padding:3px 10px;border-radius:99px;">FREE PLAN</span><span style="font-size:12px;color:var(--ink-500);">Demo workspace</span></div>
-                <div style="display:flex;align-items:baseline;gap:6px;margin-top:14px;"><span style="font-family:'Newsreader',serif;font-size:38px;color:var(--ink-900);">$0</span><span style="font-size:14px;color:var(--ink-500);">/ month</span></div>
+                <div style="display:flex;align-items:baseline;gap:6px;margin-top:14px;"><span style="font-family:var(--font-serif);font-size:38px;color:var(--ink-900);">$0</span><span style="font-size:14px;color:var(--ink-500);">/ month</span></div>
                 <div style="font-size:12.5px;color:var(--ink-500);margin-top:6px;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>No billing on file</div>
               </div>
               <div style="flex:1.4;padding:22px 24px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;"><span style="font-size:12.5px;font-weight:600;color:var(--ink-700);">AI credits used</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-900);">{{ billCredits }}</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;"><span style="font-size:12.5px;font-weight:600;color:var(--ink-700);">AI credits used</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-900);">{{ billCredits }}</span></div>
                 <div style="height:8px;border-radius:99px;background:var(--bg-inset);overflow:hidden;"><div style="height:100%;width:{{ billCreditsPct }};border-radius:99px;background:linear-gradient(90deg,var(--violet),#9A8BF2);"></div></div>
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;">
-                  <div><div style="font-family:'Newsreader',serif;font-size:22px;color:var(--ink-900);">{{ billAnalyses }}</div><div style="font-size:11px;color:var(--ink-500);">AI analyses run</div></div>
-                  <div><div style="font-family:'Newsreader',serif;font-size:22px;color:var(--ink-900);">{{ billDashboards }}</div><div style="font-size:11px;color:var(--ink-500);">Dashboards saved</div></div>
-                  <div><div style="font-family:'Newsreader',serif;font-size:22px;color:var(--ink-900);">{{ billComponents }}</div><div style="font-size:11px;color:var(--ink-500);">Components generated</div></div>
+                  <div><div style="font-family:var(--font-serif);font-size:22px;color:var(--ink-900);">{{ billAnalyses }}</div><div style="font-size:11px;color:var(--ink-500);">AI analyses run</div></div>
+                  <div><div style="font-family:var(--font-serif);font-size:22px;color:var(--ink-900);">{{ billDashboards }}</div><div style="font-size:11px;color:var(--ink-500);">Dashboards saved</div></div>
+                  <div><div style="font-family:var(--font-serif);font-size:22px;color:var(--ink-900);">{{ billComponents }}</div><div style="font-size:11px;color:var(--ink-500);">Components generated</div></div>
                 </div>
               </div>
               <div style="flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;gap:9px;padding:22px 24px;background:var(--bg-sub);border-left:1px solid var(--border);">
@@ -418,13 +400,13 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           </div>
 
           <!-- plans -->
-          <h3 style="margin:0 0 13px;font-family:'Newsreader',serif;font-weight:600;font-size:17px;">Plans</h3>
+          <h3 style="margin:0 0 13px;font-family:var(--font-serif);font-weight:600;font-size:17px;">Plans</h3>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px;">
             <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
               <div style="{{ t.cardStyle }}">
                 <sc-if value="{{ t.current }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:14px;right:14px;font-size:10px;font-weight:700;color:#fff;background:var(--violet);padding:3px 9px;border-radius:99px;letter-spacing:.04em;">CURRENT</span></sc-if>
                 <div style="font-size:13px;font-weight:700;color:{{ t.accent }};letter-spacing:.03em;text-transform:uppercase;">{{ t.name }}</div>
-                <div style="display:flex;align-items:baseline;gap:5px;margin-top:12px;"><span style="font-family:'Newsreader',serif;font-size:32px;color:var(--ink-900);">{{ t.price }}</span><span style="font-size:13px;color:var(--ink-500);">{{ t.per }}</span></div>
+                <div style="display:flex;align-items:baseline;gap:5px;margin-top:12px;"><span style="font-family:var(--font-serif);font-size:32px;color:var(--ink-900);">{{ t.price }}</span><span style="font-size:13px;color:var(--ink-500);">{{ t.per }}</span></div>
                 <div style="font-size:12.5px;color:var(--ink-500);margin-top:6px;line-height:1.4;">{{ t.tagline }}</div>
                 <div style="height:1px;background:var(--border);margin:16px 0;"></div>
                 <div style="display:flex;flex-direction:column;gap:9px;">
@@ -438,12 +420,12 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <div style="display:flex;gap:18px;align-items:flex-start;">
             <!-- usage analytics -->
             <div style="flex:1.3;min-width:0;background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:20px 22px;">
-              <h3 style="margin:0 0 16px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Usage this cycle</h3>
+              <h3 style="margin:0 0 16px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Usage this cycle</h3>
               <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
                 <sc-for list="{{ usageStats }}" as="u" hint-placeholder-count="3">
                   <div style="border:1px solid var(--border);border-radius:13px;padding:13px 14px;">
                     <div style="font-size:11.5px;color:var(--ink-500);">{{ u.label }}</div>
-                    <div style="display:flex;align-items:baseline;gap:7px;margin-top:5px;"><span style="font-family:'Newsreader',serif;font-size:23px;color:var(--ink-900);">{{ u.value }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--emerald-ink);">{{ u.delta }}</span></div>
+                    <div style="display:flex;align-items:baseline;gap:7px;margin-top:5px;"><span style="font-family:var(--font-serif);font-size:23px;color:var(--ink-900);">{{ u.value }}</span><span style="font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--emerald-ink);">{{ u.delta }}</span></div>
                     <div style="height:34px;margin-top:8px;">{{ u.spark }}</div>
                   </div>
                 </sc-for>
@@ -452,17 +434,17 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
             <!-- payment + invoices -->
             <div style="width:340px;flex:0 0 auto;display:flex;flex-direction:column;gap:16px;">
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);padding:18px 19px;">
-                <h3 style="margin:0 0 13px;font-family:'Newsreader',serif;font-weight:600;font-size:15px;">Payment method</h3>
+                <h3 style="margin:0 0 13px;font-family:var(--font-serif);font-weight:600;font-size:15px;">Payment method</h3>
                 <div style="display:flex;align-items:center;gap:12px;padding:14px 12px;border:1px dashed var(--border-strong);border-radius:12px;background:var(--bg-sub);">
                   <div style="flex:1;text-align:center;"><div style="font-size:12.5px;color:var(--ink-500);">No payment method on file</div></div>
                 </div>
               </div>
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:15px;">Billing history</h3></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:15px;">Billing history</h3></div>
                 <sc-for list="{{ invoices }}" as="iv" hint-placeholder-count="4">
                   <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--border);">
-                    <div style="flex:1;"><div style="font-size:12.5px;font-weight:600;color:var(--ink-900);">{{ iv.date }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);">{{ iv.id }}</div></div>
-                    <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-900);">{{ iv.amount }}</span>
+                    <div style="flex:1;"><div style="font-size:12.5px;font-weight:600;color:var(--ink-900);">{{ iv.date }}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);">{{ iv.id }}</div></div>
+                    <span style="font-family:var(--font-mono);font-size:12.5px;color:var(--ink-900);">{{ iv.amount }}</span>
                     <span style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--emerald-ink);background:var(--emerald-bg);padding:2px 7px;border-radius:99px;">Paid</span>
                   </div>
                 </sc-for>
@@ -478,7 +460,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <!-- ============ SETTINGS ============ -->
       <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
         <div style="padding:26px 30px 60px;max-width:1080px;">
-          <div style="margin-bottom:22px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Workspace</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Settings</h1></div>
+          <div style="margin-bottom:22px;"><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Workspace</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Settings</h1></div>
           <div style="display:flex;gap:24px;">
             <nav style="width:212px;flex:0 0 auto;display:flex;flex-direction:column;gap:2px;position:sticky;top:0;align-self:flex-start;">
               <sc-for list="{{ settingsNav }}" as="n" hint-placeholder-count="12"><button onClick="{{ n.onClick }}" style="{{ n.style }}"><span style="display:flex;color:{{ n.iconColor }};">{{ n.icon }}</span>{{ n.label }}</button></sc-for>
@@ -487,7 +469,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <sc-if value="{{ isSecGeneral }}" hint-placeholder-val="{{ true }}">
                 <div style="{{ cardStyle }}">
-                  <h3 style="margin:0 0 18px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">General</h3>
+                  <h3 style="margin:0 0 18px;font-family:var(--font-serif);font-weight:600;font-size:16px;">General</h3>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                     <div style="grid-column:span 2;"><label style="{{ labelStyle }}">Workspace name</label><input value="{{ st_wsName }}" onInput="{{ onWsName }}" style-focus="{{ inputFocus }}" style="{{ inputStyle }}" /></div>
                     <div><label style="{{ labelStyle }}">Date format</label><select value="{{ st_dateFormat }}" onChange="{{ onDateFormat }}" style="{{ selectStyle }}"><sc-for list="{{ dateFormats }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.v }}</option></sc-for></select></div>
@@ -495,7 +477,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
                   </div>
                 </div>
                 <div style="{{ cardStyle }}">
-                  <h3 style="margin:0 0 16px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Branding</h3>
+                  <h3 style="margin:0 0 16px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Branding</h3>
                   <div style="display:flex;align-items:center;gap:16px;">
                     <div style="width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,#1B1A17,#46443D);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;flex:0 0 auto;">N</div>
                     <div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);">Workspace logo</div><div style="font-size:12px;color:var(--ink-500);margin-top:2px;">PNG or SVG, at least 256×256px.</div></div>
@@ -505,14 +487,14 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <sc-if value="{{ isSecAI }}" hint-placeholder-val="{{ false }}">
                 <div style="{{ cardStyle }}">
-                  <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;"><span style="width:28px;height:28px;border-radius:8px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ aiSettingsIcon }}</span><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">AI Agent Settings</h3></div>
+                  <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;"><span style="width:28px;height:28px;border-radius:8px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ aiSettingsIcon }}</span><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">AI Agent Settings</h3></div>
                   <div style="display:flex;flex-direction:column;gap:20px;">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
                       <div><label style="{{ labelStyle }}">Insight generation sensitivity</label>{{ aiSensSegEl }}</div>
                       <div><label style="{{ labelStyle }}">KPI recommendation aggressiveness</label>{{ kpiSegEl }}</div>
                     </div>
-                    <div><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><label style="{{ labelStyle }}">Anomaly detection threshold</label><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--violet);">{{ st_anomaly }}%</span></div><input type="range" min="0" max="100" value="{{ st_anomaly }}" onInput="{{ onAnomaly }}" style="width:100%;accent-color:var(--violet);height:5px;cursor:pointer;" /></div>
-                    <div><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><label style="{{ labelStyle }}">Forecasting confidence level</label><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--violet);">{{ st_forecastConf }}%</span></div><input type="range" min="50" max="99" value="{{ st_forecastConf }}" onInput="{{ onForecastConf }}" style="width:100%;accent-color:var(--violet);height:5px;cursor:pointer;" /></div>
+                    <div><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><label style="{{ labelStyle }}">Anomaly detection threshold</label><span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--violet);">{{ st_anomaly }}%</span></div><input type="range" min="0" max="100" value="{{ st_anomaly }}" onInput="{{ onAnomaly }}" style="width:100%;accent-color:var(--violet);height:5px;cursor:pointer;" /></div>
+                    <div><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><label style="{{ labelStyle }}">Forecasting confidence level</label><span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--violet);">{{ st_forecastConf }}%</span></div><input type="range" min="50" max="99" value="{{ st_forecastConf }}" onInput="{{ onForecastConf }}" style="width:100%;accent-color:var(--violet);height:5px;cursor:pointer;" /></div>
                     <div><label style="{{ labelStyle }}">Executive summary verbosity</label>{{ verbositySegEl }}</div>
                     <div style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid var(--border);"><div style="padding-top:14px;"><div style="font-size:13.5px;font-weight:600;color:var(--ink-900);">Auto-categorization</div><div style="font-size:12px;color:var(--ink-500);margin-top:2px;">Let the agent tag and group new components.</div></div><button onClick="{{ onAutoCat }}" style="{{ autoCatToggle }}"><span style="{{ autoCatThumb }}"></span></button></div>
                   </div>
@@ -521,13 +503,13 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <sc-if value="{{ isSecSecurity }}" hint-placeholder-val="{{ false }}">
                 <div style="{{ cardStyle }}">
-                  <h3 style="margin:0 0 8px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Authentication</h3>
+                  <h3 style="margin:0 0 8px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Authentication</h3>
                   <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:13.5px;font-weight:600;color:var(--ink-900);">Two-factor authentication</div><div style="font-size:12px;color:var(--ink-500);margin-top:2px;">Require a second factor at sign-in.</div></div><button onClick="{{ on2fa }}" style="{{ twofaToggle }}"><span style="{{ twofaThumb }}"></span></button></div>
                   <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:13.5px;font-weight:600;color:var(--ink-900);">Single Sign-On (SSO)</div><div style="font-size:12px;color:var(--ink-500);margin-top:2px;">SAML / OIDC via your identity provider.</div></div><button onClick="{{ onSso }}" style="{{ ssoToggle }}"><span style="{{ ssoThumb }}"></span></button></div>
                   <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 0 4px;"><div><div style="font-size:13.5px;font-weight:600;color:var(--ink-900);">Active sessions</div><div style="font-size:12px;color:var(--ink-500);margin-top:2px;">3 devices · last active 2m ago.</div></div><button style-hover="{{ ghostHover }}" style="height:34px;padding:0 13px;border:1px solid var(--border);border-radius:9px;background:var(--bg-panel);color:var(--ink-700);font-weight:600;font-size:12.5px;cursor:pointer;">Manage</button></div>
                 </div>
                 <div style="{{ cardStyle }}">
-                  <h3 style="margin:0 0 16px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Data &amp; compliance</h3>
+                  <h3 style="margin:0 0 16px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Data &amp; compliance</h3>
                   <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;"><div style="flex:1;"><label style="{{ labelStyle }}">Data retention policy</label><select value="{{ st_retention }}" onChange="{{ onRetention }}" style="{{ selectStyle }}"><sc-for list="{{ retentions }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.v }}</option></sc-for></select></div><div style="flex:1;align-self:flex-end;"><div style="display:flex;align-items:center;gap:8px;height:42px;padding:0 13px;border-radius:10px;background:var(--emerald-bg);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-ink)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5z"/><path d="M8 11V7a4 4 0 018 0v4"/></svg><span style="font-size:12.5px;font-weight:600;color:var(--emerald-ink);">AES-256 encryption · enabled</span></div></div></div>
                   <div style="display:flex;gap:9px;"><sc-for list="{{ compliance }}" as="cb" hint-placeholder-count="3"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink-700);background:var(--bg-inset);border:1px solid var(--border);padding:6px 12px;border-radius:9px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>{{ cb }}</span></sc-for></div>
                 </div>
@@ -535,7 +517,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <sc-if value="{{ isSecNotif }}" hint-placeholder-val="{{ false }}">
                 <div style="{{ cardStyle }}">
-                  <h3 style="margin:0 0 6px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Notifications</h3>
+                  <h3 style="margin:0 0 6px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Notifications</h3>
                   <sc-for list="{{ notifRows }}" as="r" hint-placeholder-count="6">
                     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);"><div><div style="font-size:13.5px;font-weight:600;color:var(--ink-900);">{{ r.label }}</div><div style="font-size:12px;color:var(--ink-500);margin-top:2px;">{{ r.desc }}</div></div><button onClick="{{ r.onToggle }}" style="{{ r.toggle }}"><span style="{{ r.thumb }}"></span></button></div>
                   </sc-for>
@@ -544,7 +526,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <sc-if value="{{ isSecAppearance }}" hint-placeholder-val="{{ false }}">
                 <div style="{{ cardStyle }}">
-                  <h3 style="margin:0 0 18px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Appearance</h3>
+                  <h3 style="margin:0 0 18px;font-family:var(--font-serif);font-weight:600;font-size:16px;">Appearance</h3>
                   <div style="margin-bottom:22px;"><label style="{{ labelStyle }}">Theme</label>{{ themeCardsEl }}</div>
                   <div><label style="{{ labelStyle }}">Layout density</label>{{ densitySegEl }}</div>
                 </div>
@@ -552,7 +534,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
               <sc-if value="{{ isSecOther }}" hint-placeholder-val="{{ false }}">
                 <div style="{{ cardStyle }}">
-                  <h3 style="margin:0 0 6px;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">{{ otherTitle }}</h3>
+                  <h3 style="margin:0 0 6px;font-family:var(--font-serif);font-weight:600;font-size:16px;">{{ otherTitle }}</h3>
                   <p style="margin:0 0 16px;font-size:13px;color:var(--ink-500);line-height:1.5;">{{ otherDesc }}</p>
                   <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--border);"><div><div style="font-size:13.5px;font-weight:600;color:var(--ink-900);">{{ otherRow1 }}</div></div><span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--emerald-ink);background:var(--emerald-bg);padding:3px 10px;border-radius:99px;"><span style="width:6px;height:6px;border-radius:99px;background:var(--emerald);"></span>Active</span></div>
                 </div>
@@ -567,15 +549,15 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
         <div style="padding:26px 30px 60px;">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;">
-            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;display:flex;align-items:center;gap:7px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Organization · {{ orgLabel }}</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Admin Console</h1></div>
+            <div><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;display:flex;align-items:center;gap:7px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Organization · {{ orgLabel }}</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Admin Console</h1></div>
             <button onMouseDown="{{ exportReport }}" style-hover="{{ ghostHover }}" style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel);color:var(--ink-700);font-weight:600;font-size:13px;cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 11l5 5 5-5M4 20h16"/></svg>Export report</button>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;">
             <sc-for list="{{ adminStats }}" as="st" hint-placeholder-count="4">
               <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 17px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="width:30px;height:30px;border-radius:8px;background:{{ st.tint }};color:{{ st.color }};display:flex;align-items:center;justify-content:center;">{{ st.icon }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--emerald-ink);">{{ st.delta }}</span></div>
-                <div style="font-family:'Newsreader',serif;font-size:28px;color:var(--ink-900);margin-top:12px;">{{ st.value }}</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;"><span style="width:30px;height:30px;border-radius:8px;background:{{ st.tint }};color:{{ st.color }};display:flex;align-items:center;justify-content:center;">{{ st.icon }}</span><span style="font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--emerald-ink);">{{ st.delta }}</span></div>
+                <div style="font-family:var(--font-serif);font-size:28px;color:var(--ink-900);margin-top:12px;">{{ st.value }}</div>
                 <div style="font-size:11.5px;color:var(--ink-500);margin-top:1px;">{{ st.label }}</div>
               </div>
             </sc-for>
@@ -584,11 +566,11 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;">
             <!-- security monitoring -->
             <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Security monitoring</h3><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--emerald-ink);"><span style="width:6px;height:6px;border-radius:99px;background:var(--emerald);animation:pulse 1.8s infinite;"></span>All systems normal</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">Security monitoring</h3><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--emerald-ink);"><span style="width:6px;height:6px;border-radius:99px;background:var(--emerald);animation:pulse 1.8s infinite;"></span>All systems normal</span></div>
               <sc-for list="{{ secEvents }}" as="e" hint-placeholder-count="5">
                 <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border);">
                   <span style="width:30px;height:30px;border-radius:8px;background:{{ e.tint }};color:{{ e.color }};display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ e.icon }}</span>
-                  <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:var(--ink-900);">{{ e.text }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-400);">{{ e.meta }}</div></div>
+                  <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;color:var(--ink-900);">{{ e.text }}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);">{{ e.meta }}</div></div>
                   <span style="{{ e.badge }}">{{ e.type }}</span>
                 </div>
               </sc-for>
@@ -597,11 +579,11 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
             <!-- org controls -->
             <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-              <div style="padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Organization controls</h3></div>
+              <div style="padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">Organization controls</h3></div>
               <sc-for list="{{ orgControls }}" as="o" hint-placeholder-count="4">
                 <div style="display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);">
                   <span style="width:30px;height:30px;border-radius:8px;background:var(--bg-inset);color:var(--ink-500);display:flex;align-items:center;justify-content:center;flex:0 0 auto;">{{ o.icon }}</span>
-                  <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);">{{ o.label }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-400);">{{ o.value }}</div></div>
+                  <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--ink-900);">{{ o.label }}</div><div style="font-family:var(--font-mono);font-size:10.5px;color:var(--ink-400);">{{ o.value }}</div></div>
                   <span style="{{ o.statusStyle }}"><span style="width:5px;height:5px;border-radius:99px;background:{{ o.dot }};"></span>{{ o.status }}</span>
                 </div>
               </sc-for>
@@ -609,7 +591,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
             <!-- AI governance -->
             <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-              <div style="display:flex;align-items:center;gap:9px;padding:15px 18px;border-bottom:1px solid var(--border);"><span style="width:26px;height:26px;border-radius:7px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ govIcon }}</span><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">AI governance</h3></div>
+              <div style="display:flex;align-items:center;gap:9px;padding:15px 18px;border-bottom:1px solid var(--border);"><span style="width:26px;height:26px;border-radius:7px;background:var(--violet-bg);color:var(--violet);display:flex;align-items:center;justify-content:center;">{{ govIcon }}</span><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">AI governance</h3></div>
               <sc-for list="{{ governance }}" as="g" hint-placeholder-count="5">
                 <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid var(--border);">
                   <span style="font-size:13px;color:var(--ink-700);">{{ g.label }}</span>
@@ -620,11 +602,11 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
 
             <!-- billing admin -->
             <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden;">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:16px;">Department usage</h3><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-500);">{{ adminCreditsLabel }}</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border);"><h3 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:16px;">Department usage</h3><span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-500);">{{ adminCreditsLabel }}</span></div>
               <div style="padding:16px 18px;display:flex;flex-direction:column;gap:15px;">
                 <sc-for list="{{ deptUsage }}" as="d" hint-placeholder-count="4">
                   <div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:500;color:var(--ink-900);">{{ d.dept }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-700);">{{ d.credits }} · {{ d.pct }}%</span></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:500;color:var(--ink-900);">{{ d.dept }}</span><span style="font-family:var(--font-mono);font-size:11.5px;color:var(--ink-700);">{{ d.credits }} · {{ d.pct }}%</span></div>
                     <div style="height:7px;border-radius:99px;background:var(--bg-inset);overflow:hidden;"><div style="height:100%;width:{{ d.width }};border-radius:99px;background:{{ d.color }};"></div></div>
                   </div>
                 </sc-for>
@@ -637,13 +619,13 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
       <!-- placeholders for pages built next -->
       <sc-if value="{{ isInsights }}" hint-placeholder-val="{{ false }}">
         <div style="padding:26px 30px 60px;max-width:1000px;">
-          <div style="margin-bottom:20px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Library</div><h1 style="margin:0;font-family:'Newsreader',serif;font-weight:600;font-size:27px;letter-spacing:-.015em;">Saved Insights</h1></div>
+          <div style="margin-bottom:20px;"><div style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:5px;">Library</div><h1 style="margin:0;font-family:var(--font-serif);font-weight:600;font-size:27px;letter-spacing:-.015em;">Saved Insights</h1></div>
           <sc-if value="{{ hasInsights }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;flex-direction:column;gap:12px;">
               <sc-for list="{{ insightItems }}" as="it" hint-placeholder-count="4">
                 <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 18px;">
-                  <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;"><span style="display:inline-flex;align-items:center;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:{{ it.tagColor }};background:{{ it.tagBg }};padding:2px 8px;border-radius:6px;">{{ it.typeLabel }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-400);">{{ it.time }}</span></div>
-                  <div style="font-family:'Newsreader',serif;font-size:16px;color:var(--ink-900);margin-bottom:4px;">{{ it.headline }}</div>
+                  <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;"><span style="display:inline-flex;align-items:center;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:{{ it.tagColor }};background:{{ it.tagBg }};padding:2px 8px;border-radius:6px;">{{ it.typeLabel }}</span><span style="font-family:var(--font-mono);font-size:10.5px;color:var(--ink-400);">{{ it.time }}</span></div>
+                  <div style="font-family:var(--font-serif);font-size:16px;color:var(--ink-900);margin-bottom:4px;">{{ it.headline }}</div>
                   <div style="font-size:13px;line-height:1.55;color:var(--ink-700);">{{ it.body }}</div>
                 </div>
               </sc-for>
@@ -652,7 +634,7 @@ body{font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:an
           <sc-if value="{{ noInsights }}" hint-placeholder-val="{{ false }}">
             <div style="height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--ink-400);text-align:center;">
               <div style="width:52px;height:52px;border-radius:14px;background:var(--bg-panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);">{{ placeholderIcon }}</div>
-              <div style="font-family:'Newsreader',serif;font-size:17px;color:var(--ink-700);">No saved insights yet</div>
+              <div style="font-family:var(--font-serif);font-size:17px;color:var(--ink-700);">No saved insights yet</div>
               <div style="font-size:12.5px;max-width:340px;line-height:1.5;">Generate insight, risk, or summary components in the builder — they'll be collected here automatically.</div>
             </div>
           </sc-if>
@@ -741,13 +723,13 @@ class Component extends DCLogic {
   setThemeMode(mode) { const t = mode === 'Dark' ? 'dark' : 'light'; try { localStorage.setItem('ada-theme', t); } catch (x) {} this.setState({ theme: t, settings: Object.assign({}, this.state.settings, { themeMode: mode }) }); }
   segEl(opts, current, setter, maxW) {
     return h('div', { style: { display: 'flex', gap: 4, background: 'var(--bg-inset)', padding: 4, borderRadius: 11, maxWidth: maxW || 'none' } },
-      opts.map(v => { const a = current === v; return h('button', { key: v, onClick: () => setter(v), style: { flex: 1, height: 34, border: 'none', borderRadius: 8, background: a ? 'var(--bg-panel)' : 'transparent', color: a ? 'var(--violet)' : 'var(--ink-500)', font: "600 12px 'Hanken Grotesk',sans-serif", cursor: 'pointer', boxShadow: a ? 'var(--shadow-sm)' : 'none', transition: 'all .12s' } }, v); }));
+      opts.map(v => { const a = current === v; return h('button', { key: v, onClick: () => setter(v), style: { flex: 1, height: 34, border: 'none', borderRadius: 8, background: a ? 'var(--bg-panel)' : 'transparent', color: a ? 'var(--violet)' : 'var(--ink-500)', font: "600 12px var(--font-family)", cursor: 'pointer', boxShadow: a ? 'var(--shadow-sm)' : 'none', transition: 'all .12s' } }, v); }));
   }
   navEl(defs, activeId, onPick, opts) {
     opts = opts || {};
     return defs.map(d => {
       const a = d.id === activeId;
-      return h('button', { key: d.id, onClick: () => onPick(d), style: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 11px', borderRadius: 9, border: '1px solid ' + (a ? 'var(--violet-border)' : 'transparent'), background: a ? 'var(--violet-bg)' : 'transparent', color: a ? 'var(--violet)' : 'var(--ink-700)', font: (a ? '600' : '500') + " 13px 'Hanken Grotesk',sans-serif", cursor: 'pointer', textAlign: 'left', transition: 'all .12s', width: '100%' } },
+      return h('button', { key: d.id, onClick: () => onPick(d), style: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 11px', borderRadius: 9, border: '1px solid ' + (a ? 'var(--violet-border)' : 'transparent'), background: a ? 'var(--violet-bg)' : 'transparent', color: a ? 'var(--violet)' : 'var(--ink-700)', font: (a ? '600' : '500') + " 13px var(--font-family)", cursor: 'pointer', textAlign: 'left', transition: 'all .12s', width: '100%' } },
         h('span', { style: { display: 'flex', color: a ? 'var(--violet)' : 'var(--ink-500)' } }, this.icon(d.icon, 15)), d.label);
     });
   }
@@ -781,7 +763,7 @@ class Component extends DCLogic {
   }
   seg(label, current, setter) {
     const a = current === label;
-    return { label, onPick: () => setter(label), style: 'flex:1;height:34px;border:none;border-radius:8px;background:' + (a ? 'var(--bg-panel)' : 'transparent') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-500)') + ';font:600 12px \'Hanken Grotesk\',sans-serif;cursor:pointer;box-shadow:' + (a ? 'var(--shadow-sm)' : 'none') + ';transition:all .12s;' };
+    return { label, onPick: () => setter(label), style: 'flex:1;height:34px;border:none;border-radius:8px;background:' + (a ? 'var(--bg-panel)' : 'transparent') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-500)') + ';font:600 12px var(--font-family);cursor:pointer;box-shadow:' + (a ? 'var(--shadow-sm)' : 'none') + ';transition:all .12s;' };
   }
   hash(str) { let x = 0; str = String(str); for (let i = 0; i < str.length; i++) x = (x * 31 + str.charCodeAt(i)) | 0; return x; }
   rng(seed) { let s = (Math.abs(seed) * 2654435761) % 2147483647; if (s <= 0) s += 2147483646; return () => (s = s * 16807 % 2147483647) / 2147483647; }
@@ -789,10 +771,10 @@ class Component extends DCLogic {
   pts(d, w, hh, pad) { const mx = Math.max.apply(null, d), mn = Math.min.apply(null, d), sp = (mx - mn) || 1; return d.map((v, i) => [pad + i * (w - 2 * pad) / (d.length - 1), hh - pad - (v - mn) / sp * (hh - 2 * pad)]); }
   smooth(p) { if (p.length < 3) return 'M' + p.map(q => q.join(',')).join(' L'); let dd = 'M' + p[0][0] + ',' + p[0][1]; for (let i = 0; i < p.length - 1; i++) { const a = p[i - 1] || p[i], b = p[i], c = p[i + 1], e = p[i + 2] || c; dd += ' C' + (b[0] + (c[0] - a[0]) / 6) + ',' + (b[1] + (c[1] - a[1]) / 6) + ' ' + (c[0] - (e[0] - b[0]) / 6) + ',' + (c[1] - (e[1] - b[1]) / 6) + ' ' + c[0] + ',' + c[1]; } return dd; }
   thumb(c) {
-    const seed = this.hash(c.id), f = "'Newsreader',serif";
+    const seed = this.hash(c.id), f = "var(--font-serif)";
     const spark = (col) => { const d = this.series(14, seed, 6); const P = this.pts(d, 200, 52, 4); const gid = 'tg' + seed; return h('svg', { viewBox: '0 0 200 52', preserveAspectRatio: 'none', style: { width: '100%', height: '100%' } }, h('defs', null, h('linearGradient', { id: gid, x1: 0, y1: 0, x2: 0, y2: 1 }, h('stop', { offset: '0%', stopColor: col, stopOpacity: 0.22 }), h('stop', { offset: '100%', stopColor: col, stopOpacity: 0 }))), h('path', { d: this.smooth(P) + ' L196,52 L4,52 Z', fill: 'url(#' + gid + ')' }), h('path', { d: this.smooth(P), fill: 'none', stroke: col, strokeWidth: 2.4, strokeLinecap: 'round' })); };
     const wrap = (el) => h('div', { style: { width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }, el);
-    if (c.type === 'kpi') return h('div', { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', gap: 4 } }, h('div', { style: { display: 'flex', alignItems: 'baseline', gap: 8 } }, h('span', { style: { font: '500 26px ' + f, color: 'var(--ink-900)' } }, c.value || '—'), c.delta ? h('span', { style: { font: "600 11px 'IBM Plex Mono',monospace", color: c.tone === 'warn' ? 'var(--amber-ink)' : 'var(--emerald-ink)' } }, (c.tone === 'warn' ? '▼ ' : '▲ ') + c.delta) : null), h('div', { style: { height: 26 } }, spark(c.tone === 'warn' ? 'var(--amber)' : 'var(--emerald)')));
+    if (c.type === 'kpi') return h('div', { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', gap: 4 } }, h('div', { style: { display: 'flex', alignItems: 'baseline', gap: 8 } }, h('span', { style: { font: '500 26px ' + f, color: 'var(--ink-900)' } }, c.value || '—'), c.delta ? h('span', { style: { font: "600 11px var(--font-mono)", color: c.tone === 'warn' ? 'var(--amber-ink)' : 'var(--emerald-ink)' } }, (c.tone === 'warn' ? '▼ ' : '▲ ') + c.delta) : null), h('div', { style: { height: 26 } }, spark(c.tone === 'warn' ? 'var(--amber)' : 'var(--emerald)')));
     if (c.type === 'area' || c.type === 'line') return spark('var(--violet)');
     if (c.type === 'forecast') { const d = this.series(16, seed, 6); const P = this.pts(d, 200, 56, 4); const split = Math.floor(P.length * 0.6); const hist = P.slice(0, split), fut = P.slice(split - 1); return h('svg', { viewBox: '0 0 200 56', preserveAspectRatio: 'none', style: { width: '100%', height: '100%' } }, h('path', { d: this.smooth(hist), fill: 'none', stroke: 'var(--violet)', strokeWidth: 2.4, strokeLinecap: 'round' }), h('path', { d: this.smooth(fut), fill: 'none', stroke: 'var(--violet)', strokeWidth: 2.2, strokeDasharray: '5 4', strokeLinecap: 'round', opacity: 0.7 })); }
     if (c.type === 'bar') { const d = this.series(7, seed, 0).map(v => Math.max(14, v)); const mx = Math.max.apply(null, d); const cols = ['var(--violet)', 'var(--blue)', 'var(--teal)', 'var(--emerald)', 'var(--amber)', 'var(--violet)', 'var(--blue)']; return h('div', { style: { display: 'flex', alignItems: 'flex-end', gap: 6, height: '100%', padding: '6px 0' } }, d.map((v, i) => h('div', { key: i, style: { flex: 1, height: (v / mx * 100) + '%', background: cols[i % cols.length], borderRadius: '4px 4px 2px 2px' } }))); }
@@ -813,7 +795,7 @@ class Component extends DCLogic {
       id, label, count: count || '', weight: active ? 600 : 500, icon: this.icon(icon, 16),
       iconColor: active ? 'var(--violet)' : 'var(--ink-500)', rowStyle: this.navRow(active),
       hoverStyle: { background: active ? 'var(--violet-bg)' : 'var(--bg-inset)' },
-      badgeStyle: 'font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;font-weight:500;color:' + (active ? 'var(--violet)' : 'var(--ink-400)') + ';background:' + (active ? 'var(--bg-panel)' : 'var(--bg-inset)') + ';padding:1px 7px;border-radius:99px;',
+      badgeStyle: 'font-family:var(--font-mono);font-size:10.5px;font-weight:500;color:' + (active ? 'var(--violet)' : 'var(--ink-400)') + ';background:' + (active ? 'var(--bg-panel)' : 'var(--bg-inset)') + ';padding:1px 7px;border-radius:99px;',
       onClick: id === 'dashboards' ? () => { window.location.href = 'Agentic Dashboard AI.dc.html'; } : () => this.go(pageFor)
     };
   }
@@ -824,7 +806,7 @@ class Component extends DCLogic {
       ? this.ic(['M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z'], 17, 1.8)
       : h('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 12, cy: 12, r: 4.5 }), h('path', { d: 'M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19' }));
 
-    const inputStyle = 'width:100%;height:42px;padding:0 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-sub);font:14px \'Hanken Grotesk\',sans-serif;color:var(--ink-900);outline:none;transition:all .14s;';
+    const inputStyle = 'width:100%;height:42px;padding:0 13px;border:1px solid var(--border);border-radius:10px;background:var(--bg-sub);font:14px var(--font-family);color:var(--ink-900);outline:none;transition:all .14s;';
     const selectStyle = inputStyle + 'cursor:pointer;appearance:none;';
     const inputFocus = { borderColor: 'var(--violet)', boxShadow: '0 0 0 3px var(--violet-bg)' };
 
@@ -856,7 +838,7 @@ class Component extends DCLogic {
       const a = d.id === 'profile' || d.id === 'ai';
       return { label: d.label, icon: this.icon(d.icon, 15), iconColor: a ? 'var(--violet)' : 'var(--ink-500)',
         onClick: () => this.go(d.page),
-        style: 'display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:9px;border:1px solid ' + (a ? 'var(--violet-border)' : 'transparent') + ';background:' + (a ? 'var(--violet-bg)' : 'transparent') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-700)') + ';font:' + (a ? '600' : '500') + ' 13px \'Hanken Grotesk\',sans-serif;cursor:pointer;text-align:left;transition:all .12s;' };
+        style: 'display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:9px;border:1px solid ' + (a ? 'var(--violet-border)' : 'transparent') + ';background:' + (a ? 'var(--violet-bg)' : 'transparent') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-700)') + ';font:' + (a ? '600' : '500') + ' 13px var(--font-family);cursor:pointer;text-align:left;transition:all .12s;' };
     });
 
     const profileMeta = [
@@ -980,8 +962,8 @@ class Component extends DCLogic {
       const a = s.compFilter === fd[0];
       const cnt = fd[0] === 'all' ? allComps.length : allComps.filter(c => c.cat === fd[0]).length;
       return { label: fd[1], onPick: () => this.setFilter(fd[0]),
-        style: 'display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:9px;border:1px solid ' + (a ? 'var(--violet)' : 'var(--border)') + ';background:' + (a ? 'var(--violet-bg)' : 'var(--bg-panel)') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-700)') + ';font:600 12.5px \'Hanken Grotesk\',sans-serif;cursor:pointer;transition:all .12s;',
-        count: cnt, countStyle: 'font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:' + (a ? 'var(--violet)' : 'var(--ink-400)') + ';background:' + (a ? 'var(--bg-panel)' : 'var(--bg-inset)') + ';padding:1px 6px;border-radius:99px;' };
+        style: 'display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:9px;border:1px solid ' + (a ? 'var(--violet)' : 'var(--border)') + ';background:' + (a ? 'var(--violet-bg)' : 'var(--bg-panel)') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-700)') + ';font:600 12.5px var(--font-ui);cursor:pointer;transition:all .12s;',
+        count: cnt, countStyle: 'font-family:var(--font-mono);font-size:10px;color:' + (a ? 'var(--violet)' : 'var(--ink-400)') + ';background:' + (a ? 'var(--bg-panel)' : 'var(--bg-inset)') + ';padding:1px 6px;border-radius:99px;' };
     });
 
     // ---- team ----
@@ -1019,8 +1001,8 @@ class Component extends DCLogic {
     const barSpark = (seed, col) => { const d = this.series(12, seed, 4); const mx = Math.max.apply(null, d); return h('div', { style: { display: 'flex', alignItems: 'flex-end', gap: 3, height: '100%' } }, d.map((v, i) => h('div', { key: i, style: { flex: 1, height: (v / mx * 100) + '%', background: col, opacity: 0.35 + 0.65 * (i / d.length), borderRadius: 2 } }))); };
     const tierCard = (cur) => 'position:relative;border:1.5px solid ' + (cur ? 'var(--violet)' : 'var(--border)') + ';border-radius:16px;background:var(--bg-panel);box-shadow:' + (cur ? 'var(--shadow-md)' : 'var(--shadow-sm)') + ';padding:20px 21px;display:flex;flex-direction:column;';
     const tierBtn = (cur, accent) => cur
-      ? 'margin-top:18px;height:40px;border:none;border-radius:10px;background:var(--bg-inset);color:var(--ink-500);font:600 13px \'Hanken Grotesk\',sans-serif;cursor:default;'
-      : 'margin-top:18px;height:40px;border:1px solid ' + accent + ';border-radius:10px;background:transparent;color:' + accent + ';font:600 13px \'Hanken Grotesk\',sans-serif;cursor:pointer;';
+      ? 'margin-top:18px;height:40px;border:none;border-radius:10px;background:var(--bg-inset);color:var(--ink-500);font:600 13px var(--font-family);cursor:default;'
+      : 'margin-top:18px;height:40px;border:1px solid ' + accent + ';border-radius:10px;background:transparent;color:' + accent + ';font:600 13px var(--font-family);cursor:pointer;';
     const tiers = [
       { name: 'Free', accent: 'var(--teal)', price: '$0', per: '', tagline: 'What you are on now.', current: true, cta: 'Current plan', features: ['Connect 1 dataset', 'AI dashboard generation', 'Provenance on every component', 'Save & reload dashboards'] },
       { name: 'Growth', accent: 'var(--violet)', price: '$199', per: '/mo', tagline: 'For growing data teams.', current: false, cta: 'Contact sales', features: ['Unlimited dashboards', 'Higher AI limits', 'Team collaboration', 'All integrations'] },
@@ -1051,7 +1033,7 @@ class Component extends DCLogic {
       const a = !d[3] && sec === d[0];
       return { label: d[1], icon: this.icon(d[2], 15), iconColor: a ? 'var(--violet)' : 'var(--ink-500)',
         onClick: d[3] ? () => this.go(d[3]) : () => this.go(secPage(d[0])),
-        style: 'display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:9px;border:1px solid ' + (a ? 'var(--violet-border)' : 'transparent') + ';background:' + (a ? 'var(--violet-bg)' : 'transparent') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-700)') + ';font:' + (a ? '600' : '500') + ' 13px \'Hanken Grotesk\',sans-serif;cursor:pointer;text-align:left;transition:all .12s;' };
+        style: 'display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:9px;border:1px solid ' + (a ? 'var(--violet-border)' : 'transparent') + ';background:' + (a ? 'var(--violet-bg)' : 'transparent') + ';color:' + (a ? 'var(--violet)' : 'var(--ink-700)') + ';font:' + (a ? '600' : '500') + ' 13px var(--font-family);cursor:pointer;text-align:left;transition:all .12s;' };
     });
     const twofa = tg(st.twofa), sso = tg(st.sso), autoCat = tg(st.autoCat);
     const notifDefs = [
@@ -1072,7 +1054,7 @@ class Component extends DCLogic {
     const om = otherMap[sec] || ['Settings', '', ''];
     const settingsNavEl = h('div', { style: { display: 'flex', flexDirection: 'column', gap: 2 } }, snDefs.map(d => {
       const a = !d[3] && sec === d[0];
-      return h('button', { key: d[0], onClick: d[3] ? () => this.go(d[3]) : () => this.go(secPage(d[0])), style: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 11px', borderRadius: 9, border: '1px solid ' + (a ? 'var(--violet-border)' : 'transparent'), background: a ? 'var(--violet-bg)' : 'transparent', color: a ? 'var(--violet)' : 'var(--ink-700)', font: (a ? '600' : '500') + " 13px 'Hanken Grotesk',sans-serif", cursor: 'pointer', textAlign: 'left', transition: 'all .12s', width: '100%' } }, h('span', { style: { display: 'flex', color: a ? 'var(--violet)' : 'var(--ink-500)' } }, this.icon(d[2], 15)), d[1]);
+      return h('button', { key: d[0], onClick: d[3] ? () => this.go(d[3]) : () => this.go(secPage(d[0])), style: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 11px', borderRadius: 9, border: '1px solid ' + (a ? 'var(--violet-border)' : 'transparent'), background: a ? 'var(--violet-bg)' : 'transparent', color: a ? 'var(--violet)' : 'var(--ink-700)', font: (a ? '600' : '500') + " 13px var(--font-family)", cursor: 'pointer', textAlign: 'left', transition: 'all .12s', width: '100%' } }, h('span', { style: { display: 'flex', color: a ? 'var(--violet)' : 'var(--ink-500)' } }, this.icon(d[2], 15)), d[1]);
     }));
     const aiSensSegEl = this.segEl(['Low', 'Medium', 'High'], st.aiSensitivity, x => this.setS('aiSensitivity', x));
     const kpiSegEl = this.segEl(['Cautious', 'Balanced', 'Bold'], st.kpiAggr, x => this.setS('kpiAggr', x));
@@ -1083,7 +1065,7 @@ class Component extends DCLogic {
     const themeCardsEl = h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, maxWidth: 420 } }, themeDefs.map(d => { const a = themeActive === d[0]; return h('button', { key: d[0], onClick: () => this.setThemeMode(d[0]), style: { display: 'flex', flexDirection: 'column', padding: 11, borderRadius: 13, border: '1.5px solid ' + (a ? 'var(--violet)' : 'var(--border)'), background: a ? 'var(--violet-bg)' : 'var(--bg-panel)', cursor: 'pointer', transition: 'all .12s' } }, h('span', { style: { width: '100%', height: 42, borderRadius: 9, border: '1px solid var(--border)', background: d[1], marginBottom: 9, display: 'block' } }), h('span', { style: { fontSize: 12.5, fontWeight: 600, color: 'var(--ink-900)' } }, d[0])); }));
     const compFiltersEl = h('div', { style: { display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' } }, filterDefs.map(fd => {
       const a = s.compFilter === fd[0]; const cnt = fd[0] === 'all' ? allComps.length : allComps.filter(c => c.cat === fd[0]).length;
-      return h('button', { key: fd[0], onClick: () => this.setFilter(fd[0]), style: { display: 'inline-flex', alignItems: 'center', gap: 7, height: 34, padding: '0 13px', borderRadius: 9, border: '1px solid ' + (a ? 'var(--violet)' : 'var(--border)'), background: a ? 'var(--violet-bg)' : 'var(--bg-panel)', color: a ? 'var(--violet)' : 'var(--ink-700)', font: "600 12.5px 'Hanken Grotesk',sans-serif", cursor: 'pointer', transition: 'all .12s' } }, fd[1], h('span', { style: { fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: a ? 'var(--violet)' : 'var(--ink-400)', background: a ? 'var(--bg-panel)' : 'var(--bg-inset)', padding: '1px 6px', borderRadius: 99 } }, cnt));
+      return h('button', { key: fd[0], onClick: () => this.setFilter(fd[0]), style: { display: 'inline-flex', alignItems: 'center', gap: 7, height: 34, padding: '0 13px', borderRadius: 9, border: '1px solid ' + (a ? 'var(--violet)' : 'var(--border)'), background: a ? 'var(--violet-bg)' : 'var(--bg-panel)', color: a ? 'var(--violet)' : 'var(--ink-700)', font: "600 12.5px var(--font-family)", cursor: 'pointer', transition: 'all .12s' } }, fd[1], h('span', { style: { fontFamily: "var(--font-mono)", fontSize: 10, color: a ? 'var(--violet)' : 'var(--ink-400)', background: a ? 'var(--bg-panel)' : 'var(--bg-inset)', padding: '1px 6px', borderRadius: 99 } }, cnt));
     }));
 
     // ---- admin (real / honest) ----
@@ -1111,7 +1093,7 @@ class Component extends DCLogic {
       { label: 'Data source', value: dsLabel, status: 'Connected', ok: true, icon: 'datasets' },
       { label: 'Roles', value: 'Owner', status: 'Default', ok: false, icon: 'admin' }
     ].map(o => Object.assign({}, o, { icon: h('span', { style: { display: 'flex' } }, this.icon(o.icon, 15)), statusStyle: ctlStatus(o.ok), dot: o.ok ? 'var(--emerald)' : 'var(--ink-400)' }));
-    const govPlain = 'font-family:\'IBM Plex Mono\',monospace;font-size:12px;font-weight:600;color:var(--ink-900);';
+    const govPlain = 'font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--ink-900);';
     const govBadgeS = 'display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--emerald-ink);background:var(--emerald-bg);padding:3px 9px;border-radius:99px;';
     const governance = [
       { label: 'AI model', value: 'Claude (OpenRouter)', valStyle: govPlain },
